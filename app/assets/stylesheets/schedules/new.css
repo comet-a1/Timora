@@ -1,0 +1,196 @@
+/* ベースのスタイル */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fb;
+  margin: 0;
+  padding: 0;
+}
+
+/* コンテナ */
+.schedule-setting-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* フォーム */
+.schedule-setting-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* フォームグループ */
+.form-group {
+  margin-bottom: 15px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+
+label {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="date"], input[type="time"] {
+  max-width: 200px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* 公開設定 */
+#scheduleVisibility {
+  max-width: 200px;
+}
+
+/* フォームアクションボタン */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-btn, .reset-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn {
+  background-color: #4CAF50;
+}
+
+.reset-btn {
+  background-color: #f44336;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+.reset-btn:hover {
+  background-color: #e57373;
+}
+
+/* 日付と時間を横並びに */
+.date-time-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px; /* 日付と開始時間の間隔を広げる */
+  flex-wrap: wrap;
+}
+
+/* 日付と時間を横並びに */
+.date-time-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px; /* 日付と開始時間の間隔を広げる */
+  flex-wrap: wrap;
+}
+
+/* 日付の入力欄 */
+.date-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  height: 40px;
+}
+
+.date-wrapper input {
+  max-width: 150px;
+}
+
+/* 時間選択ボックスのラッパー */
+.time-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 時間選択ボックス */
+.time-wrapper div {
+  display: flex;
+  flex-direction: column;
+}
+
+.time-wrapper select {
+  width: 100px;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 40px; /* 開始時間と終了時間の高さを設定 */
+}
+
+/* ～ のデザイン */
+.time-separator {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  line-height: 40px;
+  margin-top: 25px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 600px) {
+  .schedule-setting-container {
+    padding: 15px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  input, select, textarea {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .date-time-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .time-wrapper {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

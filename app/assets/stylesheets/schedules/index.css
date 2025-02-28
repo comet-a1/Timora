@@ -1,0 +1,124 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* コンテナ */
+.schedule-container {
+  display: flex;
+  height: 100%;
+  background-color: #f0f4f8;
+  justify-content: space-between;
+}
+
+.rainbow-text {
+  background: linear-gradient(to right, lightskyblue, lightpink);
+  -webkit-background-clip: text;  /* Safari 対応 */
+  background-clip: text;  /* 一部ブラウザに必要 */
+  color: transparent;  /* 文字自体は透明にして背景を表示 */
+  font-weight: bold;  /* 少し太めにして視覚的に際立たせる */
+  font-size: 36px;  /* 文字サイズを調整 */
+}
+
+/* サイドバー */
+.schedule-sidebar {
+  width: 300px;
+  background-color: lightgrey;
+  padding: 20px;
+  color: skyblue;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* メインコンテンツ */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+button {
+  background-color: white;
+  color: skyblue;
+  border: none;
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #006bb3;
+}
+
+/*ビュー切り替え*/
+.view-toggle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.view-toggle button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  color: skyblue;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* ボタンのホバー時 */
+.view-toggle button:hover {
+  background-color: #006bb3;
+  color: white;
+}
+
+.content {
+  display: none;
+}
+
+.content.active {
+  display: block;
+}
+
+.home-link {
+  text-decoration: none;
+  color: #333;
+  margin-top: 20px;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+
+.home-link:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+  .schedule-container {
+    flex-direction: column;
+  }
+
+  .schedule-sidebar {
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .time-block {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-days {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

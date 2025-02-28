@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timora - スケジュール管理アプリ</title>
+  
+  <!-- fullCalendar の CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
+  
+  <!-- jQuery (fullCalendar が依存している) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- moment.js (fullCalendar が依存している) -->
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+  <!-- fullCalendar の JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+
+  <!-- 外部CSSファイルのリンク -->
+  <%= javascript_include_tag 'schedules' %>
+</head>
+<body>
+  <div class="container schedule-container">
+    <div class="sidebar schedule-sidebar">
+      <h1 class="logo rainbow-text">Timora</h1>
+
+      <!-- 切り替えボタン -->
+      <div class="toggle-buttons">
+        <button id="show-calendar" class="toggle-btn active">カレンダー</button>
+        <button id="show-memo" class="toggle-btn">メモ</button>
+      </div>
+
+      <div class="mini-calendar">
+        <div class="calendar-header">
+          <button class="prev-month">&lt;</button>
+          <span class="month-label"></span>
+          <button class="next-month">&gt;</button>
+        </div>
+        <div class="calendar-weekdays">
+          <div>日</div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div><div>土</div>
+        </div>
+        <div class="calendar-dates"></div>
+      </div>
+
+      <!-- プリセット作成ボタン -->
+      <div class="preset-buttons">
+        <button id="show-presets" class="toggle-btn">プリセット作成</button>
+      </div>
+
+      <div class="settings">
+        <div class="profile-section">
+          <div class="profile-info" onclick="toggleLogout()">
+            <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+            <p class="nickname">ニックネーム</p>
+          </div>
+          <button id="logout-btn" class="logout hidden">ログアウト</button>
+        </div>
+        <%= link_to "ホーム", posts_path, class: "home-link" %>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div id="calendar-section" class="content active">
+        <div class="calendar-block">
+          <!-- カレンダー表示 -->
+          <div id="calendar"></div>
+          <!-- 予定追加・編集モーダル -->
+          <div id="eventModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; box-shadow:0px 0px 10px rgba(0,0,0,0.1);">
+            <h3>予定を入力</h3>
+            <input type="text" id="eventTitle" placeholder="予定のタイトル">
+            <button id="saveEvent">保存</button>
+            <button id="deleteEvent" style="display:none;">削除</button>
+            <button onclick="$('#eventModal').hide();">キャンセル</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="memo-section" class="content">
+        <div class="memo-block">
+          <!-- Header Section -->
+          <div class="memo-header">
+            <h1>Memo Header</h1>
+          <!-- 他のヘッダー要素があればここに追加 -->
+          </div>
+
+          <!-- Memo Container Section -->
+          <div class="memo-container">
+            <div class="memo-left_block">
+              <!-- メモ内容の左側部分 -->
+              <textarea placeholder="Write your memo..."></textarea>
+            </div>
+  
+            <div class="memo-right_block">
+              <!-- メモ内容の右側部分 -->
+              <h2>メモ一覧</h2>
+              <div id="memo-list">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="presets-section" class="content">
+        <div class="presets-block">
+          <!-- Header Section -->
+          <div class="presets-header">
+            <h1>プリセット設定</h1>
+          </div>
+
+          <!-- Presets Container Section -->
+          <div class="presets-container">
+            <div class="presets-left_block">
+              <div id="day-view-calendar"></div>
+            </div>
+
+            <div class="presets-right_block">
+              <!-- プリセット操作の右側部分 -->
+              <h2>保存されたプリセット</h2>
+              <div id="preset-list">
+                <!-- ここに保存されたプリセットを表示 -->
+              </div>
+              <button id="savePreset" class="save-preset-btn">プリセットを保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

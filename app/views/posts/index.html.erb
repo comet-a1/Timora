@@ -1,0 +1,144 @@
+<%= javascript_include_tag 'posts' %>
+
+<div class="container posts-container">
+  <!-- 左サイドバー -->
+  <div class="left-block">
+    <div class="sidebar posts-sidebar">
+      <h1 class="logo rainbow-text">Timora</h1>
+      <nav>
+        <div class="nav-buttons text-center">
+          <button id="home-btn" class="toggle-btn active">ホーム</button>
+          <button id="profile-btn" class="toggle-btn">プロフィール</button>
+        </div>
+        <ul class="nav-links text-center">
+          <li><a href="#">設定</a></li>
+          <li><a href="#">ブックマーク</a></li>
+        </ul>
+      </nav>
+      <div class="profile-view">
+        <div class="profile-info" onclick="toggleLogout()">
+          <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+          <p class="nickname">ニックネーム</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 中央エリア（投稿一覧） -->
+  <div class="center-block">
+    <div class="content-block">
+      <div id="home-section" class="content active">
+        <div class="tab-menu">
+          <nav class="tab-menu">
+            <button class="tab-button active">平日</button>
+            <button class="tab-button">休日</button>
+            <button class="tab-button">おすすめ</button>
+          </nav>
+        </div>
+        <div class="post-list">
+          <!-- 投稿一覧 -->
+          <!-- 投稿のループ -->
+          <%# 投稿データを繰り返し表示する場所 %>
+          <%# 例: @posts.each do |post| %>
+          <div class="post">
+            <div class="post-header">
+              <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+              <div class="post-user-info">
+                <span class="post-username">ユーザー名</span>
+                <span class="post-timestamp">●時間前</span>
+              </div>
+            </div>
+            <div class="post-content">
+              <p>今日は朝6時に起きてランニングしました！</p>
+              <p class="tags">#健康 #朝活</p>
+            </div>
+            <div class="post-content">
+              <p>今日は朝6時に起きてランニングしました！</p>
+              <p class="tags">#健康 #朝活</p>
+            </div>
+            <div class="post-content">
+              <p>今日は朝6時に起きてランニングしました！</p>
+              <p class="tags">#健康 #朝活</p>
+            </div>
+            <div class="post-content">
+              <p>今日は朝6時に起きてランニングしました！</p>
+              <p class="tags">#健康 #朝活</p>
+            </div>
+            <div class="post-content">
+              <p>今日は朝6時に起きてランニングしました！</p>
+              <p class="tags">#健康 #朝活</p>
+            </div>
+            <div class="post-content">
+              <p>今日は朝6時に起きてランニングしました！</p>
+              <p class="tags">#健康 #朝活</p>
+            </div>
+            <div class="post-content">
+              <p>今日は朝6時に起きてランニングしました！</p>
+              <p class="tags">#健康 #朝活</p>
+            </div>
+          </div>
+          <%# end %>
+        </div>
+      </div>
+      <div id="profile-section" class="content">
+        <div class="profile-container">
+          <div class="profile-header">
+           
+            <div class="profile-info">
+              <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+              <div class="profile-details">
+                <h2 class="username">ユーザー名</h2>
+                <p class="user-handle">ニックネーム</p>
+                <p class="bio">自己紹介テキストがここに入ります。</p>
+              </div>
+            </div>
+          </div>
+          <div class="profile-content">
+            <div class="post-list">
+              <!-- 投稿一覧 -->
+              <div class="post">
+                <div class="post-header">
+                  <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+                  <div class="post-user-info">
+                    <span class="post-username">ユーザー名</span>
+                    <span class="post-timestamp">●時間前</span>
+                  </div>
+                </div>
+                <div class="post-content">
+                  <p>今日は朝6時に起きてランニングしました！</p>
+                  <p class="tags">#健康 #朝活</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 右サイドバー -->
+  <div class="right-block">
+    <!-- スケジュール管理エリア -->
+    <div class="schedule-management">
+      <h2>スケジュール管理</h2>
+      <div class="schedule-options">
+        <button class="calendar-view" onclick="window.location='#calendar'">カレンダー方式</button>
+        <button class="time-block-view" onclick="window.location='#timeblock'">タイムブロック方式</button>
+      </div>
+    </div>
+
+    <!-- プリセット作成エリア -->
+    <div class="preset-creation">
+      <h2>プリセット作成</h2>
+      <button class="create-preset" onclick="window.location='#createPreset'">新しいプリセットを作成</button>
+    </div>
+
+    <!-- 投稿エリア -->
+    <div class="post-area">
+      <h2>投稿場所</h2>
+      <button class="create-post" onclick="window.location='#createPost'">新しい投稿を作成</button>
+    </div>
+  </div>
+</div>

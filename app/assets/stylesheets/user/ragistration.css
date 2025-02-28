@@ -1,0 +1,78 @@
+/* registration.css */
+#registration-page {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+#registration-page .registration-container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 350px;
+  text-align: center;
+}
+
+#registration-page .logo {
+  font-size: 28px;
+  font-weight: bold;
+  background: linear-gradient(to right, lightskyblue, lightpink);
+  -webkit-background-clip: text;  /* Safari 対応 */
+  background-clip: text;  /* 一部ブラウザに必要 */
+  color: transparent;  /* 文字自体は透明にして背景を表示 */
+  margin-bottom: 20px;
+}
+
+#registration-page .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+#registration-page label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#registration-page input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+#registration-page button {
+  width: 100%;
+  padding: 12px;
+  background: rgb(197, 255, 236);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+#registration-page button:hover {
+  background: #5a3d7a;
+}
+
+#registration-page p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+#registration-page a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+#registration-page a:hover {
+  text-decoration: underline;
+}

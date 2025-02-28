@@ -1,0 +1,283 @@
+.content {
+  height: 100%; /* contentクラスにも高さを指定 */
+}
+
+/* カレンダーのスタイル */
+#calendar {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.fc-header-toolbar {
+  text-align: center;
+}
+
+.fc-day-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.fc-day-grid-event {
+  background-color: #007bff;
+  color: white;
+}
+
+.fc-toolbar .fc-button {
+  background-color: #007bff;
+  color: skyblue;
+}
+
+.container {
+  display: flex;
+}
+
+.schedule-container {
+  display: flex;
+  width: 100%;
+}
+
+.schedule-sidebar {
+  width: 250px;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/*ミニカレンダー*/
+.mini-calendar {
+  width: 250px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+}
+
+.calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.calendar-date {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calendar-date.today {
+  background: #ff9800;
+  color: white;
+}
+
+.calendar-date.selected {
+  background: #4CAF50;
+  color: white;
+}
+
+.calendar-date.other-month {
+  color: #aaa;
+}
+
+
+/* 今日の日付 */
+.calendar-date.today {
+  background: #4285F4;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* 選択された日 */
+.calendar-date.selected {
+  background: #cce5ff;
+}
+
+/* 前月・翌月の日付 */
+.calendar-date.other-month {
+  color: #ccc;
+}
+
+
+/* Memo Block全体のスタイル */
+#memo-section {
+  height: 100%;
+}
+
+.memo-block {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background-color: #f4f4f4;
+}
+
+/* Headerセクションのスタイル */
+.memo-header {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 60px;
+  border-top: 2px solid aquamarine;
+  border-bottom: 2px solid aquamarine;
+}
+
+.memo-header h1 {
+  font-size: 35px;
+  color: #333;
+  margin: 0;
+  padding-left: 20px;
+}
+
+/* Memo Containerセクションのスタイル */
+.memo-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Memo Left Block (メモ入力部分) */
+.memo-left_block {
+  width: 75%;
+  height: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-right: 2px solid #b1adad;
+}
+
+.memo-left_block textarea {
+  width: 100%;
+  font-size: 16px;
+  resize: none;
+  border: none;
+  outline: none;
+}
+
+/* Memo Right Block (メモ詳細部分) */
+.memo-right_block {
+  width: 25%;
+  height: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-left: 2px solid #b1adad;
+}
+
+.memo-right_block .memo-details {
+  font-size: 16px;
+  color: #333;
+}
+
+/* メモボタンのデザイン */
+.memo-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.memo-item:hover {
+  background-color: #e0e0e0;
+}
+
+.memo-title {
+  font-weight: bold;
+}
+
+.memo-date {
+  font-size: 12px;
+  color: gray;
+}
+
+/* プリセットセクション */
+#presets-section {
+  height: 100%;
+}
+
+.presets-block {
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;
+  height: 100%;
+}
+
+.presets-header {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 60px;
+  border-top: 2px solid aquamarine;
+  border-bottom: 2px solid aquamarine;
+}
+
+.presets-header h1 {
+  font-size: 35px;
+  color: #333;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.presets-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.presets-left_block {
+  width: 75%;
+  height: 100%;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.presets-right_block {
+  width: 25%;
+  height: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-left: 2px solid #b1adad;
+}
+
+/* レスポンシブ対応：小さい画面でレイアウトを調整 */
+@media (max-width: 768px) {
+  .memo-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .memo-right_block {
+    width: 100%;
+  }
+
+  .presets-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .presets-right-block {
+    width: 100%;
+  }
+}

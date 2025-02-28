@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timora</title>
+  <link rel="stylesheet" href="/assets/login.css">
+</head>
+<body id="login-page">
+  <div class="login-container">
+    <div class="logo">Timora</div>
+    <h2>ログイン</h2>
+    
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group">
+        <%= f.label :email, "メールアドレス" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :password, "パスワード" %>
+        <%= f.password_field :password, autocomplete: "current-password", required: true %>
+      </div>
+      
+      <% if devise_mapping.rememberable? %>
+        <div class="form-group">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me, "ログイン状態を保持する" %>
+        </div>
+      <% end %>
+      
+      <div class="actions">
+        <%= f.submit "ログイン" %>
+      </div>
+    <% end %>
+    
+    <p><a href="<%= new_user_password_path %>">パスワードを忘れた方はこちら</a></p>
+    <p><a href="<%= new_user_registration_path %>">新規登録はこちら</a></p>
+  </div>
+</body>
+</html>
