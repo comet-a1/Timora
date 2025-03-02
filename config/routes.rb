@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
+
+  devise_scope :user do
+    get 'users/sign_up/step2', to: 'users/registrations#step2', as: :step2_users_registration
+  end
+
+  get 'step2', to: 'devise/registrations#step2', as: 'step2'
 
   get '/schedules', to: 'schedules#index'
   get '/schedules', to: 'schedules#new'

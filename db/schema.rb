@@ -40,6 +40,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_02_054918) do
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
+    t.string "nickname", null: false
+    t.string "profile_picture"
+    t.integer "gender_id", null: false
+    t.string "mbti_id", null: false
+    t.date "birthdate", null: false
+    t.string "occupation"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
