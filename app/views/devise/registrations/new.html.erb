@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timora</title>
-  <link rel="stylesheet" href="/assets/registration.css">
+    <link rel="stylesheet" href="/assets/registration.css">
 </head>
 <body id="registration-page">
   <div class="registration-container">
     <div class="logo">Timora</div>
     <h2>新規登録</h2>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= form_for @user, url: create_user_step1_path do |f| %>
       <div class="form-group">
         <%= f.label :email, "メールアドレス" %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true %>
