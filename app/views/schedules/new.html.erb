@@ -4,56 +4,74 @@
   <h1 class="page-title">スケジュール設定</h1>
 
   <div class="schedule-setting-form">
-    <form id="scheduleForm">
+    <%= form_with(model: CalendarSchedule.new, url: schedules_path, method: :post, local: true, id: "scheduleForm") do |form| %>
       <div class="form-group">
-        <label for="scheduleTitle">タイトル</label>
-        <input type="text" id="scheduleTitle" name="title" placeholder="タイトルを入力">
+        <%= form.label :title, "タイトル" %>
+        <%= form.text_field :title, id: "scheduleTitle", placeholder: "タイトルを入力", required: true %>
       </div>
 
       <div class="form-group date-time-group">
         <div class="date-wrapper">
-          <label for="scheduleDate">日付</label>
-          <input type="date" id="scheduleDate" name="date">
+          <%= form.label :date, "日付" %>
+          <%= form.date_field :date, id: "scheduleDate", required: true %>
         </div>
 
         <div class="time-wrapper">
           <div>
-            <label for="scheduleStartTime">開始時間</label>
-            <select id="scheduleStartTime" name="start_time">
-              <option value="">選択してください</option>
-            </select>
+            <%= form.label :start_time, "開始時間" %>
+            <%= form.select :start_time, options_for_select([['選択してください', ''], *@hour_options]), {}, id: "scheduleStartTime", required: true %>
           </div>
 
           <span class="time-separator">～</span>
 
           <div>
-            <label for="scheduleEndTime">終了時間</label>
-            <select id="scheduleEndTime" name="end_time">
-              <option value="">選択してください</option>
-            </select>
+            <%= form.label :end_time, "終了時間" %>
+            <%= form.select :end_time, options_for_select([['選択してください', ''], *@hour_options]), {}, id: "scheduleEndTime", required: true %>
           </div>
         </div>
       </div>
 
-
       <div class="form-group">
-        <label for="scheduleDescription">詳細</label>
-        <textarea id="scheduleDescription" name="description" placeholder="詳細を入力"></textarea>
+        <%= form.label :description, "詳細" %>
+        <%= form.text_area :description, id: "scheduleDescription", placeholder: "詳細を入力" %>
       </div>
 
       <div class="form-group">
-        <label for="scheduleVisibility">公開設定</label>
-        <select id="scheduleVisibility" name="visibility">
-          <option value="public">公開</option>
-          <option value="private">非公開</option>
-        </select>
+        <%= form.label :repeat_id, "繰り返し設定" %>
+        <%= form.select :repeat_id, options_for_select(Repeat.data.map { |r| [r[:name], r[:id]] }), {}, id: "scheduleRepeat", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :status_id, "ステータス" %>
+        <%= form.select :status_id, options_for_select(Status.all.map { |s| [s.name, s.id] }), {}, id: "scheduleStatus", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :visibility_id, "公開設定" %>
+        <%= form.select :visibility_id, options_for_select(Visibility.data.map { |v| [v[:name], v[:id]] }), {}, id: "scheduleVisibility", required: true %>
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="submit-btn">保存</button>
-        <button type="reset" class="reset-btn">リセット</button>
+        <%= form.submit "保存", class: "submit-btn" %>
+        <input type="reset" value="リセット" class="reset-btn">
       </div>
-    </form>
+    <% end %>
   </div>
 </div>
 
+<script>
+  // fullCalendar のクリックイベントで選ばれた日付と時間をフォームに設定
+  $(document).ready(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const date = urlParams.get('date');
+    const startTime = urlParams.get('start_time');
+
+    if (date) {
+      $('#scheduleDate').val(date);
+    }
+
+    if (startTime) {
+      $('#scheduleStartTime').val(startTime);
+    }
+  });
+</script>

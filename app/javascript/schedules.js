@@ -1,29 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // fullCalendarの初期化
+  // fullCalendarを初期化
   $('#calendar').fullCalendar({
+    locale: 'ja',  // 日本語に設定
     header: {
       left: 'prev,next today',
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
-    defaultView: 'agendaDay', 
-    events: [
-      {
-        title: 'イベント1',
-        start: '2025-02-10',
-        end: '2025-02-12'
-      },
-      {
-        title: 'イベント2',
-        start: '2025-02-15T10:00:00',
-        end: '2025-02-15T12:00:00'
+    events: '/calendar_schedules', // 予定を取得するURL
+    droppable: true, // ドラッグ＆ドロップで予定を追加可能
+    editable: true,  // 既存の予定を編集可能
+    dayClick: function(date, jsEvent, view) {
+      // 日付をクリックした時に予定を追加するための処理
+      var title = prompt('予定のタイトルを入力してください');
+      if (title) {
+        // 新しい予定を作成するリクエストを送信
+        $.ajax({
+          url: '/calendar_schedules',  // 新しい予定を作成するエンドポイント
+          method: 'POST',
+          data: {
+            calendar_schedule: {
+              title: title,
+              start_time: date.format(),
+              end_time: date.format()
+            }
+          },
+          success: function(response) {
+            $('#calendar').fullCalendar('refetchEvents'); // イベントを再読み込み
+          }
+        });
       }
-      // ここにイベントを追加
-    ],
-    selectable: true,
-    selectHelper: true,
-    editable: true,  // イベントの編集を許可
-    droppable: true  // ドラッグアンドドロップでイベントを移動可能
+    }
   });
 
   // プリセット
