@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :calendar_schedules
+  has_many :daily_schedules
   has_one_attached :profile_picture
 
   extend ActiveHash::Associations::ActiveRecordExtensions

@@ -21,7 +21,7 @@
         <div class="profile-view">
           <div class="profile-info">
             <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
-            <p class="nickname">ニックネーム</p>
+            <p class="nickname"><%= current_user.nickname %></p>
           </div>
           <ul class='lists-right'>
             <li><%= link_to 'ログアウト', destroy_user_session_path, data: {turbo_method: :delete}, class: "logout" %></li>
@@ -102,11 +102,7 @@
     <div class="right-block">
       <!-- スケジュール管理エリア -->
       <div class="schedule-management">
-        <h2>スケジュール管理</h2>
-        <div class="schedule-options">
-          <button class="calendar-view" onclick="window.location='#calendar'">カレンダー方式</button>
-          <button class="time-block-view" onclick="window.location='#timeblock'">タイムブロック方式</button>
-        </div>
+        <%= link_to 'スケジュール管理', schedules_path, class: 'schedule-link', data: { turbo: false } %>
       </div>
 
       <!-- プリセット作成エリア -->

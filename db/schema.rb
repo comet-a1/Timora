@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_02_054918) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_05_012640) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,29 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_02_054918) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "calendar_schedules", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.integer "repeat_id", default: 0, null: false
+    t.integer "status_id", default: 0, null: false
+    t.datetime "reminder_time"
+    t.integer "visibility", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_calendar_schedules_on_user_id"
+  end
+
+  create_table "daily_schedules", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "calendar_schedule_id", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["calendar_schedule_id"], name: "index_daily_schedules_on_calendar_schedule_id"
+  end
+
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "nickname", null: false
     t.string "profile_picture"
@@ -59,4 +82,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_02_054918) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "calendar_schedules", "users"
+  add_foreign_key "daily_schedules", "calendar_schedules"
 end
