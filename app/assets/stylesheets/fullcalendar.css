@@ -1,0 +1,26 @@
+
+
+/* カレンダーのスタイル */
+#calendar {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.fc-header-toolbar {
+  text-align: center;
+}
+
+.fc-day-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.fc-day-grid-event {
+  background-color: #007bff;
+  color: white;
+}
+
+.fc-toolbar .fc-button {
+  background-color: #007bff;
+  color: skyblue;
+}
