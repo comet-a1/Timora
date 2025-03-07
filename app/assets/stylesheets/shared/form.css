@@ -7,7 +7,7 @@ body {
 }
 
 /* コンテナ */
-.schedule-setting-container {
+.event-setting-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -24,7 +24,7 @@ body {
 }
 
 /* フォーム */
-.schedule-setting-form {
+.event-setting-form {
   display: flex;
   flex-direction: column;
 }
@@ -69,7 +69,7 @@ textarea {
 }
 
 /* 公開設定 */
-#scheduleVisibility {
+#eventVisibility {
   max-width: 200px;
 }
 
@@ -166,7 +166,7 @@ textarea {
 
 /* レスポンシブデザイン */
 @media (max-width: 600px) {
-  .schedule-setting-container {
+  .event-setting-container {
     padding: 15px;
   }
 

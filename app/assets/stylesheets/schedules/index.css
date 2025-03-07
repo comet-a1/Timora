@@ -14,11 +14,11 @@ html, body {
 
 .rainbow-text {
   background: linear-gradient(to right, lightskyblue, lightpink);
-  -webkit-background-clip: text;  /* Safari 対応 */
-  background-clip: text;  /* 一部ブラウザに必要 */
-  color: transparent;  /* 文字自体は透明にして背景を表示 */
-  font-weight: bold;  /* 少し太めにして視覚的に際立たせる */
-  font-size: 36px;  /* 文字サイズを調整 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  font-size: 36px;
 }
 
 /* サイドバー */
@@ -34,13 +34,14 @@ html, body {
 
 /* メインコンテンツ */
 .main-content {
-  flex-grow: 1;
+  flex : 1;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
 }
+
 
 button {
   background-color: white;
@@ -122,3 +123,20 @@ button:hover {
     grid-template-columns: repeat(5, 1fr);
   }
 }
+
+/* .content {
+  height: 100%; 
+}
+
+.container {
+  display: flex;
+}
+
+.schedule-container {
+  display: flex;
+  width: 100%;
+}
+
+.schedule-sidebar {
+  width: 250px;
+} */

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const startTimeSelect = document.getElementById("scheduleStartTime");
-  const endTimeSelect = document.getElementById("scheduleEndTime");
+  const startTimeSelect = document.getElementById("eventStartTime");
+  const endTimeSelect = document.getElementById("eventEndTime");
 
   function generateTimeOptions() {
     const times = [];

@@ -1,0 +1,58 @@
+<%= javascript_include_tag 'event_setting' %>
+
+<div class="event-setting-container">
+  <h1 class="page-title">イベント作成</h1>
+
+  <div class="event-setting-form">
+    <form id="eventForm">
+      <div class="form-group">
+        <label for="eventTitle">タイトル</label>
+        <input type="text" id="eventTitle" name="title" placeholder="タイトルを入力">
+      </div>
+
+      <div class="form-group date-time-group">
+        <div class="date-wrapper">
+          <label for="eventDate">日付</label>
+          <input type="date" id="eventDate" name="date">
+        </div>
+
+        <div class="time-wrapper">
+          <div>
+            <label for="eventStartTime">開始時間</label>
+            <select id="eventStartTime" name="start_time">
+              <option value="">選択してください</option>
+            </select>
+          </div>
+
+          <span class="time-separator">～</span>
+
+          <div>
+            <label for="eventEndTime">終了時間</label>
+            <select id="eventEndTime" name="end_time">
+              <option value="">選択してください</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="eventDescription">詳細</label>
+        <textarea id="eventDescription" name="description" placeholder="詳細を入力"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="eventVisibility">公開設定</label>
+        <select id="eventVisibility" name="visibility">
+          <option value="public">公開</option>
+          <option value="private">非公開</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn">保存</button>
+        <button type="reset" class="reset-btn">リセット</button>
+      </div>
+    </form>
+  </div>
+</div>

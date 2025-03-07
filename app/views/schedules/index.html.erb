@@ -51,6 +51,8 @@
         <button id="show-presets" class="toggle-btn">プリセット作成</button>
       </div>
 
+      <%= link_to '新規イベント作成', new_schedule_path, class: 'btn btn-primary' %>
+
       <div class="settings">
         <div class="profile-section">
           <div class="profile-info" onclick="toggleLogout()">
@@ -68,64 +70,20 @@
         <div class="calendar-block">
           <!-- カレンダー表示 -->
           <div data-controller="fullcalendar" id="calendar"></div>
-          <!-- 予定追加・編集モーダル -->
-          <div id="eventModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; box-shadow:0px 0px 10px rgba(0,0,0,0.1);">
-            <h3>予定を入力</h3>
-            <input type="text" id="eventTitle" placeholder="予定のタイトル">
-            <button id="saveEvent">保存</button>
-            <button id="deleteEvent" style="display:none;">削除</button>
-            <button onclick="$('#eventModal').hide();">キャンセル</button>
-          </div>
         </div>
       </div>
 
       <div id="memo-section" class="content">
         <div class="memo-block">
-          <!-- Header Section -->
-          <div class="memo-header">
-            <h1>Memo Header</h1>
-          <!-- 他のヘッダー要素があればここに追加 -->
-          </div>
-
-          <!-- Memo Container Section -->
-          <div class="memo-container">
-            <div class="memo-left_block">
-              <!-- メモ内容の左側部分 -->
-              <textarea placeholder="Write your memo..."></textarea>
-            </div>
-  
-            <div class="memo-right_block">
-              <!-- メモ内容の右側部分 -->
-              <h2>メモ一覧</h2>
-              <div id="memo-list">
-              </div>
-            </div>
-          </div>
+          <!-- メモ表示 -->
+          <%= render 'shared/memo' %>
         </div>
       </div>
 
       <div id="presets-section" class="content">
         <div class="presets-block">
-          <!-- Header Section -->
-          <div class="presets-header">
-            <h1>プリセット設定</h1>
-          </div>
-
-          <!-- Presets Container Section -->
-          <div class="presets-container">
-            <div class="presets-left_block">
-              <div id="day-view-calendar"></div>
-            </div>
-
-            <div class="presets-right_block">
-              <!-- プリセット操作の右側部分 -->
-              <h2>保存されたプリセット</h2>
-              <div id="preset-list">
-                <!-- ここに保存されたプリセットを表示 -->
-              </div>
-              <button id="savePreset" class="save-preset-btn">プリセットを保存</button>
-            </div>
-          </div>
+          <!-- プリセットを表示 -->
+          <%= render 'shared/preset' %>
         </div>
       </div>
     </div>

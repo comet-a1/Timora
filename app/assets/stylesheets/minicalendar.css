@@ -1,0 +1,74 @@
+/*ミニカレンダー*/
+.mini-calendar {
+  width: 250px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+}
+
+.calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.calendar-date {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calendar-date.today {
+  background: #ff9800;
+  color: white;
+}
+
+.calendar-date.selected {
+  background: #4CAF50;
+  color: white;
+}
+
+.calendar-date.other-month {
+  color: #aaa;
+}
+
+
+/* 今日の日付 */
+.calendar-date.today {
+  background: #4285F4;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* 選択された日 */
+.calendar-date.selected {
+  background: #cce5ff;
+}
+
+/* 前月・翌月の日付 */
+.calendar-date.other-month {
+  color: #ccc;
+}
