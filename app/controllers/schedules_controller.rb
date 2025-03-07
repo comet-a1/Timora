@@ -1,7 +1,6 @@
 class SchedulesController < ApplicationController
   def index
     @events = Event.all  # カレンダーに表示する予定
-
     respond_to do |format|
       format.html # HTMLビューを返す
       format.json { render json: @events.map { |event| format_event(event) } }

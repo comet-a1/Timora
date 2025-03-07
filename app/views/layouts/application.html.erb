@@ -9,8 +9,11 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
-    <!-- schedules.js の読み込み -->
-    <%= javascript_include_tag "schedules", defer: true %>
+    <!-- ✅ FullCalendar のCDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    
+    <%= javascript_include_tag "calendar", defer: true %>
+    <%= javascript_include_tag "mini-calendar", defer: true %>
   </head>
 
   <body>
