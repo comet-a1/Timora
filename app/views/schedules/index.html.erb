@@ -4,21 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timora - スケジュール管理アプリ</title>
-  
-  <!-- fullCalendar の CSS を事前にロード -->
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" as="style">
-  
-  <!-- fullCalendar の CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
-  
-  <!-- jQuery (fullCalendar が依存している) -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- moment.js (fullCalendar が依存している) -->
-  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-
-  <!-- fullCalendar の JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
 
   <!-- 外部CSSファイルのリンク -->
   <%= javascript_include_tag 'schedules' %>
@@ -69,7 +54,7 @@
       <div id="calendar-section" class="content active">
         <div class="calendar-block">
           <!-- カレンダー表示 -->
-          <div data-controller="fullcalendar" id="calendar"></div>
+          <div id="calendar" data-turbo="false"></div>
         </div>
       </div>
 

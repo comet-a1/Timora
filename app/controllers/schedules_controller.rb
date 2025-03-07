@@ -1,6 +1,11 @@
 class SchedulesController < ApplicationController
   def index
     @events = Event.all  # カレンダーに表示する予定
+
+    respond_to do |format|
+      format.html # HTMLビューを返す
+      format.json { render json: @events.map { |event| format_event(event) } }
+    end
   end
 
   def new
@@ -20,5 +25,14 @@ class SchedulesController < ApplicationController
 
   def event_params
     params.require(:event).permit(:title, :date, :start_time, :end_time, :description)
+  end
+  
+  def format_event(event)
+    {
+      id: event.id,
+      title: event.title,
+      start: "#{event.date}T#{event.start_time.strftime('%H:%M:%S')}",
+      end: "#{event.date}T#{event.end_time.strftime('%H:%M:%S')}"
+    }
   end
 end
