@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'schedules/index'
+  get 'schedules/new'
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
@@ -11,12 +13,11 @@ Rails.application.routes.draw do
     post 'users/sign_up/step2', to: 'users/registrations#create_step2', as: 'create_user_step2'
   end
 
-  get '/schedules', to: 'schedules#index'
-  get '/schedules/new', to: 'schedules#new'
-
   root 'posts#index'
   resources :posts
-  resources :schedules
+
+  resources :schedules, only: [:index, :new, :create]
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

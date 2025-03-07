@@ -1,4 +1,24 @@
 class SchedulesController < ApplicationController
   def index
+    @events = Event.all  # カレンダーに表示する予定
+  end
+
+  def new
+    @event = Event.new  # フォーム用の新しいEventオブジェクト
+  end
+
+  def create
+    @event = Event.new(event_params.merge(user_id: current_user.id)) 
+    if @event.save
+      redirect_to schedules_path, notice: '予定が作成されました。'
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def event_params
+    params.require(:event).permit(:title, :date, :start_time, :end_time, :description)
   end
 end
