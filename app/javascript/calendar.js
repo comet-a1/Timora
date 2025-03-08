@@ -3,14 +3,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ✅ メインカレンダーの表示
   let calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth", // 初期表示を「月」に設定
+    initialView: "dayGridMonth",
     headerToolbar: {
       left: "prev,next today",
       center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay", // 月・週・日表示を切り替え
+      right: "dayGridMonth,timeGridWeek,timeGridDay",
     },
-    locale: "ja", // 日本語設定
-    events: "/events.json", // イベント取得API
+    selectable: true,
+    editable: true,
+    locale: "ja",
+    events: function (fetchInfo, successCallback, failureCallback) {
+      fetch("/schedules.json")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("取得したイベントデータ:", data); // ✅ ここでデータを確認
+          successCallback(data);
+        })
+        .catch((error) => {
+          console.error("イベント取得エラー:", error);
+          failureCallback(error);
+        });
+    },
+    eventClick: function (info) {
+      alert("イベント: " + info.event.title);
+    },
   });
 
   calendar.render();
@@ -19,5 +35,10 @@ document.addEventListener("DOMContentLoaded", function () {
   window.updateMainCalendar = function (date) {
     console.log("メインカレンダーを更新:", date);
     calendar.gotoDate(date);
+  };
+
+  window.addEventToCalendar = function (eventData) {
+    console.log("カレンダーに追加:", eventData);
+    calendar.addEvent(eventData);
   };
 });
