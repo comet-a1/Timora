@@ -1,1 +1,22 @@
+/* FullCalendarのボタンをカスタムボタンのデザインに統一 */
+.fc .fc-button {
+  background-color: white; /* 背景を白 */
+  color: skyblue; /* 文字色をskyblue */
+  border: 1px solid #ccc; /* 境界線 */
+  padding: 10px;
+  border-radius: 5px; /* 角丸 */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
+/* ホバー時 */
+.fc .fc-button:hover {
+  background-color: #006bb3; /* ホバー時の背景 */
+  color: white; /* ホバー時の文字色 */
+}
+
+/* アクティブ状態（押されたとき） */
+.fc .fc-button-active {
+  background-color: #006bb3; /* アクティブ時の背景 */
+  color: white; /* アクティブ時の文字色 */
+}

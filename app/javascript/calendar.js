@@ -14,4 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   calendar.render();
+
+  // ✅ 他のスクリプトから呼び出せるようにグローバル関数として登録
+  window.updateMainCalendar = function (date) {
+    console.log("メインカレンダーを更新:", date);
+    calendar.gotoDate(date);
+  };
 });

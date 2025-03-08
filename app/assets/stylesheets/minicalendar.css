@@ -47,8 +47,8 @@
 }
 
 .calendar-date.selected {
-  background: #4CAF50;
-  color: white;
+  background: #006bb3;
+  color: skyblue;
 }
 
 .calendar-date.other-month {
@@ -58,17 +58,17 @@
 
 /* 今日の日付 */
 .calendar-date.today {
-  background: #4285F4;
-  color: #fff;
+  background: white;
+  color: skyblue;
   font-weight: bold;
 }
 
 /* 選択された日 */
 .calendar-date.selected {
-  background: #cce5ff;
+  background: white;
 }
 
 /* 前月・翌月の日付 */
 .calendar-date.other-month {
-  color: #ccc;
+  color:skyblue;
 }

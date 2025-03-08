@@ -85,6 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
     dateElement.classList.add("calendar-date");
     if (className) dateElement.classList.add(className);
     dateElement.textContent = day;
+
+    // ✅ クリックしたらメインカレンダーを変更
+    dateElement.addEventListener("click", function () {
+      const selectedDate = new Date(currentYear, currentMonth, day);
+      updateMainCalendar(selectedDate);
+    });
     return dateElement;
   }
 
