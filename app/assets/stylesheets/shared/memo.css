@@ -10,21 +10,18 @@
   background-color: #f4f4f4;
 }
 
-/* Headerセクションのスタイル */
-.memo-header {
-  display: flex;
-  text-align: center;
-  align-items: center;
-  height: 60px;
-  border-top: 2px solid aquamarine;
-  border-bottom: 2px solid aquamarine;
+.memo-left_header, .memo-right_header {
+  height: 40px; /* ヘッダーの高さを固定 */
+  border-bottom: 2px solid #333; /* 境界線 */
+  display: flex; /* フレックスボックスで要素を中央配置 */
+  justify-content: center; /* 横方向に中央配置 */
+  align-items: center; /* 縦方向に中央配置 */
+  background-color: #f4f4f4; /* 背景色 */
+  padding: 0 10px; /* 横の余白を追加 */
 }
 
-.memo-header h1 {
-  font-size: 35px;
-  color: #333;
-  margin: 0;
-  padding-left: 20px;
+.memo-left_block, .memo-right_block {
+  margin-bottom: 20px; /* ヘッダーとコンテンツ間のスペース */
 }
 
 /* Memo Containerセクションのスタイル */

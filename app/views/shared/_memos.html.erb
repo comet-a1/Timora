@@ -1,0 +1,27 @@
+<div class="memo-container">
+  <div class="memo-left_block">
+    <div class="memo-left_header">
+      <button id="complete-btn" type="button" style="display: none;">完了</button>
+      <button id="delete-btn" type="button" style="display: none;">削除</button>
+    </div>
+    <textarea id="memo-content" placeholder="Write your memo..." style="display: none;"></textarea>
+  </div>
+
+  <div class="memo-right_block">
+    <div class="memo-right_header">
+      <button id="new-memo-btn">新規メモ作成</button>
+    </div>
+    <h2>メモ一覧</h2>
+    <div id="memo-list">
+      <% if @memos.any? %>
+        <% @memos.each do |memo| %>
+          <div class="memo-item" data-id="<%= memo.id %>">
+            <%= truncate(memo.content, length: 18) %>
+          </div>
+        <% end %>
+      <% else%>
+        <p>メモがありません。</p>
+      <% end %>
+    </div>
+  </div>
+</div>

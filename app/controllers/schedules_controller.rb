@@ -1,5 +1,8 @@
 class SchedulesController < ApplicationController
   def index
+    @memos = current_user.memos
+    @events = current_user.events
+
     @events = Event.all  # カレンダーに表示する予定
     respond_to do |format|
       format.html # HTMLビューを返す

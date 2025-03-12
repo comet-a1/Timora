@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_one_attached :profile_picture
   has_many :events, dependent: :destroy
+  has_many :memos
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :gender
