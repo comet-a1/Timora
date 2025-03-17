@@ -1,15 +1,57 @@
 <!-- Presets Container Section -->
 <div class="presets-container">
   <div class="presets-left_block">
-    <!-- 設定した予定を表示 -->
+    <div class="presets-left_header">
+      <h2 id="preset-name">1日の予定</h2>
+      <button id="create-schedule-btn" style="display:none;">予定作成</button>
+    </div>
+    <!-- 予定作成モーダル -->
+    <div id="schedule-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>予定を作成</h2>
+        <form id="schedule-form">
+          <label for="schedule-title">タイトル:</label>
+          <input type="text" id="schedule-title" placeholder="タイトルを入力" required />
+
+          <label for="start-time">開始時間:</label>
+          <select id="start-time" required></select>
+
+          <label for="end-time">終了時間:</label>
+          <select id="end-time" required></select>
+
+          <button type="submit">予定を保存</button>
+          <button type="button" onclick="closeModal()">キャンセル</button>
+        </form>
+      </div>
+    </div>
+    <div class="schedule">
+    </div>
   </div>
 
   <div class="presets-right_block">
     <!-- プリセット操作の右側部分 -->
-    <h2>保存されたプリセット</h2>
-    <div id="preset-list">
-      <!-- ここに保存されたプリセットを表示 -->
+    <div class="presets-right_header">
+      <button id="new-preset-btn">プリセットを作成</button>
     </div>
-    <button id="savePreset" class="save-preset-btn">プリセットを保存</button>
+    <div id="preset-modal" class="modal">
+      <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2>新しいプリセットを作成</h2>
+        <form id="preset-form">
+          <label for="preset-name-input">プリセット名</label>
+          <input type="text" id="preset-name-input" name="preset[name]" required>
+          <button type="submit">作成</button>
+        </form>
+      </div>
+    </div>
+    <h2>保存されたプリセット</h2>
+    <ul class="preset-list" id="preset-list">
+    </ul>
+  </div>
+
+  <div class="context-menu" id="context-menu">
+    <button onclick="renamePreset()">名前を変更</button>
+    <button onclick="deletePreset()">削除</button>
   </div>
 </div>
