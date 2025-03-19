@@ -2,33 +2,27 @@ class PresetEventsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @preset_events = PresetEvent.where(preset_id: prams[:preset_id])
-    render json: { preset_events: @preset_events}
+    preset = Preset.find_by(id: params[:preset_id])
+    if preset
+      @preset_events = preset.preset_events
+      render json: @preset_events
+    else
+      render json: []
+    end
   end
 
   def create
-    # 現在ログインしているユーザーのIDを取得
-    user_id = current_user.id
-    preset_id = params[:preset_event][:preset_id]
-    title = params[:preset_event][:title]
-    start_time = params[:preset_event][:start_time]
-    end_time = params[:preset_event][:end_time]
-
-    # presetsテーブルから選択されたプリセットを取得
-    preset = Preset.find(preset_id)
-
-    # 新しい予定を作成
-    preset_event = PresetEvent.new(
-      preset_id: preset.id,
-      title: title,
-      start_time: start_time,
-      end_time: end_time
-    )
-
-    if preset_event.save
-      render json: { success: true, message: "予定が保存されました。" }
+    @preset_event = PresetEvent.new(preset_event_params)
+    if @preset_event.save
+      render json: { success: true, preset_event: @preset_event }
     else
-      render json: { success: false, message: "保存に失敗しました。" }
+      render json: { success: false, errors: @preset_event.errors.full_messages }
     end
+  end
+
+  private
+
+  def preset_event_params
+    params.require(:preset_event).permit(:title, :start_time, :end_time, :preset_id)
   end
 end

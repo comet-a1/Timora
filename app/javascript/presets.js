@@ -198,52 +198,54 @@ document.addEventListener('DOMContentLoaded', function () {
   // 予定作成フォーム送信処理
   document.getElementById("schedule-form").addEventListener("submit", function (event) {
     event.preventDefault();
-
+  
     const title = document.getElementById("schedule-title").value;
     const startTime = document.getElementById("start-time").value;
     const endTime = document.getElementById("end-time").value;
-
+  
     if (!window.currentPresetId) {
       alert("プリセットを選択してください。");
       return;
     }
-
+  
     // AJAXで予定を保存
-    fetch('/preset_events', {
-      method: 'POST',
+    fetch("/preset_events", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
       },
       body: JSON.stringify({
         preset_event: {
           title: title,
           start_time: startTime,
           end_time: endTime,
-          preset_id: window.currentPresetId
+          preset_id: window.currentPresetId,
+        },
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+
+          closeModal(scheduleModal);
+          fetchPresetEvents(window.currentPresetId); // ✅ 予定の再取得＆表示
+        } else {
+          alert("エラーが発生しました。");
         }
       })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        closeModal(scheduleModal);
-      } else {
-        alert("エラーが発生しました。");
-      }
-    })
-    .catch(error => {
-      console.error("Error:", error);
-    });
+      .catch(error => {
+        console.error("予定作成エラー:", error);
+      });
   });
 
   // 予定を取得して表示する関数
   function fetchPresetEvents(presetId) {
-    fetch(`/preset_events?preset_id=${presetId}`)
+    fetch(`/preset_events?preset_id=${presetId}`) // ✅ URL修正
       .then(response => response.json())
       .then(data => {
-        console.log("取得した予定:", data.preset_events);
-        displayPresetEvents(data.preset_events);
+        console.log("取得した予定:", data); // ✅ ログで確認
+        displayPresetEvents(data); // ✅ 直接dataを渡す
       })
       .catch(error => console.error("予定の取得エラー:", error));
   }
@@ -252,25 +254,52 @@ document.addEventListener('DOMContentLoaded', function () {
   function displayPresetEvents(presetEvents) {
     const scheduleContainer = document.querySelector(".schedule");
     scheduleContainer.innerHTML = ""; // 一度クリアして再描画
+  
+    if (presetEvents.length === 0) {
+      scheduleContainer.innerHTML = "<p>予定はありません。</p>";
+      return;
+    }
 
+    // 開始時間でソート
+    presetEvents.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+  
     presetEvents.forEach(event => {
+      const formattedStartTime = formatTime(event.start_time);
+      const formattedEndTime = formatTime(event.end_time);
+  
       const eventItem = document.createElement("div");
       eventItem.classList.add("schedule-item");
       eventItem.innerHTML = `
-        <h3>${event.title}</h3>
-        <p>${event.start_time} - ${event.end_time}</p>
+        <p>${formattedStartTime}～${formattedEndTime}　${event.title}</p>
       `;
       scheduleContainer.appendChild(eventItem);
     });
   }
 
+  // 時間のフォーマットを変換する関数
+  function formatTime(isoString) {
+    const date = new Date(isoString);
+
+  // 日本時間の表示形式に変換
+  const options = {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false, // 24時間表記
+    timeZone: "Asia/Tokyo" // JST指定
+  };
+
+  return new Intl.DateTimeFormat("ja-JP", options).format(date);
+  }
+
   document.getElementById("preset-list").addEventListener("click", function(event) {
     if (event.target.tagName === "LI") {
-      const presetId = event.target.dataset.presetId; // クリックされたプリセットのID
+      const presetId = event.target.dataset.id; // ✅ 正しいIDの取得
       document.getElementById("preset-name").textContent = event.target.textContent;
       document.getElementById("create-schedule-btn").style.display = "block";
-      document.getElementById("preset-name").dataset.presetId = presetId; // プリセットIDを保存
-      fetchPresetEvents(presetId); // 予定を取得して表示
+      window.currentPresetId = presetId; // ✅ プリセットIDをグローバル変数に保存
+
+      // ✅ プリセットIDを利用して予定を取得して表示
+      fetchPresetEvents(presetId);
     }
   });
 
