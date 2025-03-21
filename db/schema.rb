@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_15_014333) do
   end
 
   create_table "events", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.date "date"
     t.string "title"
     t.text "description"
@@ -97,6 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_15_014333) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "events", "users"
   add_foreign_key "memos", "users"
   add_foreign_key "preset_events", "presets"
   add_foreign_key "presets", "users"

@@ -16,6 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // モーダル開閉関数
   function openModal(modal) {
     modal.style.display = "flex";
+
+    // 予定作成モーダルを開いた場合はリセット
+    if (modal === scheduleModal) {
+      resetScheduleForm(); // ここでリセット
+    }
+  }
+
+  // 予定作成フォームのリセット
+  function resetScheduleForm() {
+    document.getElementById("schedule-form").reset(); // フォームリセット
   }
 
   function closeModal(modal) {
@@ -337,4 +347,3 @@ document.addEventListener('DOMContentLoaded', function () {
   generateTimeOptions('start-time');
   generateTimeOptions('end-time');
 });
-
