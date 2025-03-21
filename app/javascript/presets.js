@@ -255,35 +255,53 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(response => response.json())
       .then(data => {
         console.log("取得した予定:", data); // ✅ ログで確認
-        displayPresetEvents(data); // ✅ 直接dataを渡す
+        displayPresetEvents(data.morning_events, data.afternoon_events); 
       })
       .catch(error => console.error("予定の取得エラー:", error));
   }
 
   // 予定を画面に表示する関数
-  function displayPresetEvents(presetEvents) {
-    const scheduleContainer = document.querySelector(".schedule");
-    scheduleContainer.innerHTML = ""; // 一度クリアして再描画
+  function displayPresetEvents(morningEvents, afternoonEvents) {
+    const morningContainer = document.querySelector(".preset-event-morning");
+    const afternoonContainer = document.querySelector(".preset-event-afternoon");
   
-    if (presetEvents.length === 0) {
-      scheduleContainer.innerHTML = "<p>予定はありません。</p>";
-      return;
+    // 一度リストをクリア
+    morningContainer.innerHTML = "";
+    afternoonContainer.innerHTML = "";
+  
+    // 午前の予定の表示
+    if (morningEvents.length === 0) {
+      morningContainer.innerHTML = "<p>午前の予定はありません。</p>";
+    } else {
+      morningEvents.forEach((event) => {
+        const formattedStartTime = formatTime(event.start_time);
+        const formattedEndTime = formatTime(event.end_time);
+  
+        const eventItem = document.createElement("div");
+        eventItem.classList.add("preset-event-item");
+        eventItem.innerHTML = `
+          <p>${formattedStartTime}～${formattedEndTime}　${event.title}</p>
+        `;
+        morningContainer.appendChild(eventItem);
+      });
     }
-
-    // 開始時間でソート
-    presetEvents.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
   
-    presetEvents.forEach(event => {
-      const formattedStartTime = formatTime(event.start_time);
-      const formattedEndTime = formatTime(event.end_time);
+    // 午後の予定の表示
+    if (afternoonEvents.length === 0) {
+      afternoonContainer.innerHTML = "<p>午後の予定はありません。</p>";
+    } else {
+      afternoonEvents.forEach((event) => {
+        const formattedStartTime = formatTime(event.start_time);
+        const formattedEndTime = formatTime(event.end_time);
   
-      const eventItem = document.createElement("div");
-      eventItem.classList.add("schedule-item");
-      eventItem.innerHTML = `
-        <p>${formattedStartTime}～${formattedEndTime}　${event.title}</p>
-      `;
-      scheduleContainer.appendChild(eventItem);
-    });
+        const eventItem = document.createElement("div");
+        eventItem.classList.add("preset-event-item");
+        eventItem.innerHTML = `
+          <p>${formattedStartTime}～${formattedEndTime}　${event.title}</p>
+        `;
+        afternoonContainer.appendChild(eventItem);
+      });
+    }
   }
 
   // 時間のフォーマットを変換する関数

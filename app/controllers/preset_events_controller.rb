@@ -5,15 +5,19 @@ class PresetEventsController < ApplicationController
     preset = Preset.find_by(id: params[:preset_id])
 
     if preset
-      # 同じ時間帯の最新予定だけを取得
-      @preset_events = preset.preset_events
-                            .select("preset_events.*, MAX(updated_at) AS latest_update")
-                            .group(:start_time, :end_time, :id)
-                            .order("start_time, end_time")
+      preset_events = preset.preset_events.order(:start_time)
 
-      render json: @preset_events
+      # 午前・午後に分割
+      @morning_events = preset_events.select { |event| event.start_time.hour < 12 }
+      @afternoon_events = preset_events.select { |event| event.start_time.hour >= 12 }
+
+      # JSONで2つのブロックに分けて返す
+      render json: {
+        morning_events: @morning_events,
+        afternoon_events: @afternoon_events,
+      }
     else
-      render json: []
+      render json: { morning_events: [], afternoon_events: [] }
     end
   end
 

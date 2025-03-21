@@ -110,6 +110,36 @@
   background: #f0f0f0;
 }
 
+.preset-event-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.preset-event-left,
+.preset-event-right {
+  width: 48%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.preset-event-item {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.preset-event-item:last-child {
+  border-bottom: none;
+}
+
+h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
 /* モーダルの背景 */
 #schedule-modal {
   position: fixed; /* 画面全体に表示 */
