@@ -31,6 +31,20 @@
   border-left: 2px solid #b1adad;
 }
 
+.preset-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.preset-item:hover {
+  background-color: #e0e0e0;
+}
+
 .presets-left_header {
   display: flex;
   justify-content: space-between;  /* 左右に配置 */
@@ -68,10 +82,6 @@
   }
 }
 
-.schedule {
-  padding: 10px;
-  background: #f9f9f9;
-}
 
 #preset-list {
   list-style-type: none;
@@ -86,28 +96,6 @@
 }
 .preset-list li:hover {
   background: #d1d1d1;
-}
-
-.context-menu {
-  display: none;
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  z-index: 1000;
-}
-.context-menu button {
-  display: block;
-  width: 100%;
-  border: none;
-  background: none;
-  padding: 5px;
-  text-align: left;
-  cursor: pointer;
-}
-.context-menu button:hover {
-  background: #f0f0f0;
 }
 
 .preset-event-container {
@@ -231,7 +219,34 @@ h3 {
   transition: background-color 0.3s;
 }
 
+
 /* ボタンホバー時のエフェクト */
 #schedule-modal button:hover {
   background-color: aquamarine;
+}
+
+/* ✅ context-menu の基本スタイル */
+.context-menu {
+  position: absolute;
+  display: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.context-menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 0;
+}
+
+.context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.context-menu li:hover {
+  background-color: #f5f5f5;
 }

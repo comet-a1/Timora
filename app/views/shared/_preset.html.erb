@@ -2,8 +2,9 @@
 <div class="presets-container">
   <div class="presets-left_block">
     <div class="presets-left_header">
-      <h2 id="preset-name">1日の予定</h2>
+      <h2 id="preset-name"></h2>
       <button id="create-schedule-btn" style="display:none;">予定作成</button>
+      <button id="delete-preset-btn" type="button" style="display: none;">削除</button>
     </div>
     <!-- 予定作成モーダル -->
     <div id="schedule-modal" class="modal">
@@ -58,11 +59,23 @@
     </div>
     <h2>保存されたプリセット</h2>
     <ul class="preset-list" id="preset-list">
+      <% if @presets.any? %>
+        <% @presets.each do |preset| %>
+          <div class="preset-item" data-id="<%= preset.id %>">
+            <%= preset.name %>
+          </div>
+        <% end %>
+      <% else%>
+        <p>プリセットがありません。</p>
+      <% end %>
     </ul>
   </div>
+</div>
 
-  <div class="context-menu" id="context-menu">
-    <button onclick="renamePreset()">名前を変更</button>
-    <button onclick="deletePreset()">削除</button>
-  </div>
+<!-- ✅ 右クリックメニュー -->
+<div id="context-menu" class="context-menu">
+  <ul>
+    <li id="edit-event">編集</li>
+    <li id="delete-event">削除</li>
+  </ul>
 </div>

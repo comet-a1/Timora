@@ -1,6 +1,7 @@
 class SchedulesController < ApplicationController
   def index
     @memos = current_user.memos
+    @presets = current_user.presets
     @events = current_user.events
 
     @events = Event.all  # カレンダーに表示する予定

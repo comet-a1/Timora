@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const scheduleModal = document.getElementById("schedule-modal");
   const createScheduleBtn = document.getElementById("create-schedule-btn");
+  const deletePresetBtn = document.getElementById("delete-preset-btn");
   const presetNameHeading = document.getElementById("preset-name");
 
-  const contextMenu = document.getElementById("context-menu");
   let selectedPresetId = null; // 右クリックしたプリセットのID
 
   // モーダル開閉関数
@@ -78,122 +78,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // プリセットをリストに追加
   function addPresetToList(preset) {
-    console.log("プリセットリストに追加:", preset);
+    const existingPreset = document.querySelector(`.preset-item[data-id="${preset.id}"]`);
+    if (!existingPreset) {
+      const div = document.createElement("div");
+      div.classList.add("preset-item");
+      div.textContent = preset.name;
+      div.dataset.id = preset.id;
 
-    const li = document.createElement("li");
-    li.textContent = preset.name;
-    li.dataset.id = preset.id;
+      // プリセット選択時の処理
+      div.addEventListener("click", function () {
+        selectedPresetId = preset.id;  // 選択されたプリセットのIDを保持
+        presetNameHeading.textContent = preset.name;
+        createScheduleBtn.style.display = "block";
+        deletePresetBtn.style.display = "block";
+        fetchPresetEvents(preset.id); // 予定の取得
+      });
 
-    li.addEventListener("click", function () {
-      console.log("プリセット選択:", preset.id);
-      document.getElementById("preset-name").textContent = preset.name;
-    });
-
-    presetList.appendChild(li);
+      presetList.appendChild(div);
+    }
   }
 
-  // 初回読み込み時にプリセットを取得＆表示
+  // 初回読み込み時にプリセットを表示
   function loadPresets() {
-    fetch('/presets')
-      .then(response => response.json())
-      .then(data => {
-        console.log("プリセット一覧取得:", data);
-        if (Array.isArray(data.presets)) {
-          data.presets.forEach(addPresetToList);
-        } else {
-          console.error("取得データが配列でない:", data);
-        }
-      })
-      .catch(error => console.error("プリセット読み込みエラー:", error));
+    // すでにHTML側で表示されているプリセットをJavaScript側で処理
+    const presetItems = document.querySelectorAll('.preset-item');
+    presetItems.forEach(item => {
+      item.addEventListener('click', function () {
+        selectedPresetId = item.dataset.id;  // クリックしたプリセットのIDを取得
+        presetNameHeading.textContent = item.textContent;
+        createScheduleBtn.style.display = "block";
+        deletePresetBtn.style.display = "block";
+        fetchPresetEvents(item.dataset.id); // 予定を取得
+      });
+    });
   }
 
   loadPresets(); // 初回読み込み実行
-
-  // プリセットをリストに追加
-  function addPresetToList(preset) {
-    const li = document.createElement("li");
-    li.textContent = preset.name;
-    li.dataset.id = preset.id;
-
-    // プリセット選択時の処理
-    li.addEventListener("click", function () {
-      presetNameHeading.textContent = preset.name;
-      createScheduleBtn.style.display = "block";
-      window.currentPresetId = preset.id; // グローバルに保持
-    });
-
-    // 右クリック時の処理（コンテキストメニュー）
-    li.addEventListener("contextmenu", function (event) {
-      event.preventDefault();
-      selectedPresetId = preset.id;
-      showContextMenu(event);
-    });
-
-    presetList.appendChild(li);
-  }
-
-  // コンテキストメニューを表示
-  function showContextMenu(event) {
-    contextMenu.style.display = "block";
-    contextMenu.style.left = `${event.pageX}px`;
-    contextMenu.style.top = `${event.pageY}px`;
-  }
-
-  // コンテキストメニューを閉じる
-  document.addEventListener("click", function () {
-    contextMenu.style.display = "none";
-  });
-
-  // プリセットの削除
-  window.deletePreset = function () {
-    if (!selectedPresetId) return;
-
-    if (!confirm("本当に削除しますか？")) return;
-
-    fetch(`/presets/${selectedPresetId}`, {
-      method: "DELETE",
-      headers: {
-        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert("プリセットを削除しました！");
-        document.querySelector(`li[data-id='${selectedPresetId}']`).remove();
-      } else {
-        alert("削除に失敗しました。");
-      }
-    })
-    .catch(error => console.error("Error:", error));
-  };
-
-  // プリセットの名前変更
-  window.renamePreset = function () {
-    if (!selectedPresetId) return;
-
-    const newName = prompt("新しいプリセット名を入力してください:");
-    if (!newName) return;
-
-    fetch(`/presets/${selectedPresetId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content
-      },
-      body: JSON.stringify({ preset: { name: newName } })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert("プリセット名を変更しました！");
-        document.querySelector(`li[data-id='${selectedPresetId}']`).textContent = newName;
-      } else {
-        alert("名前変更に失敗しました。");
-      }
-    })
-    .catch(error => console.error("Error:", error));
-  };
 
   // 予定作成ボタンの処理
   createScheduleBtn.addEventListener("click", function () {
@@ -213,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const startTime = document.getElementById("start-time").value;
     const endTime = document.getElementById("end-time").value;
   
-    if (!window.currentPresetId) {
+    if (!selectedPresetId) {
       alert("プリセットを選択してください。");
       return;
     }
@@ -230,16 +150,15 @@ document.addEventListener('DOMContentLoaded', function () {
           title: title,
           start_time: startTime,
           end_time: endTime,
-          preset_id: window.currentPresetId,
+          preset_id: selectedPresetId,
         },
       }),
     })
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-
           closeModal(scheduleModal);
-          fetchPresetEvents(window.currentPresetId); // ✅ 予定の再取得＆表示
+          fetchPresetEvents(selectedPresetId); // 予定の再取得＆表示
         } else {
           alert("エラーが発生しました。");
         }
@@ -303,38 +222,63 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
+  
+  // プリセット削除ボタンのクリック処理
+  deletePresetBtn.addEventListener("click", function () {
+    if (!selectedPresetId) return;
+  
+    // サーバーに削除リクエストを送信
+    fetch(`/presets/${selectedPresetId}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // プリセット一覧からプリセットを削除
+          const presetItem = document.querySelector(`.preset-item[data-id="${selectedPresetId}"]`);
+          if (presetItem) {
+            presetItem.remove();
+          }
+
+          // ✅ 予定エリアをリセット
+          resetPresetEvents();
+
+          // UIリセット
+          presetNameHeading.textContent = "";  // プリセット名をリセット
+          createScheduleBtn.style.display = "none";  // 予定作成ボタンを非表示
+          deletePresetBtn.style.display = "none";  // 削除ボタンを非表示
+          selectedPresetId = null;  // 削除後、選択されたIDをリセット
+        } else {
+          console.error("プリセットの削除に失敗しました");
+        }
+      })
+      .catch((error) => {
+        console.error("エラー:", error);
+      });
+  });
+
+  // ✅ 予定エリアのリセット関数
+  function resetPresetEvents() {
+    document.querySelector(".preset-event-morning").innerHTML = "<p>午前の予定はありません。</p>";
+    document.querySelector(".preset-event-afternoon").innerHTML = "<p>午後の予定はありません。</p>";
+  }
 
   // 時間のフォーマットを変換する関数
   function formatTime(isoString) {
     const date = new Date(isoString);
 
-  // 日本時間の表示形式に変換
-  const options = {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false, // 24時間表記
-    timeZone: "Asia/Tokyo" // JST指定
-  };
+    // 日本時間の表示形式に変換
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false, // 24時間表記
+      timeZone: "Asia/Tokyo" // JST指定
+    };
 
-  return new Intl.DateTimeFormat("ja-JP", options).format(date);
+    return new Intl.DateTimeFormat("ja-JP", options).format(date);
   }
-
-  document.getElementById("preset-list").addEventListener("click", function(event) {
-    if (event.target.tagName === "LI") {
-      const presetId = event.target.dataset.id; // ✅ 正しいIDの取得
-      document.getElementById("preset-name").textContent = event.target.textContent;
-      document.getElementById("create-schedule-btn").style.display = "block";
-      window.currentPresetId = presetId; // ✅ プリセットIDをグローバル変数に保存
-
-      // ✅ プリセットIDを利用して予定を取得して表示
-      fetchPresetEvents(presetId);
-    }
-  });
-
-  // 右クリックメニューを閉じる
-  document.addEventListener("click", function () {
-    contextMenu.style.display = "none";
-  });
 
   // 時間選択肢を生成する関数
   function generateTimeOptions(selectId) {
