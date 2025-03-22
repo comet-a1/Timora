@@ -47,6 +47,17 @@ class PresetEventsController < ApplicationController
     end
   end
 
+  # ✅ 予定の削除
+  def destroy
+    @preset_event = PresetEvent.find(params[:id])
+
+    if @preset_event.destroy
+      head :no_content
+    else
+      render json: { error: "削除に失敗しました" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def preset_event_params

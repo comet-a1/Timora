@@ -188,39 +188,124 @@ document.addEventListener('DOMContentLoaded', function () {
     morningContainer.innerHTML = "";
     afternoonContainer.innerHTML = "";
   
-    // 午前の予定の表示
+    // ✅ 午前の予定の表示
     if (morningEvents.length === 0) {
       morningContainer.innerHTML = "<p>午前の予定はありません。</p>";
     } else {
       morningEvents.forEach((event) => {
-        const formattedStartTime = formatTime(event.start_time);
-        const formattedEndTime = formatTime(event.end_time);
-  
-        const eventItem = document.createElement("div");
-        eventItem.classList.add("preset-event-item");
-        eventItem.innerHTML = `
-          <p>${formattedStartTime}～${formattedEndTime}　${event.title}</p>
-        `;
+        const eventItem = createEventElement(event, "morning"); // ✅ 予定アイテム作成
         morningContainer.appendChild(eventItem);
       });
     }
   
-    // 午後の予定の表示
+    // ✅ 午後の予定の表示
     if (afternoonEvents.length === 0) {
       afternoonContainer.innerHTML = "<p>午後の予定はありません。</p>";
     } else {
       afternoonEvents.forEach((event) => {
-        const formattedStartTime = formatTime(event.start_time);
-        const formattedEndTime = formatTime(event.end_time);
-  
-        const eventItem = document.createElement("div");
-        eventItem.classList.add("preset-event-item");
-        eventItem.innerHTML = `
-          <p>${formattedStartTime}～${formattedEndTime}　${event.title}</p>
-        `;
+        const eventItem = createEventElement(event, "afternoon"); // ✅ 予定アイテム作成
         afternoonContainer.appendChild(eventItem);
       });
     }
+  }
+
+  // ✅ 予定アイテムを作成する関数（右クリックイベント付き）
+  function createEventElement(event, period) {
+    const formattedStartTime = formatTime(event.start_time);
+    const formattedEndTime = formatTime(event.end_time);
+
+    const eventItem = document.createElement("div");
+    eventItem.classList.add("preset-event-item");
+    eventItem.dataset.id = event.id;
+    eventItem.dataset.title = event.title;
+    eventItem.dataset.startTime = event.start_time;
+    eventItem.dataset.endTime = event.end_time;
+    eventItem.dataset.period = period; // ✅ 午前・午後の区別
+
+    eventItem.innerHTML = `
+      <p>${formattedStartTime}～${formattedEndTime}　${event.title}</p>
+    `;
+
+    // ✅ 右クリックで context-menu を表示
+    eventItem.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+      showContextMenu(e, eventItem);
+    });
+
+    return eventItem;
+  }
+
+  // ✅ context-menu を表示する関数
+  function showContextMenu(event, eventItem) {
+    const contextMenu = document.getElementById("context-menu");
+
+    // メニューの位置をマウス位置にセット
+    contextMenu.style.top = `${event.clientY}px`;
+    contextMenu.style.left = `${event.clientX}px`;
+    contextMenu.style.display = "block";
+
+    // ✅ 選択した予定情報を保持
+    window.selectedEvent = {
+      id: eventItem.dataset.id,
+      title: eventItem.dataset.title,
+      startTime: eventItem.dataset.startTime,
+      endTime: eventItem.dataset.endTime,
+      period: eventItem.dataset.period,
+      element: eventItem,
+    };
+  }
+
+  // ✅ context-menu を閉じる
+  function closeContextMenu() {
+    document.getElementById("context-menu").style.display = "none";
+  }
+
+  // ✅ 画面のどこかをクリックすると context-menu を閉じる
+  document.addEventListener("click", function () {
+    closeContextMenu();
+  });
+
+  // ✅ 予定の削除ボタンクリック時の処理
+  document.getElementById("delete-event").addEventListener("click", function () {
+    const selectedEvent = window.selectedEvent;
+    if (!selectedEvent) return;
+  
+    // ✅ サーバーに preset_event 削除リクエストを送信
+    fetch(`/preset_events/${selectedEvent.id}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // ✅ 予定の表示から削除
+          selectedEvent.element.remove();
+        } else {
+          alert("予定の削除に失敗しました。");
+        }
+      })
+      .catch((error) => {
+        console.error("削除エラー:", error);
+      });
+  
+    // ✅ context-menu を閉じる
+    closeContextMenu();
+  });
+
+  // ✅ 編集モーダルを開く関数
+  function openEditModal(eventData) {
+    // ✅ フォームの初期値に既存のデータをセット
+    document.getElementById("schedule-title").value = eventData.title;
+    document.getElementById("start-time").value = eventData.start_time;
+    document.getElementById("end-time").value = eventData.end_time;
+
+    // ✅ 編集モードフラグをセット
+    window.isEditing = true;
+    window.editEventId = eventData.id;
+
+    // ✅ 予定作成モーダルを開く
+    openModal(scheduleModal);
   }
   
   // プリセット削除ボタンのクリック処理
