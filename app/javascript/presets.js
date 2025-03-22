@@ -117,7 +117,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 予定作成ボタンの処理
   createScheduleBtn.addEventListener("click", function () {
-    openModal(scheduleModal);
+    if (window.isEditing) {
+      // ✅ 編集時：モーダルは開かず、既存データをセット
+      openEditModal(window.selectedEvent);
+    } else {
+      // ✅ 新規作成：フォームをリセットしてモーダルを開く
+      resetScheduleForm();
+      openModal(scheduleModal);
+    }
   });
 
   // 予定作成モーダルを閉じる
@@ -138,7 +145,20 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
   
-    // AJAXで予定を保存
+    // ✅ 編集 or 新規作成の判定
+    if (window.isEditing) {
+      updatePresetEvent(window.editEventId, title, startTime, endTime);
+    } else {
+      createPresetEvent(title, startTime, endTime);
+    }
+  
+    // ✅ フラグリセット
+    window.isEditing = false;
+    window.editEventId = null;
+  });
+
+  // ✅ 新規予定作成
+  function createPresetEvent(title, startTime, endTime) {
     fetch("/preset_events", {
       method: "POST",
       headers: {
@@ -154,19 +174,49 @@ document.addEventListener('DOMContentLoaded', function () {
         },
       }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.success) {
           closeModal(scheduleModal);
-          fetchPresetEvents(selectedPresetId); // 予定の再取得＆表示
+          fetchPresetEvents(selectedPresetId); // ✅ 予定の再取得
         } else {
-          alert("エラーが発生しました。");
+          alert("予定の作成に失敗しました。");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("予定作成エラー:", error);
       });
-  });
+  }
+
+  // ✅ 予定の更新
+  function updatePresetEvent(eventId, title, startTime, endTime) {
+    fetch(`/preset_events/${eventId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+      body: JSON.stringify({
+        preset_event: {
+          title: title,
+          start_time: startTime,
+          end_time: endTime,
+        },
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          closeModal(scheduleModal);
+          fetchPresetEvents(selectedPresetId); // ✅ 予定の再取得
+        } else {
+          alert("予定の更新に失敗しました。");
+        }
+      })
+      .catch((error) => {
+        console.error("予定更新エラー:", error);
+      });
+  }
 
   // 予定を取得して表示する関数
   function fetchPresetEvents(presetId) {
@@ -293,9 +343,32 @@ document.addEventListener('DOMContentLoaded', function () {
     closeContextMenu();
   });
 
-  // ✅ 編集モーダルを開く関数
+  // ✅ 予定の編集ボタンクリック時の処理
+  document.getElementById("edit-event").addEventListener("click", function () {
+    const selectedEvent = window.selectedEvent;
+    if (!selectedEvent) return;
+  
+    // ✅ 編集モーダルを開く
+    openEditModal({
+      id: selectedEvent.id,
+      title: selectedEvent.title,
+      startTime: selectedEvent.startTime,
+      endTime: selectedEvent.endTime,
+    });
+  
+    closeContextMenu(); // ✅ context-menu を閉じる
+  });
+
+  // ✅ ISO形式を "HH:mm" に変換する関数
+  function formatToTimeString(isoString) {
+    const date = new Date(isoString);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`; // 例: "09:15"
+  }
+
+  // ✅ 編集モーダルを開く関数（修正済み）
   function openEditModal(eventData) {
-    // ✅ フォームの初期値に既存のデータをセット
     document.getElementById("schedule-title").value = eventData.title;
     document.getElementById("start-time").value = eventData.start_time;
     document.getElementById("end-time").value = eventData.end_time;

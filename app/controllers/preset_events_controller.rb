@@ -58,6 +58,17 @@ class PresetEventsController < ApplicationController
     end
   end
 
+  # ✅ 予定更新処理
+  def update
+    @preset_event = PresetEvent.find(params[:id])
+
+    if @preset_event.update(preset_event_params)
+      render json: { success: true }
+    else
+      render json: { success: false, errors: @preset_event.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def preset_event_params
