@@ -54,6 +54,7 @@
           <label for="preset-name-input">プリセット名</label>
           <input type="text" id="preset-name-input" name="preset[name]" required>
           <button type="submit">作成</button>
+          <button type="button" id="cancel-btn">キャンセル</button>
         </form>
       </div>
     </div>
@@ -61,9 +62,9 @@
     <ul class="preset-list" id="preset-list">
       <% if @presets.any? %>
         <% @presets.each do |preset| %>
-          <div class="preset-item" data-id="<%= preset.id %>">
+          <li class="preset-item" data-id="<%= preset.id %>">
             <%= preset.name %>
-          </div>
+          </li>
         <% end %>
       <% else%>
         <p>プリセットがありません。</p>

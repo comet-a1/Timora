@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
     closeModal(presetModal);
   });
 
+  document.getElementById('cancel-btn').addEventListener('click', function () {
+    closeModal(presetModal);  // モーダルを閉じる関数を呼び出す
+  });
+
   // フォーム送信時の処理（プリセット作成）
   presetForm.addEventListener("submit", function (event) {
     event.preventDefault(); // デフォルトの送信を防止
@@ -71,56 +75,41 @@ document.addEventListener('DOMContentLoaded', function () {
         preset: { name: presetName }
       })
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        closeModal(presetModal);
-        addPresetToList(data.preset);
-        presetForm.reset();
-      } else {
-        alert("プリセットの作成に失敗しました。");
-      }
-    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          closeModal(presetModal);;
+          addPresetToList(data.preset);
+          presetForm.reset();
+        } else {
+          alert("プリセットの作成に失敗しました。");
+        }
+      })
   });
 
   // プリセットをリストに追加
   function addPresetToList(preset) {
+    const presetList = document.getElementById("preset-list"); // プリセットリストの親要素
     const existingPreset = document.querySelector(`.preset-item[data-id="${preset.id}"]`);
     if (!existingPreset) {
-      const div = document.createElement("div");
-      div.classList.add("preset-item");
-      div.textContent = preset.name;
-      div.dataset.id = preset.id;
+      const li = document.createElement("li");
+      li.classList.add("preset-item");
+      li.textContent = preset.name;
+      li.dataset.id = preset.id;
 
       // プリセット選択時の処理
-      div.addEventListener("click", function () {
-        selectedPresetId = preset.id;  // 選択されたプリセットのIDを保持
+      li.addEventListener("click", function () {
+        selectedPresetId = preset.id;
         presetNameHeading.textContent = preset.name;
         createScheduleBtn.style.display = "block";
         deletePresetBtn.style.display = "block";
         fetchPresetEvents(preset.id); // 予定の取得
       });
 
-      presetList.appendChild(div);
+      const presetList = document.getElementById("preset-list");
+      presetList.appendChild(li); // <ul> に <li> を追加
     }
   }
-
-  // 初回読み込み時にプリセットを表示
-  function loadPresets() {
-    // すでにHTML側で表示されているプリセットをJavaScript側で処理
-    const presetItems = document.querySelectorAll('.preset-item');
-    presetItems.forEach(item => {
-      item.addEventListener('click', function () {
-        selectedPresetId = item.dataset.id;  // クリックしたプリセットのIDを取得
-        presetNameHeading.textContent = item.textContent;
-        createScheduleBtn.style.display = "block";
-        deletePresetBtn.style.display = "block";
-        fetchPresetEvents(item.dataset.id); // 予定を取得
-      });
-    });
-  }
-
-  loadPresets(); // 初回読み込み実行
 
   // 予定作成ボタンの処理
   createScheduleBtn.addEventListener("click", function () {
@@ -498,4 +487,21 @@ document.addEventListener('DOMContentLoaded', function () {
   // 開始時間と終了時間の選択肢を生成
   generateTimeOptions('start-time');
   generateTimeOptions('end-time');
+
+  // 初回読み込み時にプリセットを表示
+  function loadPresets() {
+    // すでにHTML側で表示されているプリセットをJavaScript側で処理
+    const presetItems = document.querySelectorAll('.preset-item');
+    presetItems.forEach(item => {
+      item.addEventListener('click', function () {
+        selectedPresetId = item.dataset.id;  // クリックしたプリセットのIDを取得
+        presetNameHeading.textContent = item.textContent;
+        createScheduleBtn.style.display = "block";
+        deletePresetBtn.style.display = "block";
+        fetchPresetEvents(item.dataset.id); // 予定を取得
+      });
+    });
+  }
+
+  loadPresets(); // 初回読み込み実行
 });

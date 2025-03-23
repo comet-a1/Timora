@@ -13,9 +13,9 @@ class PresetsController < ApplicationController
     @preset.user_id = current_user.id
   
     if @preset.save
-      render json: { success: true, message: "プリセットが保存されました" }
+      render json: { success: true, preset: { id: @preset.id, name: @preset.name } }, status: :created
     else
-      render json: { success: false, message: "プリセットの保存に失敗しました", errors: @preset.errors.full_messages }
+      render json: { success: false, message: 'プリセットの作成に失敗しました' }, status: :unprocessable_entity
     end
   end
 
