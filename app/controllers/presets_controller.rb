@@ -3,6 +3,7 @@ class PresetsController < ApplicationController
 
   def index
     @presets = current_user.presets
+    @preset_events = current_user.preset_events
     @presets =Preset.all
     render json: { presets: @presets }
   end

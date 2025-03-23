@@ -19,13 +19,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 予定作成モーダルを開いた場合はリセット
     if (modal === scheduleModal) {
-      resetScheduleForm(); // ここでリセット
+      // resetScheduleForm(); // ここでリセット
     }
   }
 
   // 予定作成フォームのリセット
   function resetScheduleForm() {
-    document.getElementById("schedule-form").reset(); // フォームリセット
+    console.log("✅ 新規作成時にフォームリセットが実行されました！");
+    document.getElementById("schedule-title").value = ""; // タイトルをリセット
+    document.getElementById("start-time").innerHTML = "";
+    document.getElementById("end-time").innerHTML = "";
+
+    // ✅ 開始時間と終了時間の再生成
+    generateTimeOptions("start-time");
+    generateTimeOptions("end-time");
   }
 
   function closeModal(modal) {
@@ -117,14 +124,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 予定作成ボタンの処理
   createScheduleBtn.addEventListener("click", function () {
-    if (window.isEditing) {
-      // ✅ 編集時：モーダルは開かず、既存データをセット
-      openEditModal(window.selectedEvent);
-    } else {
-      // ✅ 新規作成：フォームをリセットしてモーダルを開く
-      resetScheduleForm();
-      openModal(scheduleModal);
-    }
+    console.log("✅ 新規作成モードへ切り替え");
+    window.isEditing = false; // ✅ 新規作成モード
+    window.editEventId = null; // ✅ 編集IDリセット
+    window.selectedEvent = null; // ✅ 前回の選択イベントリセット
+
+    resetScheduleForm(); // ✅ 新規作成時はフォームリセット
+    openModal(scheduleModal); // ✅ モーダルを開く
   });
 
   // 予定作成モーダルを閉じる
@@ -369,16 +375,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ✅ 編集モーダルを開く関数（修正済み）
   function openEditModal(eventData) {
-    document.getElementById("schedule-title").value = eventData.title;
-    document.getElementById("start-time").value = eventData.start_time;
-    document.getElementById("end-time").value = eventData.end_time;
-
-    // ✅ 編集モードフラグをセット
+    console.log("受信したデータ:", eventData); // ✅ デバッグ
+    openModal(scheduleModal); // ✅ モーダルを開く
+  
+    // ✅ 編集データをフォームにセット
+    document.getElementById("schedule-title").value = eventData.title || "";
+    document.getElementById("start-time").innerHTML = "";
+    document.getElementById("end-time").innerHTML = "";
+  
+    // ✅ 時間選択肢を再生成
+    generateTimeOptions("start-time");
+    generateTimeOptions("end-time");
+  
+    // ✅ 開始時間と終了時間のセット
+    document.getElementById("start-time").value = formatToTimeString(eventData.startTime);
+    document.getElementById("end-time").value = formatToTimeString(eventData.endTime);
+  
+    // ✅ 編集モード有効化
     window.isEditing = true;
     window.editEventId = eventData.id;
+    window.selectedEvent = eventData; // ✅ 選択されたイベントを保持
+  }
 
-    // ✅ 予定作成モーダルを開く
-    openModal(scheduleModal);
+  // ✅ データ取得処理
+  function fetchPresetEvent(eventId) {
+    fetch(`/preset_events/${eventId}`) // ✅ 正しいshowアクション
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.title) {
+          openEditModal(data); // ✅ 取得したデータでモーダルを開く
+        } else {
+          console.error("データが取得できませんでした:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("予定データ取得エラー:", error);
+      });
   }
   
   // プリセット削除ボタンのクリック処理

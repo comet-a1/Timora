@@ -189,14 +189,35 @@ h3 {
   cursor: pointer;
 }
 
-/* モーダル内のタイトル */
+/* モーダルのスタイル */
+#schedule-modal {
+  display: none;  /* デフォルトで非表示 */
+  position: fixed;
+  z-index: 1000;  /* 他のコンテンツの上に表示 */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);  /* 背景を半透明に */
+  justify-content: center;
+  align-items: center;
+}
+
+/* モーダルのコンテンツ */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px;
+  margin: auto;
+}
+
 #schedule-modal h3 {
   margin: 0;
   padding-bottom: 10px;
   font-size: 1.5rem;
 }
 
-/* フォームのスタイル */
 #schedule-modal input[type="text"],
 #schedule-modal input[type="time"] {
   width: 100%;
@@ -207,7 +228,6 @@ h3 {
   font-size: 1rem;
 }
 
-/* ボタンのスタイル */
 #schedule-modal button {
   padding: 10px 20px;
   background-color: lightskyblue;
@@ -219,8 +239,6 @@ h3 {
   transition: background-color 0.3s;
 }
 
-
-/* ボタンホバー時のエフェクト */
 #schedule-modal button:hover {
   background-color: aquamarine;
 }

@@ -58,12 +58,35 @@ class PresetEventsController < ApplicationController
     end
   end
 
+  def show
+    @preset_event = PresetEvent.find(params[:id])
+  
+    # ✅ 期待するデータ形式で返す
+    render json: {
+      id: @preset_event.id,
+      title: @preset_event.title, # ✅ title を含める
+      start_time: @preset_event.start_time.strftime("%H:%M"), # ✅ 時刻のみ
+      end_time: @preset_event.end_time.strftime("%H:%M"),     # ✅ 時刻のみ
+      preset_id: @preset_event.preset_id
+    }
+  end
+
   # ✅ 予定更新処理
   def update
     @preset_event = PresetEvent.find(params[:id])
-
+  
     if @preset_event.update(preset_event_params)
-      render json: { success: true }
+      # ✅ 更新後のデータを返す
+      render json: {
+        success: true,
+        preset_event: {
+          id: @preset_event.id,
+          title: @preset_event.title,
+          start_time: @preset_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+          end_time: @preset_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+          preset_id: @preset_event.preset_id
+        }
+      }
     else
       render json: { success: false, errors: @preset_event.errors.full_messages }, status: :unprocessable_entity
     end
