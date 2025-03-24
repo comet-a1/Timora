@@ -20,13 +20,11 @@ Rails.application.routes.draw do
 
   resources :memos
 
-  resources :presets do
-    member do
-      get 'preset_events'  # プリセットに関連するイベントを取得
-    end
-  end
+  resources :presets
 
   resources :preset_events
+
+  resources :applied_events
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

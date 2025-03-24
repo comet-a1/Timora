@@ -45,10 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // モーダルを開くボタン
   const openPresetBtn = document.getElementById("open-preset-btn");
-  const applyPresetModal = document.getElementById("apply-preset-modal");
-  const presetSelect = document.getElementById("preset");
-  const applyPresetBtn = document.getElementById("apply-preset-btn");
-  const dateInput = document.getElementById("date");
+  const applyModal = document.getElementById("apply-modal");
+  const presetSelect = document.getElementById("apply-preset");
+  const dateInput = document.getElementById("apply-date");
 
   // ボタンをクリックしたときにモーダルを表示
   openPresetBtn.addEventListener("click", function () {
@@ -75,13 +74,58 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch(error => console.error('プリセットの読み込みエラー:', error));
-  
-    // モーダルを表示
-    applyPresetModal.style.display = "flex"; // モーダルを表示する
+
+  // モーダルを表示
+    applyModal.style.display = "flex"; // モーダルを表示する
   });
 
   // モーダルを閉じる関数
-  window.closeApplyPresetModal = function() {
-    applyPresetModal.style.display = "none";
+  window.closeApplyModal = function() {
+    applyModal.style.display = "none";
   };
+
+  document.getElementById("apply-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+  
+    const date = document.getElementById("apply-date").value;
+    const presetId = document.getElementById("apply-preset").value;
+  
+    // ✅ AJAXで適用リクエスト
+    fetch("/applied_events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+      body: JSON.stringify({
+        applied_event: {
+          preset_id: presetId,
+          date: date,
+        },
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Returned data:", data);
+        if (data.success) {
+          const newEvent = {
+            title: data.event.title,
+            start: data.event.start_time, // FullCalendarが要求する形式で調整
+            end: data.event.end_time,
+          };
+          console.log("New event data:", newEvent);
+
+          // FullCalendarインスタンスにイベントを追加
+          const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {});
+          calendar.addEvent(newEvent);
+
+          closeApplyModal();
+        } else {
+          alert("適用に失敗しました。");
+        }
+      })
+      .catch((error) => {
+        console.error("適用エラー:", error);
+      });
+  });
 });

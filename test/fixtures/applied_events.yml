@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  preset: one
+  user: one
+  date: 2025-03-24
+
+two:
+  preset: two
+  user: two
+  date: 2025-03-24

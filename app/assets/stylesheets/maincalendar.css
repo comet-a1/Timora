@@ -68,7 +68,7 @@
   background-color: #777;
 }
 
-#apply-preset-modal {
+#apply-modal {
   display: none;  /* デフォルトで非表示 */
   position: fixed;
   z-index: 1000;

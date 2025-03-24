@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timora - スケジュール管理アプリ</title>
-
-  
 </head>
 <body>
   <div class="container schedule-container">
@@ -71,21 +69,21 @@
 </body>
 </html>
 
-<div id="apply-preset-modal" style="display:none;">
+<div id="apply-modal" class="modal">
   <div class="modal-content">
-    <h3>プリセットを選択</h3>
-    <div class="calendar-date-wrapper">
-      <label for="date">日付:</label>
-      <input type="date" id="date" class="form-control">
-    </div>
-    <div class="calendar-preset-wrapper">
-      <label for="preset">プリセットを選択:</label>
-      <select id="preset" class="form-control">
-        <option value="">選択してください</option>
-        <!-- プリセットオプションを動的に追加 -->
+    <span class="close-btn" onclick="closeApplyModal()">&times;</span>
+    <h2>プリセットを適用</h2>
+    <form id="apply-form">
+      <label for="apply-date">日付を選択:</label>
+      <input type="date" id="apply-date" required>
+
+      <label for="apply-preset">プリセットを選択:</label>
+      <select id="apply-preset" required>
+        <!-- プリセット一覧 -->
       </select>
-    </div>
-    <button type="button" id="apply-preset-btn">適用</button>
-    <button type="button" onclick="closeApplyPresetModal()">キャンセル</button>
+
+      <button type="submit">適用</button>
+      <button type="button" onclick="closeApplyModal()">キャンセル</button>
+    </form>
   </div>
 </div>
