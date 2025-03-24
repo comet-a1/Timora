@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
+  // カレンダーインスタンスをグローバルに保持
+  window.calendar = calendar;
+
   calendar.render();
 
   // ✅ 他のスクリプトから呼び出せるようにグローバル関数として登録
@@ -75,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch(error => console.error('プリセットの読み込みエラー:', error));
 
-  // モーダルを表示
+    // モーダルを表示
     applyModal.style.display = "flex"; // モーダルを表示する
   });
 
@@ -106,22 +109,34 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Returned data:", data);
-        if (data.success) {
+        console.log("Returned data:", data); // データの確認
+        if (data.success && Array.isArray(data.event) && data.event.length > 0) {
+          // イベントが配列で、かつ要素がある場合
+          const event = data.event[0];
+  
+          // 新しいイベントデータの作成
           const newEvent = {
-            title: data.event.title,
-            start: data.event.start_time, // FullCalendarが要求する形式で調整
-            end: data.event.end_time,
+            title: event.title, // 正しいタイトル
+            start: event.start_time, // 正しい開始時刻
+            end: event.end_time, // 正しい終了時刻
           };
-          console.log("New event data:", newEvent);
-
-          // FullCalendarインスタンスにイベントを追加
-          const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {});
-          calendar.addEvent(newEvent);
-
-          closeApplyModal();
+          console.log("New event data:", newEvent); // イベントデータの確認
+  
+          // グローバルに保持されているcalendarインスタンスに新しいイベントを追加
+          if (window.calendar) {
+            // 新しいイベントをカレンダーに追加
+            window.calendar.addEvent(newEvent);
+  
+            // カレンダーのイベントデータを再取得して再描画
+            window.calendar.refetchEvents();
+  
+            // モーダルを閉じる
+            closeApplyModal();
+          } else {
+            console.error("FullCalendarインスタンスが見つかりません。");
+          }
         } else {
-          alert("適用に失敗しました。");
+          alert("適用に失敗しました。データが正しくありません。");
         }
       })
       .catch((error) => {
