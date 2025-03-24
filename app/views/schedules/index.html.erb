@@ -46,6 +46,10 @@
         <div class="calendar-block">
           <!-- カレンダー表示 -->
           <div id="calendar"></div>
+          <!-- ✅ タスクバー (ロゴボタン) -->
+          <div id="taskbar">
+            <button id="open-preset-btn" >🎨</button>
+          </div>
         </div>
       </div>
 
@@ -66,3 +70,22 @@
   </div>
 </body>
 </html>
+
+<div id="apply-preset-modal" style="display:none;">
+  <div class="modal-content">
+    <h3>プリセットを選択</h3>
+    <div class="calendar-date-wrapper">
+      <label for="date">日付:</label>
+      <input type="date" id="date" class="form-control">
+    </div>
+    <div class="calendar-preset-wrapper">
+      <label for="preset">プリセットを選択:</label>
+      <select id="preset" class="form-control">
+        <option value="">選択してください</option>
+        <!-- プリセットオプションを動的に追加 -->
+      </select>
+    </div>
+    <button type="button" id="apply-preset-btn">適用</button>
+    <button type="button" onclick="closeApplyPresetModal()">キャンセル</button>
+  </div>
+</div>

@@ -3,7 +3,6 @@ class PresetsController < ApplicationController
 
   def index
     @presets = current_user.presets
-    @preset_events = current_user.preset_events
     @presets =Preset.all
     render json: { presets: @presets }
   end
@@ -27,6 +26,23 @@ class PresetsController < ApplicationController
     else
       render json: { error: "Failed to delete preset" }, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @preset = current_user.presets.find(params[:id])
+    @events = @preset.preset_events
+    render json: @events
+  end
+
+  def preset_events
+    # プリセットIDを取得
+    preset = current_user.presets.find(params[:id])
+
+    # プリセットに関連するイベントを取得
+    events = preset.preset_events
+
+    # JSONで返す
+    render json: events
   end
 
   private
