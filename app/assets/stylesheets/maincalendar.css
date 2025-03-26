@@ -63,6 +63,10 @@
   font-size: 30px;
 }
 
+#taskbar button#new-event-btn {
+  font-size: 30px;
+}
+
 /* ✅ ボタンホバー時のエフェクト */
 #taskbar button:hover {
   background-color: #777;

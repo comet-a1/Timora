@@ -46,6 +46,12 @@ document.addEventListener("DOMContentLoaded", function () {
     calendar.addEvent(eventData);
   };
 
+  // ✅ 新規イベント作成ボタンのクリックイベント
+  document.getElementById("new-event-btn").addEventListener("click", function () {
+    // ✅ Railsのnew_schedule_pathに遷移
+    window.location.href = "/schedules/new"; // `new_schedule_path` に対応するパス
+  });
+
   // モーダルを開くボタン
   const openPresetBtn = document.getElementById("open-preset-btn");
   const applyModal = document.getElementById("apply-modal");

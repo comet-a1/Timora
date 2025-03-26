@@ -10,14 +10,12 @@
     <div class="sidebar schedule-sidebar">
       <h1 class="logo rainbow-text">Timora</h1>
 
-      <!-- 切り替えボタン -->
-      <div class="toggle-buttons">
-        <button id="show-calendar" class="toggle-btn active">カレンダー</button>
-        <button id="show-memo" class="toggle-btn">メモ</button>
-      </div>
-
       <div class="mini-calendar">
         <div id="mini-calendar"></div>  <!-- ✅ ここがあるか確認 -->
+      </div>
+
+      <div class="calendar-buttons">
+        <button id="show-calendar" class="toggle-btn active">カレンダー</button>
       </div>
 
       <!-- プリセット作成ボタン -->
@@ -25,7 +23,9 @@
         <button id="show-presets" class="toggle-btn">プリセット作成</button>
       </div>
 
-      <%= link_to '新規イベント作成', new_schedule_path, class: 'btn btn-primary' %>
+      <div class="memo-buttons">
+        <button id="show-memo" class="toggle-btn">メモ</button>
+      </div>
 
       <div class="settings">
         <div class="profile-section">
@@ -46,6 +46,7 @@
           <div id="calendar"></div>
           <!-- ✅ タスクバー (ロゴボタン) -->
           <div id="taskbar">
+            <button id="new-event-btn">📝</button>
             <button id="open-preset-btn" >🎨</button>
           </div>
         </div>

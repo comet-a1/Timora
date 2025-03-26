@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ✅ context-menu を表示する関数
   function showContextMenu(event, eventItem) {
-    const contextMenu = document.getElementById("context-menu");
+    const contextMenu = document.getElementById("preset-context-menu");
 
     // メニューの位置をマウス位置にセット
     contextMenu.style.top = `${event.clientY}px`;
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ✅ context-menu を閉じる
   function closeContextMenu() {
-    document.getElementById("context-menu").style.display = "none";
+    document.getElementById("preset-context-menu").style.display = "none";
   }
 
   // ✅ 画面のどこかをクリックすると context-menu を閉じる
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ✅ 予定の削除ボタンクリック時の処理
-  document.getElementById("delete-event").addEventListener("click", function () {
+  document.getElementById("delete-preset").addEventListener("click", function () {
     const selectedEvent = window.selectedEvent;
     if (!selectedEvent) return;
   
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ✅ 予定の編集ボタンクリック時の処理
-  document.getElementById("edit-event").addEventListener("click", function () {
+  document.getElementById("edit-preset").addEventListener("click", function () {
     const selectedEvent = window.selectedEvent;
     if (!selectedEvent) return;
   
