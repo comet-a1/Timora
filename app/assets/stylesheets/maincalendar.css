@@ -72,6 +72,14 @@
   background-color: #777;
 }
 
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px;
+  margin: auto;
+}
+
 #apply-modal {
   display: none;  /* デフォルトで非表示 */
   position: fixed;
@@ -85,10 +93,98 @@
   align-items: center;
 }
 
-.modal-content {
+#event-modal {
+  display: none; /* ✅ 初期は非表示 */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.event-modal-content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  width: 350px;
+  width: 500px;
   margin: auto;
+}
+
+/* 見出しのスタイル */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* フォーム全体のスタイル */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ラベルのスタイル */
+label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* 入力フィールドのスタイル */
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 説明文のスタイル */
+textarea {
+  resize: none;  /* 縦横ともにリサイズ禁止 */
+  height: 100px;
+}
+
+/* 横並びにするために flexbox を使用 */
+.time-wrapper {
+  display: flex;
+  justify-content: space-between;  /* 各要素を均等に配置 */
+  gap: 15px;  /* 各要素の間隔を調整 */
+  margin-bottom: 15px;
+  align-items: center;  /* 縦中央に揃える */
+}
+
+/* 各要素（ラベルと入力フィールド）のスタイル調整 */
+.date-wrapper,
+.start-time-wrapper,
+.end-time-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* ラベルを上に配置 */
+  flex: 1;
+}
+
+/* 時間の「~」のスタイル */
+.time-separator {
+  font-size: 18px;
+  display: inline-block; /* インラインブロックにして高さを設定できるようにする */
+  height: 10px;  /* 高さを指定（変更したい値に調整） */
+  line-height: 30px; /* 高さを指定した分、文字が縦中央に配置される */
+  text-align: center;  /* 横方向中央に配置 */
+}
+
+.button-wrapper {
+  display: inline-block;
+}
+
+button {
+  display: inline-block;
+  margin-right: 10px; /* ボタン間のスペースを追加 */
 }

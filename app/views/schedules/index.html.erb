@@ -88,3 +88,43 @@
     </form>
   </div>
 </div>
+
+<div id="event-modal" class="modal">
+  <div class="event-modal-content">
+    <span class="close-btn" onclick="closeEventModal()">&times;</span>
+    <h2>予定を作成</h2>
+    <form id="event-form">
+      <label for="event-title">タイトル:</label>
+      <input type="text" id="event-title" name="title" required />
+
+      <div class="time-wrapper">
+        <!-- 日付入力 -->
+        <div class="date-wrapper">
+          <label for="event-date">日付:</label>
+          <input type="date" id="event-date" name="date" required />
+        </div>
+
+        <!-- 時間入力 -->
+        <div class="start-time-wrapper">
+          <label for="event-start-time">開始時間:</label>
+          <select id="event-start-time" required></select>
+        </div>
+
+          <span class="time-separator">～</span>
+
+        <div class="end-time-wrapper">
+          <label for="event-end-time">終了時間:</label>
+          <select id="event-end-time" required></select>
+        </div>
+      </div>
+
+      <label for="event-description">説明 (任意):</label>
+      <textarea id="event-description" name="description"></textarea>
+
+      <div class="button-wrapper">
+        <button type="submit">予定を保存</button>
+        <button type="button" onclick="closeEventModal()">キャンセル</button>
+      </div>
+    </form>
+  </div>
+</div>

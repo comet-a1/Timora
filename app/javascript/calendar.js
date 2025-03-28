@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM読み込み完了！");
   let calendarEl = document.getElementById("calendar"); // メインカレンダー
 
   // ✅ メインカレンダーの表示
@@ -46,13 +47,92 @@ document.addEventListener("DOMContentLoaded", function () {
     calendar.addEvent(eventData);
   };
 
-  // ✅ 新規イベント作成ボタンのクリックイベント
+
+  // ✅ 予定作成モーダルの要素
+  const eventModal = document.getElementById("event-modal");
+  const newEventBtn = document.getElementById("new-event-btn");
+  const closeEventModalBtn = document.getElementById("close-modal");
+  const eventForm = document.getElementById("event-form");
+
+  // ✅ モーダルの閉会関数
+  function openModal(modal) {
+    modal.style.display = "flex"; // ✅ 引数modalを正しく使用
+  }
+
+  function closeModal(modal) {
+    modal.style.display = "none";
+    eventForm.reset(); // ✅ フォームリセット
+  }
+
   document.getElementById("new-event-btn").addEventListener("click", function () {
-    // ✅ Railsのnew_schedule_pathに遷移
-    window.location.href = "/schedules/new"; // `new_schedule_path` に対応するパス
+    console.log("ボタンクリックされました！"); // ✅ デバッグ用
+    openModal(eventModal);
   });
 
-  // モーダルを開くボタン
+  // ✅ 新規予定作成ボタンのクリックイベント
+  document.getElementById('cancel-btn').addEventListener('click', function () {
+    closeModal(eventModal);  // モーダルを閉じる関数を呼び出す
+  });
+
+  // ✅ 予定作成フォームの送信処理
+  eventForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // ✅ フォームデータ取得
+    const formData = {
+      title: document.getElementById("event-title").value,
+      date: document.getElementById("event-date").value,
+      start_time: document.getElementById("event-start-time").value,
+      end_time: document.getElementById("event-end-time").value,
+      description: document.getElementById("event-description").value,
+    };
+
+    // ✅ POSTリクエストで予定作成
+    fetch("/schedules", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+      body: JSON.stringify({ event: formData }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("予定の作成に失敗しました。");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("新しい予定:", data);
+        alert("予定が作成されました！");
+
+        // ✅ カレンダーを更新して新しいイベントを表示
+        if (window.calendar) {
+          window.calendar.refetchEvents(); // FullCalendarの再描画
+        }
+
+        // ✅ モーダルを閉じる
+        closeModal();
+      })
+      .catch((error) => {
+        console.error("エラー:", error);
+        alert("予定の作成に失敗しました。");
+      });
+  });
+
+  // ✅ モーダル外のクリックで閉じる
+  window.addEventListener("click", function (event) {
+    if (event.target === eventModal) {
+      closeModal();
+    }
+  });
+  // モーダルを閉じる関数
+  window.closeEventModal = function() {
+    eventModal.style.display = "none";
+  };
+
+
+  // preset適用処理
   const openPresetBtn = document.getElementById("open-preset-btn");
   const applyModal = document.getElementById("apply-modal");
   const presetSelect = document.getElementById("apply-preset");
@@ -149,4 +229,36 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("適用エラー:", error);
       });
   });
+
+  function populateTimeOptions(selectElement) {
+    // 開始時間と終了時間
+    const startHour = 0; // 0:00
+    const endHour = 23;  // 23:45 まで
+
+    // 15分刻みで時間生成
+    for (let hour = startHour; hour <= endHour; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        const formattedHour = String(hour).padStart(2, "0");
+        const formattedMinute = String(minute).padStart(2, "0");
+        const timeValue = `${formattedHour}:${formattedMinute}`; // 00:00, 00:15, ...
+        
+        // オプションを作成
+        const option = document.createElement("option");
+        option.value = timeValue;
+        option.textContent = timeValue;
+      
+        // select に追加
+        selectElement.appendChild(option);
+      }
+    }
+  }
+  // 時間選択要素の取得
+  const startTimeSelect = document.getElementById("event-start-time");
+  const endTimeSelect = document.getElementById("event-end-time");
+
+  // 開始時間と終了時間のオプションを生成
+  if (startTimeSelect && endTimeSelect) {
+    populateTimeOptions(startTimeSelect);
+    populateTimeOptions(endTimeSelect);
+  }
 });

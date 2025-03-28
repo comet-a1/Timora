@@ -122,20 +122,3 @@ button:hover {
     grid-template-columns: repeat(5, 1fr);
   }
 }
-
-/* .content {
-  height: 100%; 
-}
-
-.container {
-  display: flex;
-}
-
-.schedule-container {
-  display: flex;
-  width: 100%;
-}
-
-.schedule-sidebar {
-  width: 250px;
-} */

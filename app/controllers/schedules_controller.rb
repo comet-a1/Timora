@@ -18,9 +18,9 @@ class SchedulesController < ApplicationController
   def create
     @event = Event.new(event_params.merge(user_id: current_user.id)) 
     if @event.save
-      redirect_to schedules_path, notice: '予定が作成されました。'
+      render json: { success: true, event: @event }, status: :created
     else
-      render :new, status: :unprocessable_entity
+      render json: { success: false, errors: @event.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
