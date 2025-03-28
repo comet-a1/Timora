@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM読み込み完了！");
   let calendarEl = document.getElementById("calendar"); // メインカレンダー
+  let selectedEvent = null; // ✅ 右クリックされたイベントを保持
 
   // ✅ メインカレンダーの表示
   let calendar = new FullCalendar.Calendar(calendarEl, {
@@ -26,8 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
           failureCallback(error);
         });
     },
-    eventClick: function (info) {
-      alert("イベント: " + info.event.title);
+    eventDidMount: function (info) {
+      info.el.addEventListener("contextmenu", function (event) {
+        event.preventDefault(); // ✅ デフォルトの右クリックメニュー防止
+        selectedEvent = info.event; // ✅ クリックしたイベントを保持
+        showContextMenu(event.pageX, event.pageY); // ✅ カスタムメニューを表示
+      });
     },
   });
 
@@ -87,37 +92,45 @@ document.addEventListener("DOMContentLoaded", function () {
       description: document.getElementById("event-description").value,
     };
 
-    // ✅ POSTリクエストで予定作成
-    fetch("/schedules", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
-      },
-      body: JSON.stringify({ event: formData }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("予定の作成に失敗しました。");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("新しい予定:", data);
-        alert("予定が作成されました！");
+    // ✅ バリデーション（例: 開始時間が終了時間より後の場合）
+    if (formData.start_time >= formData.end_time) {
+      alert("開始時間は終了時間より前にしてください。");
+      return;
+    }
 
-        // ✅ カレンダーを更新して新しいイベントを表示
-        if (window.calendar) {
-          window.calendar.refetchEvents(); // FullCalendarの再描画
-        }
+    // ✅ 予定をサーバーに送信
+    createEvent(formData);
 
-        // ✅ モーダルを閉じる
-        closeModal();
+    function createEvent(formData) {
+      // ✅ POSTリクエストで予定作成
+      fetch("/schedules", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ event: formData }),
       })
-      .catch((error) => {
-        console.error("エラー:", error);
-        alert("予定の作成に失敗しました。");
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("予定の作成に失敗しました。");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("新しい予定:", data);
+          // ✅ カレンダーを更新して新しいイベントを表示
+          if (window.calendar) {
+            window.calendar.refetchEvents(); // FullCalendarの再描画
+          }
+          // ✅ モーダルを閉じる
+          closeEventModal();
+        })
+        .catch((error) => {
+          console.error("エラー:", error);
+          alert("予定の作成に失敗しました。");
+        });
+    }
   });
 
   // ✅ モーダル外のクリックで閉じる
@@ -260,5 +273,90 @@ document.addEventListener("DOMContentLoaded", function () {
   if (startTimeSelect && endTimeSelect) {
     populateTimeOptions(startTimeSelect);
     populateTimeOptions(endTimeSelect);
+  }
+
+  // ✅ コンテキストメニューの要素
+  const contextMenu = document.getElementById("event-context-menu");
+  const editEventBtn = document.getElementById("edit-event");
+  const deleteEventBtn = document.getElementById("delete-event");
+
+  // ✅ コンテキストメニューの表示関数
+  function showContextMenu(x, y) {
+    contextMenu.style.display = "block";
+    contextMenu.style.left = `${x}px`;
+    contextMenu.style.top = `${y}px`;
+  }
+
+  function closeContextMenu() {
+    document.getElementById("event-context-menu").style.display = "none";
+  }
+
+  // ✅ 画面のどこかをクリックすると context-menu を閉じる
+  document.addEventListener("click", function () {
+    closeContextMenu();
+  });
+
+  function hideContextMenu() {
+    contextMenu.style.display = "none";
+  }
+
+  // ✅ クリック時にメニューを閉じる
+  document.addEventListener("click", function (event) {
+    if (!contextMenu.contains(event.target)) {
+      hideContextMenu();
+    }
+  });
+
+  // ✅ 編集ボタンのクリック処理
+  editEventBtn.addEventListener("click", function () {
+    if (selectedEvent) {
+      openEditModal(selectedEvent);
+    }
+    hideContextMenu();
+  });
+
+  // ✅ 編集モーダルを開く関数
+  function openEditModal(event) {
+    document.getElementById("event-title").value = event.title;
+    document.getElementById("event-date").value = event.startStr.split("T")[0];
+    document.getElementById("event-start-time").value = event.startStr.split("T")[1].slice(0, 5);
+    document.getElementById("event-end-time").value = event.endStr.split("T")[1].slice(0, 5);
+    document.getElementById("event-modal").style.display = "flex";
+  }
+
+  // ✅ 削除ボタンのクリック処理
+  deleteEventBtn.addEventListener("click", function () {
+    if (selectedEvent) {
+      console.log("削除対象イベントのID:", selectedEvent.id);
+      if (confirm("この予定を削除しますか？")) {
+        deleteEvent(selectedEvent);
+      }
+    }
+    hideContextMenu();
+  });
+
+  // ✅ イベント削除処理
+  function deleteEvent(event) {
+    console.log("削除対象のイベントID:", event.id); // ✅ イベントID確認
+  
+    // ✅ DELETEリクエストでサーバーに送信
+    fetch(`/schedules/${event.id}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("削除失敗");
+        }
+        // ✅ 成功した場合はカレンダーから削除
+        event.remove(); // ✅ FullCalendarから削除
+        alert("予定を削除しました！");
+      })
+      .catch((error) => {
+        console.error("削除エラー:", error);
+        alert("削除に失敗しました。");
+      });
   }
 });

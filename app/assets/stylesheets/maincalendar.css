@@ -188,3 +188,34 @@ button {
   display: inline-block;
   margin-right: 10px; /* ボタン間のスペースを追加 */
 }
+
+/* コンテキストメニューの基本スタイル */
+.event-context-menu {
+  position: absolute;
+  display: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  width: 120px;
+  border-radius: 5px;
+}
+
+/* メニューリストのスタイル */
+.event-context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 5px 0;
+}
+
+/* メニュー項目 */
+.event-context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* マウスホバー時の背景色 */
+.event-context-menu li:hover {
+  background-color: #f0f0f0;
+}

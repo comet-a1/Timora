@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   root 'posts#index'
   resources :posts
 
-  resources :schedules, only: [:index, :new, :create]
+  resources :schedules
 
   resources :memos
 

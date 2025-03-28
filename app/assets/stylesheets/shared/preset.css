@@ -220,7 +220,7 @@ h3 {
 }
 
 /* ✅ context-menu の基本スタイル */
-.context-menu {
+.preset-context-menu {
   position: absolute;
   display: none;
   background-color: #fff;
@@ -230,17 +230,17 @@ h3 {
   min-width: 120px;
 }
 
-.context-menu ul {
+.preset-context-menu ul {
   list-style-type: none;
   margin: 0;
   padding: 5px 0;
 }
 
-.context-menu li {
+.preset-context-menu li {
   padding: 8px 12px;
   cursor: pointer;
 }
 
-.context-menu li:hover {
+.preset-context-menu li:hover {
   background-color: #f5f5f5;
 }

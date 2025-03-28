@@ -24,6 +24,16 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def destroy
+    @event = Event.find(params[:id])
+
+    if @event.destroy
+      render json: { success: true, message: "削除成功" }
+    else
+      render json: { success: false, error: "削除に失敗しました" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def event_params
