@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM読み込み完了！");
   let calendarEl = document.getElementById("calendar"); // メインカレンダー
   let selectedEvent = null; // ✅ 右クリックされたイベントを保持
+  let isEditing = false;
 
   // ✅ メインカレンダーの表示
   let calendar = new FullCalendar.Calendar(calendarEl, {
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const newEventBtn = document.getElementById("new-event-btn");
   const closeEventModalBtn = document.getElementById("close-modal");
   const eventForm = document.getElementById("event-form");
+  const modalTitle = document.getElementById("event-modal-title"); 
 
   // ✅ モーダルの閉会関数
   function openModal(modal) {
@@ -70,7 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document.getElementById("new-event-btn").addEventListener("click", function () {
-    console.log("ボタンクリックされました！"); // ✅ デバッグ用
+    console.log("新規作成モード");
+    eventForm.reset();
+    modalTitle.textContent = "予定を作成";
+    isEditing = false;
     openModal(eventModal);
   });
 
@@ -79,10 +84,10 @@ document.addEventListener("DOMContentLoaded", function () {
     closeModal(eventModal);  // モーダルを閉じる関数を呼び出す
   });
 
-  // ✅ 予定作成フォームの送信処理
+  // ✅ 予定作成・編集のフォーム送信処理
   eventForm.addEventListener("submit", function (e) {
     e.preventDefault();
-
+  
     // ✅ フォームデータ取得
     const formData = {
       title: document.getElementById("event-title").value,
@@ -91,47 +96,52 @@ document.addEventListener("DOMContentLoaded", function () {
       end_time: document.getElementById("event-end-time").value,
       description: document.getElementById("event-description").value,
     };
-
+  
     // ✅ バリデーション（例: 開始時間が終了時間より後の場合）
     if (formData.start_time >= formData.end_time) {
       alert("開始時間は終了時間より前にしてください。");
       return;
     }
-
-    // ✅ 予定をサーバーに送信
-    createEvent(formData);
-
-    function createEvent(formData) {
-      // ✅ POSTリクエストで予定作成
-      fetch("/schedules", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
-        },
-        body: JSON.stringify({ event: formData }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("予定の作成に失敗しました。");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("新しい予定:", data);
-          // ✅ カレンダーを更新して新しいイベントを表示
-          if (window.calendar) {
-            window.calendar.refetchEvents(); // FullCalendarの再描画
-          }
-          // ✅ モーダルを閉じる
-          closeEventModal();
-        })
-        .catch((error) => {
-          console.error("エラー:", error);
-          alert("予定の作成に失敗しました。");
-        });
+  
+    if (isEditing) {
+      // ✅ 編集モード時
+      const eventId = eventModal.dataset.eventId;
+      updateEvent(eventId, formData);
+    } else {
+      // ✅ 新規作成モード時
+      createEvent(formData);
     }
+  
+    closeModal(eventModal);
   });
+
+  function createEvent(formData) {
+    fetch("/schedules", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+      body: JSON.stringify({ event: formData }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("予定の作成に失敗しました。");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("新しい予定:", data);
+        if (window.calendar) {
+          window.calendar.refetchEvents();
+        }
+        closeEventModal();
+      })
+      .catch((error) => {
+        console.error("エラー:", error);
+        alert("予定の作成に失敗しました。");
+      });
+  }
 
   // ✅ モーダル外のクリックで閉じる
   window.addEventListener("click", function (event) {
@@ -143,7 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
   window.closeEventModal = function() {
     eventModal.style.display = "none";
   };
-
 
   // preset適用処理
   const openPresetBtn = document.getElementById("open-preset-btn");
@@ -315,13 +324,48 @@ document.addEventListener("DOMContentLoaded", function () {
     hideContextMenu();
   });
 
-  // ✅ 編集モーダルを開く関数
+  // ✅ 予定編集モードのボタン
   function openEditModal(event) {
+    console.log("編集モード");
     document.getElementById("event-title").value = event.title;
     document.getElementById("event-date").value = event.startStr.split("T")[0];
     document.getElementById("event-start-time").value = event.startStr.split("T")[1].slice(0, 5);
     document.getElementById("event-end-time").value = event.endStr.split("T")[1].slice(0, 5);
-    document.getElementById("event-modal").style.display = "flex";
+    document.getElementById("event-description").value = event.extendedProps.description || "";
+    eventModal.dataset.eventId = event.id;
+    modalTitle.textContent = "予定を編集";
+    isEditing = true;
+    openModal(eventModal);
+  }
+
+  // ✅ 予定の更新
+  function updateEvent(eventId, updatedEvent) {
+    console.log(`更新対象のイベントID: ${eventId}`);
+    fetch(`/schedules/${eventId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+      body: JSON.stringify({ event: updatedEvent }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("予定の更新に失敗しました。");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("更新成功:", data);
+        if (window.calendar) {
+          window.calendar.refetchEvents(); // ✅ FullCalendarの再描画
+        }
+        closeModal(eventModal);
+      })
+      .catch((error) => {
+        console.error("エラー:", error);
+        alert("予定の更新に失敗しました。");
+      });
   }
 
   // ✅ 削除ボタンのクリック処理
@@ -352,7 +396,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         // ✅ 成功した場合はカレンダーから削除
         event.remove(); // ✅ FullCalendarから削除
-        alert("予定を削除しました！");
       })
       .catch((error) => {
         console.error("削除エラー:", error);
