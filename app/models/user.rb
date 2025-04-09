@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :memos
   has_many :presets, dependent: :destroy
   has_many :applied_events, dependent: :destroy
+  has_many :posts
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :gender

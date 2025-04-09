@@ -135,67 +135,6 @@ body, html {
   justify-content: space-between; /* 要素を上下に配置 */
 }
 
-/* スケジュール管理エリア */
-.schedule-management {
-  background-color: #ffffff;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.schedule-management h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.schedule-options {
-  display: flex;
-  justify-content: space-between;
-}
-
-.schedule-options button {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #f8f8f8;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.schedule-options button:hover {
-  background-color: #e0e0e0;
-}
-
-/* プリセット作成エリア */
-.preset-creation {
-  background-color: #ffffff;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.preset-creation h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.preset-creation .create-preset {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #f8f8f8;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.preset-creation .create-preset:hover {
-  background-color: #e0e0e0;
-}
-
 /* 投稿エリア */
 .post-area {
   background-color: #ffffff;
@@ -270,3 +209,55 @@ body, html {
   right: 0; /* 右端の線 */
 }
 
+#createPostModal {
+  display: none; /* 初期状態では非表示 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 背景を半透明に */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 90%;
+}
+
+#close-create-post-modal {
+  cursor: pointer;
+  font-size: 20px;
+  color: red;
+}
+
+#post-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+#post-form input,
+#post-form textarea,
+#post-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+#post-form button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#post-form button:hover {
+  background-color: #0056b3;
+}

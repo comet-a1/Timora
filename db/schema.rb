@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_24_084056) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_09_062236) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -69,6 +69,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_24_084056) do
     t.index ["user_id"], name: "index_memos_on_user_id"
   end
 
+  create_table "posts", charset: "utf8mb3", force: :cascade do |t|
+    t.text "description"
+    t.integer "preset_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "preset_events", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "preset_id", null: false
     t.string "title"
@@ -111,6 +120,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_24_084056) do
   add_foreign_key "applied_events", "users"
   add_foreign_key "events", "users"
   add_foreign_key "memos", "users"
+  add_foreign_key "posts", "users"
   add_foreign_key "preset_events", "presets"
   add_foreign_key "presets", "users"
 end

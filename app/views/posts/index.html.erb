@@ -93,31 +93,34 @@
         </div>
       </div>
     </div>
-
-
+    
     <!-- 右サイドバー -->
     <div class="right-block">
-      <!-- スケジュール管理エリア -->
-      <div class="schedule-management">
-        <h2>スケジュール管理</h2>
-        <div class="schedule-options">
-          <button class="calendar-view" onclick="window.location='#calendar'">カレンダー方式</button>
-          <button class="time-block-view" onclick="window.location='#timeblock'">タイムブロック方式</button>
-        </div>
-      </div>
-
-      <!-- プリセット作成エリア -->
-      <div class="preset-creation">
-        <h2>プリセット作成</h2>
-        <button class="create-preset" onclick="window.location='#createPreset'">新しいプリセットを作成</button>
-      </div>
-
       <!-- 投稿エリア -->
       <div class="post-area">
         <h2>投稿場所</h2>
-        <button class="create-post" onclick="window.location='#createPost'">新しい投稿を作成</button>
+        <button id="new-post-btn">新しい投稿</button>
       </div>
     </div>
   </div>
-  <%= javascript_include_tag 'posts', crossorigin: 'anonymous' %>
 </body>
+
+<div id="createPostModal" style="display:none;">
+  <div class="modal-content">
+    <span id="close-create-post-modal">閉じる</span>
+    <h2 id="create-post-modal-title">新しい投稿</h2>
+    <form id="post-form">
+      <label for="post-description">一言（30～50字程度）</label>
+      <textarea id="post-description" name="description" placeholder="30～50字で一言を入力" required></textarea>
+      
+      <label for="preset-select">プリセットから予定を選択</label>
+      <select id="preset-select" name="preset_id" required>
+        <option value="">プリセットを選択</option>
+        <!-- プリセットが動的に追加されます -->
+      </select>
+
+      <button type="submit">投稿する</button>
+    </form>
+  </div>
+</div>
+
