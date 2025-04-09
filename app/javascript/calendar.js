@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     calendar.addEvent(eventData);
   };
 
-
   // ✅ 予定作成モーダルの要素
   const eventModal = document.getElementById("event-modal");
   const newEventBtn = document.getElementById("new-event-btn");

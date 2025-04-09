@@ -4,7 +4,6 @@ class SchedulesController < ApplicationController
     @presets = current_user.presets
     @events = current_user.events
 
-    @events = Event.all  # カレンダーに表示する予定
     respond_to do |format|
       format.html # HTMLビューを返す
       format.json { render json: @events.map { |event| format_event(event) } }
@@ -55,7 +54,8 @@ class SchedulesController < ApplicationController
       id: event.id,
       title: event.title,
       start: "#{event.date}T#{event.start_time.strftime('%H:%M:%S')}",
-      end: "#{event.date}T#{event.end_time.strftime('%H:%M:%S')}"
+      end: "#{event.date}T#{event.end_time.strftime('%H:%M:%S')}",
+      description: event.description || ""
     }
   end
 end
