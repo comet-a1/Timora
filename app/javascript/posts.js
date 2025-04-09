@@ -23,4 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.error("必要な要素が見つかりません。homeBtn, profileBtn, homeSection, profileSectionのいずれかが不足しています。");
   }
+
+  document.getElementById("toScheduleBtn").addEventListener("click", function () {
+    window.location.href = "/schedules";
+  });
 });

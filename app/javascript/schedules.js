@@ -33,4 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
     showCalendarBtn.classList.remove('active');
     showMemoBtn.classList.remove('active');
   });
+
+  document.getElementById("toPostsBtn").addEventListener("click", function () {
+    window.location.href = "/posts";
+  });
 });
