@@ -103,24 +103,28 @@
       </div>
     </div>
   </div>
+
+  <div id="createPostModal" style="display:none;">
+    <div class="modal-content">
+      <span id="close-create-post-modal">閉じる</span>
+      <h2 id="create-post-modal-title">新しい投稿</h2>
+      <form id="post-form">
+        <label for="post-description">一言（30～50字程度）</label>
+        <textarea id="post-description" name="description" placeholder="30～50字で一言を入力" required></textarea>
+        
+        <label for="preset-select">プリセットから予定を選択</label>
+        <select id="preset-select" name="post[preset_id]">
+          <option value="">プリセットを選択</option>
+          <% @presets.each do |preset| %>
+            <option value="<%= preset.id %>"><%= preset.name %></option>
+          <% end %>
+        </select>
+
+        <button onclick="submitPost()">投稿する</button>
+      </form>
+    </div>
+  </div>
 </body>
 
-<div id="createPostModal" style="display:none;">
-  <div class="modal-content">
-    <span id="close-create-post-modal">閉じる</span>
-    <h2 id="create-post-modal-title">新しい投稿</h2>
-    <form id="post-form">
-      <label for="post-description">一言（30～50字程度）</label>
-      <textarea id="post-description" name="description" placeholder="30～50字で一言を入力" required></textarea>
-      
-      <label for="preset-select">プリセットから予定を選択</label>
-      <select id="preset-select" name="preset_id" required>
-        <option value="">プリセットを選択</option>
-        <!-- プリセットが動的に追加されます -->
-      </select>
 
-      <button type="submit">投稿する</button>
-    </form>
-  </div>
-</div>
 

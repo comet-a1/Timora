@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeCreatePostModalBtn = document.getElementById("close-create-post-modal");
   const postForm = document.getElementById("post-form");
   const modalPostTitle = document.getElementById("create-post-modal-title");
-  const presetSelect = document.getElementById("preset-select");
 
   // ✅ モーダルの表示関数
   function openCreatePostModal() {
@@ -53,13 +52,18 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // ✅ プリセットを読み込む関数（サーバーから取得）
   function loadPresets() {
-    // ここでプリセットデータをサーバーから取得する
-    fetch("/api/presets")  // 仮のAPIエンドポイント
+    const presetSelect = document.getElementById("preset-select");
+    if (!presetSelect) {
+      console.error("プリセットセレクトの要素が見つかりません");
+      return;
+    }
+
+    fetch("/presets.json")
       .then(response => response.json())
       .then(data => {
         // プリセットを選択肢として追加
         presetSelect.innerHTML = "<option value=''>プリセットを選択</option>"; // 初期の選択肢をクリア
-        data.forEach(preset => {
+        data.presets.forEach(preset => {
           const option = document.createElement("option");
           option.value = preset.id;
           option.textContent = preset.name;
@@ -68,4 +72,35 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch(error => console.error("プリセット読み込みエラー:", error));
   }
+
+  function submitPost() {
+    const description = document.getElementById("post-description").value;
+    const presetId = document.getElementById("preset-select").value;
+
+    fetch("/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({
+        post: {
+          description: description,
+          preset_id: presetId
+        }
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        alert("投稿に成功しました！");
+        window.location.reload();
+      } else {
+        alert("投稿に失敗しました。");
+      }
+    })
+    .catch(error => console.error("投稿エラー:", error));
+  }
+
+  // これでsubmitPostがグローバルに確実に定義されるようにする
+  window.submitPost = submitPost;
 });
