@@ -222,18 +222,18 @@ body, html {
   z-index: 1000;
 }
 
-.modal-content {
+.post-modal-content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  width: 500px;
+  width: 600px;
   max-width: 90%;
 }
 
 #close-create-post-modal {
   cursor: pointer;
   font-size: 20px;
-  color: red;
+  color: black;
 }
 
 #post-form label {

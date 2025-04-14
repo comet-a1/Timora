@@ -105,12 +105,12 @@
   </div>
 
   <div id="createPostModal" style="display:none;">
-    <div class="modal-content">
-      <span id="close-create-post-modal">閉じる</span>
+    <div class="post-modal-content">
+      <span id="close-create-post-modal">&times;</span>
       <h2 id="create-post-modal-title">新しい投稿</h2>
       <form id="post-form">
-        <label for="post-description">一言（30～50字程度）</label>
-        <textarea id="post-description" name="description" placeholder="30～50字で一言を入力" required></textarea>
+        <label for="post-description">ひとこと</label>
+        <textarea id="post-description" name="description" placeholder="今日の予定は" required></textarea>
         
         <label for="preset-select">プリセットから予定を選択</label>
         <select id="preset-select" name="post[preset_id]">
@@ -120,11 +120,19 @@
           <% end %>
         </select>
 
-        <button onclick="submitPost()">投稿する</button>
+        <div id="preset-preview">
+          <div style="display: flex; gap: 20px;">
+            <div id="am-preview" style="flex: 1;">
+              <strong>AMの予定</strong><br>
+            </div>
+            <div id="pm-preview" style="flex: 1;">
+              <strong>PMの予定</strong><br>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit">投稿する</button>
       </form>
     </div>
   </div>
 </body>
-
-
-

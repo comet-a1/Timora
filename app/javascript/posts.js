@@ -73,6 +73,59 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(error => console.error("プリセット読み込みエラー:", error));
   }
 
+  document.getElementById("preset-select").addEventListener("change", function () {
+    const presetId = this.value;
+    const amPreview = document.getElementById("am-preview");
+    const pmPreview = document.getElementById("pm-preview");
+  
+    // リセット
+    amPreview.innerHTML = "<strong>AMの予定</strong><br>";
+    pmPreview.innerHTML = "<strong>PMの予定</strong><br>";
+  
+    if (presetId) {
+      fetch(`/presets/${presetId}.json`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.length > 0) {
+            data.forEach(event => {
+              const start = new Date(event.start_time);
+              const end = new Date(event.end_time);
+  
+              const formatTime = time => time.toLocaleTimeString("ja-JP", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true
+              });
+  
+              const timeRange = `🕒 ${formatTime(start)} - ${formatTime(end)}：${event.title}`;
+  
+              // AM か PM で分けて表示
+              if (start.getHours() < 12) {
+                amPreview.innerHTML += `<div>${timeRange}</div>`;
+              } else {
+                pmPreview.innerHTML += `<div>${timeRange}</div>`;
+              }
+            });
+          } else {
+            amPreview.innerHTML += "予定なし";
+            pmPreview.innerHTML += "予定なし";
+          }
+        })
+        .catch(error => {
+          amPreview.innerHTML += "読み込み失敗";
+          pmPreview.innerHTML += "読み込み失敗";
+          console.error("エラー:", error);
+        });
+    }
+  });
+
+
+  const form = document.getElementById("post-form");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    submitPost();
+  });
+
   function submitPost() {
     const description = document.getElementById("post-description").value;
     const presetId = document.getElementById("preset-select").value;
@@ -92,7 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then(response => {
       if (response.ok) {
-        alert("投稿に成功しました！");
         window.location.reload();
       } else {
         alert("投稿に失敗しました。");
