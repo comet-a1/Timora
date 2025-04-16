@@ -1,4 +1,20 @@
-/*切り替えボタン*/
+/* 全体を縦方向にレイアウト */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 画面全体 */
+}
+
+/*==================== 共通 ====================*/
+.hidden {
+  display: none;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/*==================== トグルボタン ====================*/
 .toggle-btn {
   background-color: #f0f0f0;
   border: none;
@@ -8,13 +24,12 @@
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
 }
-
 .toggle-btn.active {
   background-color: #007bff;
   color: white;
 }
 
-/*ホームセクション*/
+/*==================== タブメニュー ====================*/
 .tab-menu {
   display: flex;
   justify-content: space-between;
@@ -22,99 +37,141 @@
   border-bottom: 2px solid #d3d3d3;
   width: 100%;
 }
-
-/* タブボタン */
 .tab-button {
-  flex-grow: 1; /* 均等に伸ばす */
+  flex-grow: 1;
   text-align: center;
   font-size: 16px;
   font-weight: bold;
-  padding: 15px 0; /* ボタンを大きくする */
+  padding: 15px 0;
   border: none;
   background: none;
   cursor: pointer;
   transition: background 0.3s ease;
-  border-radius: 0; /* 角を丸めない */
+  border-radius: 0;
 }
-
 .tab-button:not(:last-child) {
-  border-right: 2px solid #d3d3d3; /* ボタンの間に区切り線を追加 */
+  border-right: 2px solid #d3d3d3;
 }
-
-/* アクティブなタブ */
 .tab-button.active {
   background-color: #ddd;
 }
 
+/*==================== 投稿一覧 ====================*/
 .post-list {
-  width: 100%;
-  display: flex;
+  flex: 1; /* 残りの高さをすべて使うようにする */
   overflow-y: auto;
-  max-height: 100%; 
-  scrollbar-width: none;  /* Firefox用、スクロールバー非表示 */
-  -ms-overflow-style: none; /* IE/Edge用、スクロールバー非表示 */
+  max-height: 100%; /* ←これを親要素の高さに応じて調整してね */
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
 }
-
 .post-list::-webkit-scrollbar {
-  display: none; /* Chrome/Safari用、スクロールバー非表示 */
+  display: none;
 }
 
 .post {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  border-bottom: 1px solid #ccc; /* 区切り線 */
+  border-bottom: 1px solid #ccc;
   background: white;
   width: 100%;
   box-sizing: border-box;
   margin: 0;
-  border-left: none;
 }
 
 .post-header {
   display: flex;
   align-items: center;
+  gap: 10px;
   margin-bottom: 10px;
 }
-
 .post-profile-icon {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
 }
-
 .post-user-info {
   display: flex;
   flex-direction: column;
 }
-
 .post-username {
   font-weight: bold;
   font-size: 16px;
 }
-
 .post-timestamp {
   font-size: 12px;
   color: #888;
 }
-
 .post-content {
   font-size: 14px;
   line-height: 1.5;
-  word-break: break-word; /* 長すぎる単語を折り返し */
+  word-break: break-word;
+}
+.post-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+  font-size: 14px;
+  color: gray;
 }
 
-.hidden {
-  display: none;
+.post-schedule {
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 10px;
 }
 
+/* 横並びにする */
+.post-schedule {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* 各列は50%ずつ（調整可） */
+.am-schedule, .pm-schedule {
+  flex: 1;
+}
+
+.am-schedule h4, .pm-schedule h4 {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.event {
+  margin-left: 10px;
+  font-size: 13px;
+}
+
+/*==================== 投稿内スケジュール ====================*/
+.post-schedule {
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 10px;
+}
+.am-schedule, .pm-schedule {
+  margin-top: 8px;
+}
+.am-schedule h4, .pm-schedule h4 {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.event {
+  margin-left: 10px;
+  font-size: 13px;
+}
+
+/*==================== プロフィール ====================*/
 .profile-container {
   width: 100%;
   max-width: 600px;
   margin: auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 .profile-header {
   display: flex;
@@ -160,25 +217,4 @@
 }
 .profile-content .content.active {
   display: block;
-}
-.post {
-  padding: 15px;
-  border-bottom: 1px solid #ccc;
-}
-.post-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.post-profile-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-.post-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 5px;
-  font-size: 14px;
-  color: gray;
 }

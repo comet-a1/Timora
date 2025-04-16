@@ -1,27 +1,47 @@
 <div class="tab-menu">
   <nav class="tab-menu">
-    <button class="tab-button active">平日</button>
-    <button class="tab-button">休日</button>
-    <button class="tab-button">おすすめ</button>
+    <button class="tab-button active">おすすめ</button>
+    <button class="tab-button">フォロー中</button>
   </nav>
 </div>
 <div class="post-list">
-  <!-- 投稿一覧 -->  
-  <!-- 投稿のループ -->
-  <%# 投稿データを繰り返し表示する場所 %>
-  <%# 例: @posts.each do |post| %>
-  <div class="post">
-    <div class="post-header">
-      <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
-      <div class="post-user-info">
-        <span class="post-username">ユーザー名</span>
-        <span class="post-timestamp">●時間前</span>
+  <% @posts.each do |post| %>
+    <div class="post">
+      <!-- ヘッダー -->
+      <div class="post-header">
+        <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+        <div class="post-user-info">
+          <span class="post-username"><%= post.user.nickname %></span>
+          <span class="post-timestamp"><%= time_ago_in_words(post.created_at) %>前</span>
+        </div>
       </div>
+
+      <!-- 投稿内容 -->
+      <div class="post-content">
+        <p><%= post.description %></p>
+      </div>
+
+      <!-- 予定表示（AM/PM） -->
+      <% if post.preset.present? && post.preset.preset_events.present? %>
+        <div class="post-schedule">
+          <div class="am-schedule">
+            <h4>AMの予定</h4>
+            <% post.preset.preset_events.select { |event| event.start_time.hour < 12 }.each do |event| %>
+              <div class="event">
+                🕒 <%= event.start_time.strftime("%H:%M") %> - <%= event.end_time.strftime("%H:%M") %>：<%= event.title %>
+              </div>
+            <% end %>
+          </div>
+          <div class="pm-schedule">
+            <h4>PMの予定</h4>
+            <% post.preset.preset_events.select { |event| event.start_time.hour >= 12 }.each do |event| %>
+              <div class="event">
+                🕒 <%= event.start_time.strftime("%H:%M") %> - <%= event.end_time.strftime("%H:%M") %>：<%= event.title %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
-    <div class="post-content">
-      <p>今日は朝6時に起きてランニングしました！</p>
-      <p class="tags">#健康 #朝活</p>
-    </div>
-  </div>
-  <%# end %>
+  <% end %>
 </div>

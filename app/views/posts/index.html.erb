@@ -17,8 +17,8 @@
         </nav>
         <div class="profile-view">
           <div class="profile-info">
-            <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
-            <p class="nickname">ニックネーム</p>
+            <%= image_tag current_user.profile_picture.attached? ? url_for(current_user.profile_picture) : asset_path('profile.png'), class: "profile-icon", alt: "プロフィール画像" %>
+            <p class="nickname"><%= current_user.nickname %></p>
           </div>
           <ul class='lists-right'>
             <li><%= link_to 'ログアウト', destroy_user_session_path, data: {turbo_method: :delete}, class: "logout" %></li>
@@ -30,10 +30,10 @@
     <!-- 中央エリア（投稿一覧） -->
     <div class="center-block">
       <div class="content-block">
-        <div id="home-section" class="content active">
+        <div id="home-section" class="page-wrapper active">
           <%= render 'shared/timeline' %>
         </div>
-        <div id="profile-section" class="content">
+        <div id="profile-section" class="page-wrapper">
           <%= render 'shared/profile' %> 
         </div>
       </div>

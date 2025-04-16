@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   def index
     @posts = current_user.posts
     @presets = current_user.presets
+    @posts = Post.order(created_at: :desc)
   end
 
   def create
