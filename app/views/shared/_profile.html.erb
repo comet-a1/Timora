@@ -1,0 +1,30 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="profile-info">
+      <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+      <div class="profile-details">
+        <h2 class="username">ユーザー名</h2>
+        <p class="user-handle">ニックネーム</p>
+        <p class="bio">自己紹介テキストがここに入ります。</p>
+      </div>
+    </div>
+  </div>
+  <div class="profile-content">
+    <div class="post-list">
+      <!-- 投稿一覧 -->
+      <div class="post">
+        <div class="post-header">
+          <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+          <div class="post-user-info">
+            <span class="post-username">ユーザー名</span>
+            <span class="post-timestamp">●時間前</span>
+          </div>
+        </div>
+        <div class="post-content">
+          <p>今日は朝6時に起きてランニングしました！</p>
+          <p class="tags">#健康 #朝活</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
