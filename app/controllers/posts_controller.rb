@@ -15,6 +15,16 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = Post.find(params[:id])
+    if @post.user == current_user
+      @post.destroy
+      head :no_content  # 成功時はJSONレスポンス返さない
+    else
+      head :forbidden
+    end
+  end
+
   private
 
   def post_params

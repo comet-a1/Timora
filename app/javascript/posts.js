@@ -155,4 +155,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // これでsubmitPostがグローバルに確実に定義されるようにする
   window.submitPost = submitPost;
+
+  document.querySelectorAll('.post-menu-toggle').forEach(button => {
+    button.addEventListener('click', e => {
+      e.stopPropagation(); // 他のイベントとの干渉防止
+      const menu = button.nextElementSibling;
+      menu.classList.toggle('hidden');
+    });
+  });
+
+  // クリックでメニュー閉じる
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.post-context-menu').forEach(menu => {
+      menu.classList.add('hidden');
+    });
+  });
+
+  document.querySelectorAll(".delete-post").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const postId = btn.dataset.postId;
+      const confirmed = confirm("本当に削除しますか？");
+
+      if (!confirmed) return;
+
+      const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+      const response = await fetch(`/posts/${postId}`, {
+        method: "DELETE",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.ok) {
+        // DOMから削除する処理（親のpost要素を消す）
+        const postElement = btn.closest(".post");
+        postElement.remove();
+      } else {
+        alert("削除に失敗しました");
+      }
+    });
+  });
 });

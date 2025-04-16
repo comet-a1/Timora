@@ -3,6 +3,11 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* 画面全体 */
+  display: none;
+}
+
+.page-wrapper.active {
+  display: block;
 }
 
 /*==================== 共通 ====================*/
@@ -56,18 +61,81 @@ body {
   background-color: #ddd;
 }
 
+/*==================== 投稿ヘッダー ====================*/
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* これで右に寄る */
+  position: relative; /* 相対位置でメニュー配置のベースにする */
+}
+
+.post-user-block {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* ← この隙間が大事！ */
+}
+
+.post-menu {
+  position: relative;
+}
+
+.post-menu-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.post-context-menu {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 100;
+  width: 200px;
+}
+
+.post-context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-context-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.post-context-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.hidden {
+  display: none;
+}
+
 /*==================== 投稿一覧 ====================*/
 .post-list {
-  flex: 1; /* 残りの高さをすべて使うようにする */
+  flex: 1;
   overflow-y: auto;
-  max-height: 100%; /* ←これを親要素の高さに応じて調整してね */
+  height: 864px;
   display: flex;
   flex-direction: column;
-  scrollbar-width: none;     /* Firefox */
-  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .post-list::-webkit-scrollbar {
   display: none;
+}
+.dummy-post {
+  height: 500px; /* お好みで調整 */
+  background: white;
+  border: white;
+  pointer-events: none; /* クリックなど無効に */
 }
 
 .post {
