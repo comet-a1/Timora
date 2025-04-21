@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def index
-    @posts = current_user.posts
+    @user = current_user
     @presets = current_user.presets
     @posts = Post.order(created_at: :desc)
   end
@@ -23,6 +23,12 @@ class PostsController < ApplicationController
     else
       head :forbidden
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @nickname = user.nickname
+    @posts = user.posts
   end
 
   private

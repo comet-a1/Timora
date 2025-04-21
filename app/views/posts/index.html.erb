@@ -7,8 +7,8 @@
         <button id="toScheduleBtn" class="btn">カレンダーへ</button>
         <nav>
           <div class="nav-buttons text-center">
-            <button id="home-btn" class="toggle-btn active">ホーム</button>
-            <button id="profile-btn" class="toggle-btn">プロフィール</button>
+            <button id="home-btn" class="toggle-btn active" data-filter="all">ホーム</button>
+            <button id="profile-btn" class="toggle-btn" data-filter="mine">プロフィール</button>
           </div>
           <ul class="nav-links text-center">
             <li><a href="#">設定</a></li>
@@ -31,10 +31,16 @@
     <div class="center-block">
       <div class="content-block">
         <div id="home-section" class="page-wrapper active">
+          <div class="tab-menu">
+            <nav class="tab-menu">
+              <button class="tab-button active">おすすめ</button>
+              <button class="tab-button">フォロー中</button>
+            </nav>
+          </div>
           <%= render 'shared/timeline' %>
         </div>
         <div id="profile-section" class="page-wrapper">
-          <%= render 'shared/profile' %> 
+          <%= render 'shared/profile' %>
         </div>
       </div>
     </div>

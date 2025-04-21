@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       homeBtn.classList.add("active");
       profileBtn.classList.remove("active");
+
     });
 
     profileBtn.addEventListener("click", function () {
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       profileBtn.classList.add("active");
       homeBtn.classList.remove("active");
+
     });
   } else {
     console.error("必要な要素が見つかりません。homeBtn, profileBtn, homeSection, profileSectionのいずれかが不足しています。");

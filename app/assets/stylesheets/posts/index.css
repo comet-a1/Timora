@@ -172,8 +172,6 @@ body, html {
   padding: 3px;
   margin: 0;
   max-width: 1000px;
-  border-left: 2px solid #b4b0b0; /* 優しいグレーの境界線 */
-  border-right: 2px solid #b1adad; /* 優しいグレーの境界線 */
   overflow: hidden; /* 中央ブロックもスクロール無効化 */
   position: relative;
   height: 100vh;
@@ -198,7 +196,7 @@ body, html {
   top: 0;
   bottom: 0;
   width: 2px; /* 線の太さ */
-  background-color: #1d1c1c; /* 優しいグレーの線 */
+  background-color: #b4b0b0; /* 優しいグレーの線 */
 }
 
 .content-block::before {
