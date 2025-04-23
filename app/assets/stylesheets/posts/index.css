@@ -4,25 +4,18 @@ body, html {
   overflow: hidden; /* ページ全体スクロール無効化 */
 }
 
-.posts-container {
+.post-container {
   display: flex;
+  height: 100%;
+  background-color: #f0f4f8;
   justify-content: space-between;
-  align-items: stretch;
-  height: 100vh;
-  overflow: hidden; /* 全体スクロール無効化 */
-  margin: 0;
 }
 
-
-/*レフトブロック*/
-.left-block {
+.post-sidebar {
   width: 400px;
-  height: 100%;
-  background-color: #f4f4f4; /* 優しいベージュ系 */
+  background-color: lightgrey;
   padding: 20px;
-  margin: 0;
-  box-sizing: border-box;
-  overflow: hidden;
+  color: skyblue;
   display: flex;
   flex-direction: column;
 }
@@ -35,19 +28,6 @@ body, html {
   color: transparent;  /* 文字自体は透明にして背景を表示 */
   font-weight: bold;  /* 少し太めにして視覚的に際立たせる */
   font-size: 36px;  /* 文字サイズを調整 */
-}
-
-.posts-sidebar {
-  width: 100%;
-  height: 100vh;
-  background: white;
-  box-shadow: 2px 0 5px rgba(34, 18, 18, 0.1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center; /* アイコン・テキストの位置を中央揃え */
-  text-align: center;
 }
 
 .nav-links ul {
@@ -167,26 +147,19 @@ body, html {
 .center-block {
   flex-grow: 1;
   background-color: #ffffff;
-  padding: 0; /* 不要なパディングを削除 */
-  margin: 0; /* 不要なマージンを削除 */
-  padding: 3px;
-  margin: 0;
   max-width: 1000px;
   overflow: hidden; /* 中央ブロックもスクロール無効化 */
   position: relative;
-  height: 100vh;
+  height: 100%;
 }
 
 /* 中央の投稿エリア全体を囲むブロック */
 .content-block {
   flex-grow: 1;
+  width: 100%;
   background-color: #ffffff;
-  box-sizing: border-box;
-  max-width: 1000px;
   position: relative;
-  height: 100vh;
-  margin: 0; /* 上下のマージンを削除 */
-  padding: 0; /* 上下のパディングを削除 */
+  height: 100%;
 }
 
 .content-block::before,

@@ -1,0 +1,28 @@
+<div class="sidebar post-sidebar">
+  <h1 class="logo rainbow-text">Timora</h1>
+
+  <button id="toScheduleBtn" class="btn">カレンダーへ</button>
+
+  <div class="home-buttons text-center">
+    <button id="home-btn" class="toggle-btn active">ホーム</button>
+  </div>
+
+  <div class="profile-buttons text-center">
+    <button id="profile-btn" data-user-id="<%= current_user.id %>">プロフィール</button>
+  </div>
+
+  <ul class="nav-links text-center">
+    <li><a href="#">設定</a></li>
+    <li><a href="#">ブックマーク</a></li>
+  </ul>
+
+  <div class="profile-view">
+    <div class="profile-info">
+      <%= image_tag current_user.profile_picture.attached? ? url_for(current_user.profile_picture) : asset_path('profile.png'), class: "profile-icon", alt: "プロフィール画像" %>
+      <p class="nickname"><%= current_user.nickname %></p>
+    </div>
+    <ul class='lists-right'>
+      <li><%= link_to 'ログアウト', destroy_user_session_path, data: {turbo_method: :delete}, class: "logout" %></li>
+    </ul>
+  </div>
+</div>

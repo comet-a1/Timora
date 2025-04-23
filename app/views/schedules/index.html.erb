@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timora - スケジュール管理アプリ</title>
-</head>
 <body>
   <div class="container schedule-container">
     <div class="sidebar schedule-sidebar">
@@ -29,14 +22,14 @@
         <button id="show-memo" class="toggle-btn">メモ</button>
       </div>
 
-      <div class="settings">
-        <div class="profile-section">
-          <div class="profile-info" onclick="toggleLogout()">
-            <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
-            <p class="nickname">ニックネーム</p>
-          </div>
-          <button id="logout-btn" class="logout hidden">ログアウト</button>
+      <div class="profile-view">
+        <div class="profile-info">
+          <%= image_tag current_user.profile_picture.attached? ? url_for(current_user.profile_picture) : asset_path('profile.png'), class: "profile-icon", alt: "プロフィール画像" %>
+          <p class="nickname"><%= current_user.nickname %></p>
         </div>
+        <ul class='lists-right'>
+          <li><%= link_to 'ログアウト', destroy_user_session_path, data: {turbo_method: :delete}, class: "logout" %></li>
+        </ul>
       </div>
     </div>
 

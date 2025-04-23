@@ -1,58 +1,5 @@
 <div class="post-list">
   <% @posts.each do |post| %>
-    <div class="post">
-      <!-- ヘッダー -->
-      <div class="post-header">
-        <div class="post-user-block">
-          <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
-          <div class="post-user-info">
-            <span class="post-username"><%= post.user.nickname %></span>
-            <span class="post-timestamp"><%= time_ago_in_words(post.created_at) %>前</span>
-          </div>
-        </div>
-
-        <div class="post-menu">
-          <button class="post-menu-toggle">⋯</button>
-          <div class="post-context-menu hidden">
-            <ul>
-              <% if post.user_id == current_user.id %>
-                <li>ポストを編集</li>
-                <li class="delete-post" data-post-id="<%= post.id %>">ポストの削除</li>
-              <% else %>
-                <li>このユーザーをミュート</li>
-                <li>不適切な投稿を報告</li>
-              <%end%>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- 投稿内容 -->
-      <div class="post-content">
-        <p><%= post.description %></p>
-      </div>
-
-      <!-- 予定表示（AM/PM） -->
-      <% if post.preset.present? && post.preset.preset_events.present? %>
-        <div class="post-schedule">
-          <div class="am-schedule">
-            <h4>AMの予定</h4>
-            <% post.preset.preset_events.select { |event| event.start_time.hour < 12 }.each do |event| %>
-              <div class="event">
-                🕒 <%= event.start_time.strftime("%H:%M") %> - <%= event.end_time.strftime("%H:%M") %>：<%= event.title %>
-              </div>
-            <% end %>
-          </div>
-          <div class="pm-schedule">
-            <h4>PMの予定</h4>
-            <% post.preset.preset_events.select { |event| event.start_time.hour >= 12 }.each do |event| %>
-              <div class="event">
-                🕒 <%= event.start_time.strftime("%H:%M") %> - <%= event.end_time.strftime("%H:%M") %>：<%= event.title %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+    <%= render partial: 'posts/post', locals: { post: post } %>
   <% end %>
 </div>

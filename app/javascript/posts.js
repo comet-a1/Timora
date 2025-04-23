@@ -5,29 +5,50 @@ document.addEventListener("DOMContentLoaded", function () {
   const profileSection = document.getElementById("profile-section");
 
   if (homeBtn && profileBtn && homeSection && profileSection) {
-    homeBtn.addEventListener("click", function () {
+    // ページ読み込み時に状態を取得
+    const activeTab = localStorage.getItem("activeTab") || "home";
+  
+    function showHome() {
       homeSection.classList.add("active");
       profileSection.classList.remove("active");
-
+  
       homeBtn.classList.add("active");
       profileBtn.classList.remove("active");
-
-    });
-
-    profileBtn.addEventListener("click", function () {
+  
+      localStorage.setItem("activeTab", "home");
+    }
+  
+    function showProfile() {
       profileSection.classList.add("active");
       homeSection.classList.remove("active");
-
+  
       profileBtn.classList.add("active");
       homeBtn.classList.remove("active");
-
-    });
+  
+      localStorage.setItem("activeTab", "profile");
+    }
+  
+    // イベント登録
+    homeBtn.addEventListener("click", showHome);
+    profileBtn.addEventListener("click", showProfile);
+  
+    // 最初に表示するタブを決定
+    if (activeTab === "profile") {
+      showProfile();
+    } else {
+      showHome();
+    }
   } else {
     console.error("必要な要素が見つかりません。homeBtn, profileBtn, homeSection, profileSectionのいずれかが不足しています。");
   }
 
   document.getElementById("toScheduleBtn").addEventListener("click", function () {
     window.location.href = "/schedules";
+  });
+
+  document.getElementById("profile-btn").addEventListener("click", function () {
+    const userId = this.dataset.userId;
+    window.location.href = `/users/${userId}`;
   });
 
   const createPostModal = document.getElementById("createPostModal");

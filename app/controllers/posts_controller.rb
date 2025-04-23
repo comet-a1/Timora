@@ -5,6 +5,12 @@ class PostsController < ApplicationController
     @posts = Post.order(created_at: :desc)
   end
 
+  def new
+    @user = current_user
+    @presets = current_user.presets
+    @posts = Post.order(created_at: :desc)
+  end
+
   def create
     @post = current_user.posts.build(post_params)
 
@@ -25,7 +31,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def show
+  def _profile
     @user = User.find(params[:id])
     @nickname = user.nickname
     @posts = user.posts
