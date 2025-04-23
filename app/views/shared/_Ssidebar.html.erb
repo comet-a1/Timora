@@ -1,0 +1,32 @@
+<div class="sidebar schedule-sidebar">
+  <h1 class="logo rainbow-text">Timora</h1>
+
+  <button id="toPostsBtn" class="btn">投稿ページへ</button>
+
+  <div class="mini-calendar">
+    <div id="mini-calendar"></div>  <!-- ✅ ここがあるか確認 -->
+  </div>
+
+  <div class="calendar-buttons">
+    <button id="show-calendar" class="toggle-btn active">カレンダー</button>
+  </div>
+
+  <!-- プリセット作成ボタン -->
+  <div class="preset-buttons">
+    <button id="show-presets" class="toggle-btn">プリセット作成</button>
+  </div>
+
+  <div class="memo-buttons">
+    <button id="show-memo" class="toggle-btn">メモ</button>
+  </div>
+
+  <div class="profile-view">
+    <div class="profile-info">
+      <%= image_tag current_user.profile_picture.attached? ? url_for(current_user.profile_picture) : asset_path('profile.png'), class: "profile-icon", alt: "プロフィール画像" %>
+      <p class="nickname"><%= current_user.nickname %></p>
+    </div>
+    <ul class='lists-right'>
+      <li><%= link_to 'ログアウト', destroy_user_session_path, data: {turbo_method: :delete}, class: "logout" %></li>
+    </ul>
+  </div>
+</div>
