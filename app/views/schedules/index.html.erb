@@ -1,100 +1,25 @@
-<body>
-  <div class="container schedule-container">
-    <%= render 'shared/Ssidebar' %>
-
-    <div class="main-content">
-      <div id="calendar-section" class="content active">
-        <div class="calendar-block">
-          <!-- カレンダー表示 -->
-          <div id="calendar"></div>
-          <!-- ✅ タスクバー (ロゴボタン) -->
-          <div id="taskbar">
-            <button id="new-event-btn">📝</button>
-            <button id="open-preset-btn" >🎨</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="memo-section" class="content">
-        <div class="memo-block">
-          <!-- メモ表示 -->
-          <%= render 'shared/memos', memos: @memos %>
-        </div>
-      </div>
-
-      <div id="presets-section" class="content">
-        <div class="presets-block">
-          <!-- プリセットを表示 -->
-          <%= render 'shared/preset' %>
-        </div>
-      </div>
+<div id="calendar-section" class="content active">
+  <div class="calendar-block">
+    <!-- カレンダー表示 -->
+    <div id="calendar"></div>
+    <!-- ✅ タスクバー (ロゴボタン) -->
+    <div id="taskbar">
+      <button id="new-event-btn">📝</button>
+      <button id="open-preset-btn" >🎨</button>
     </div>
   </div>
-</body>
-</html>
+</div>
 
-<div id="apply-modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeApplyModal()">&times;</span>
-    <h2>プリセットを適用</h2>
-    <form id="apply-form">
-      <label for="apply-date">日付を選択:</label>
-      <input type="date" id="apply-date" required>
-
-      <label for="apply-preset">プリセットを選択:</label>
-      <select id="apply-preset" required>
-        <!-- プリセット一覧 -->
-      </select>
-
-      <button type="submit">適用</button>
-      <button type="button" onclick="closeApplyModal()">キャンセル</button>
-    </form>
+<div id="memo-section" class="content">
+  <div class="memo-block">
+    <!-- メモ表示 -->
+    <%= render 'shared/memos', memos: @memos %>
   </div>
 </div>
 
-<div id="event-modal" class="modal">
-  <div class="event-modal-content">
-    <span class="close-btn" onclick="closeEventModal()">&times;</span>
-    <h2 id="event-modal-title">予定を作成</h2>
-    <form id="event-form">
-      <label for="event-title">タイトル:</label>
-      <input type="text" id="event-title" name="title" required />
-
-      <div class="time-wrapper">
-        <!-- 日付入力 -->
-        <div class="date-wrapper">
-          <label for="event-date">日付:</label>
-          <input type="date" id="event-date" name="date" required />
-        </div>
-
-        <!-- 時間入力 -->
-        <div class="start-time-wrapper">
-          <label for="event-start-time">開始時間:</label>
-          <select id="event-start-time" required></select>
-        </div>
-
-          <span class="time-separator">～</span>
-
-        <div class="end-time-wrapper">
-          <label for="event-end-time">終了時間:</label>
-          <select id="event-end-time" required></select>
-        </div>
-      </div>
-
-      <label for="event-description">説明 (任意):</label>
-      <textarea id="event-description" name="description"></textarea>
-
-      <div class="button-wrapper">
-        <button type="submit">予定を保存</button>
-        <button type="button" onclick="closeEventModal()">キャンセル</button>
-      </div>
-    </form>
+<div id="presets-section" class="content">
+  <div class="presets-block">
+    <!-- プリセットを表示 -->
+    <%= render 'shared/preset' %>
   </div>
-</div>
-
-<div id="event-context-menu" class="event-context-menu">
-  <ul>
-    <li id="edit-event">✏️ 編集</li>
-    <li id="delete-event">🗑️ 削除</li>
-  </ul>
 </div>

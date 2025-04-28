@@ -3,12 +3,18 @@
 
   <button id="toScheduleBtn" class="btn">カレンダーへ</button>
 
-  <div class="home-buttons text-center">
-    <button id="home-btn" class="toggle-btn active">ホーム</button>
+  <div class="sidebar-item">
+    <button class="sidebar-btn" id="home-btn" >
+      <i class="fas fa-home"></i>
+      <span>ホーム</span>
+    </button>
   </div>
 
-  <div class="profile-buttons text-center">
-    <button id="profile-btn" data-user-id="<%= current_user.id %>">プロフィール</button>
+  <div class="sidebar-item">
+    <button class="sidebar-btn" data-user-id="<%= current_user.id %>" id="profile-btn">
+      <i class="fas fa-profile"></i>
+      <span>プロフィール</span>
+    </button>
   </div>
 
   <ul class="nav-links text-center">

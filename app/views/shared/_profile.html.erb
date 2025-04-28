@@ -1,22 +1,14 @@
-<div class="profile-container">
-  <div class="profile-header">
-    <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
-    <div class="profile-details">
-      <h2 class="username"><%= @user.nickname %></h2>
-      <p class="user-handle">@<%= @user.nickname %></p>
-      <p class="bio"><%= "自己紹介文はまだありません。" %></p>
-    </div>
+<div class="profile-header">
+  <img src="<%= asset_path('profile.png') %>" alt="プロフィール画像" class="profile-icon">
+  <div class="profile-details">
+    <h2 class="username"><%= @user.nickname %></h2>
+    <p class="user-handle">@<%= @user.nickname %></p>
+    <p class="bio"><%= "自己紹介文はまだありません。" %></p>
   </div>
+</div>
 
-  <div class="profile-stats">
-    <div>投稿数: <%= @user.posts.count %></div>
-    <div>フォロー中: </div>
-    <div>フォロワー: </div>
-  </div>
-
-  <div class="profile-content">
-    <% @posts.each do |post| %>
-      <%= render partial: 'posts/post', locals: { post: post } %>
-    <% end %>
-  </div>
+<div class="profile-stats">
+  <div>投稿数: <%= @user.posts.count %></div>
+  <div>フォロー中: </div>
+  <div>フォロワー: </div>
 </div>

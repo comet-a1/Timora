@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timora</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+    
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body class="posts-page">
+  <div class="container post-container">
+    <!-- 左サイドバー -->
+    <%= render 'shared/Psidebar' %>
+
+    <!-- 中央エリア（中身をyieldで入れる） -->
+    <div class="center-block">
+      <div class="content-block">
+        <%= yield %> <!-- 投稿一覧とかプロフィールとかここに入る -->
+      </div>
+    </div>
+    
+    <!-- 右サイドバー -->
+    <div class="right-block">
+      <div class="post-area">
+        <h2>投稿場所</h2>
+        <button id="new-post-btn">新しい投稿</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+<div id="createPostModal" style="display:none;">
+  <div class="post-modal-content">
+    <span id="close-create-post-modal">&times;</span>
+    <h2 id="create-post-modal-title">新しい投稿</h2>
+    <form id="post-form">
+      <label for="post-description">ひとこと</label>
+      <textarea id="post-description" name="description" placeholder="今日の予定は" required></textarea>
+      
+      <label for="preset-select">プリセットから予定を選択</label>
+      <select id="preset-select" name="post[preset_id]">
+        <option value="">プリセットを選択</option>
+        <% @presets.each do |preset| %>
+          <option value="<%= preset.id %>"><%= preset.name %></option>
+        <% end %>
+      </select>
+
+      <div id="preset-preview">
+        <div style="display: flex; gap: 20px;">
+          <div id="am-preview" style="flex: 1;">
+            <strong>AMの予定</strong><br>
+          </div>
+          <div id="pm-preview" style="flex: 1;">
+            <strong>PMの予定</strong><br>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit">投稿する</button>
+    </form>
+  </div>
+</div>

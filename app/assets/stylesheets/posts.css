@@ -1,4 +1,11 @@
 /* 全体を縦方向にレイアウト */
+.posts-page.post-container {
+  display: flex;
+  height: 100%;
+  background-color: #f0f4f8;
+  justify-content: space-between;
+}
+
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -292,7 +299,7 @@ body {
   padding: 15px;
 }
 
-.profile-content .post-list {
+.user-posts .post-list {
   max-height: 600px;
   overflow-y: auto;
   padding-top: 10px;

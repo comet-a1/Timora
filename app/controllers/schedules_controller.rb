@@ -1,4 +1,6 @@
 class SchedulesController < ApplicationController
+  layout 'schedules_layout'
+  
   def index
     @memos = current_user.memos
     @presets = current_user.presets

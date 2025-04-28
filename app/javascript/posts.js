@@ -1,46 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const homeBtn = document.getElementById("home-btn");
-  const profileBtn = document.getElementById("profile-btn");
-  const homeSection = document.getElementById("home-section");
-  const profileSection = document.getElementById("profile-section");
+  const buttons = document.querySelectorAll('.sidebar-btn');
 
-  if (homeBtn && profileBtn && homeSection && profileSection) {
-    // ページ読み込み時に状態を取得
-    const activeTab = localStorage.getItem("activeTab") || "home";
-  
-    function showHome() {
-      homeSection.classList.add("active");
-      profileSection.classList.remove("active");
-  
-      homeBtn.classList.add("active");
-      profileBtn.classList.remove("active");
-  
-      localStorage.setItem("activeTab", "home");
-    }
-  
-    function showProfile() {
-      profileSection.classList.add("active");
-      homeSection.classList.remove("active");
-  
-      profileBtn.classList.add("active");
-      homeBtn.classList.remove("active");
-  
-      localStorage.setItem("activeTab", "profile");
-    }
-  
-    // イベント登録
-    homeBtn.addEventListener("click", showHome);
-    profileBtn.addEventListener("click", showProfile);
-  
-    // 最初に表示するタブを決定
-    if (activeTab === "profile") {
-      showProfile();
-    } else {
-      showHome();
-    }
-  } else {
-    console.error("必要な要素が見つかりません。homeBtn, profileBtn, homeSection, profileSectionのいずれかが不足しています。");
-  }
+  buttons.forEach(button => {
+    button.addEventListener('click', function() {
+      // すべてのボタンから 'active' クラスを削除
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      // クリックされたボタンに 'active' クラスを追加
+      button.classList.add('active');
+    });
+  });
 
   document.getElementById("toScheduleBtn").addEventListener("click", function () {
     window.location.href = "/schedules";
@@ -49,6 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("profile-btn").addEventListener("click", function () {
     const userId = this.dataset.userId;
     window.location.href = `/users/${userId}`;
+  });
+  
+  document.getElementById("home-btn").addEventListener("click", function () {
+    window.location.href = "/posts";
   });
 
   const createPostModal = document.getElementById("createPostModal");

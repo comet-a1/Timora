@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  layout 'posts_layout'
+  
   def index
     @user = current_user
     @presets = current_user.presets
@@ -31,12 +33,12 @@ class PostsController < ApplicationController
     end
   end
 
-  def _profile
+  def show
     @user = User.find(params[:id])
-    @nickname = user.nickname
-    @posts = user.posts
+    @posts = @user.posts.order(created_at: :desc)
+    @presets  = @user.presets
   end
-
+  
   private
 
   def post_params
