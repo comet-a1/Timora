@@ -11,18 +11,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document.getElementById("toScheduleBtn").addEventListener("click", function () {
-    window.location.href = "/schedules";
-  });
-
   document.getElementById("profile-btn").addEventListener("click", function () {
     const userId = this.dataset.userId;
     window.location.href = `/users/${userId}`;
   });
-  
-  document.getElementById("home-btn").addEventListener("click", function () {
+
+  document.getElementById("show-posts").addEventListener("click", function () {
     window.location.href = "/posts";
   });
+
+  const showCalendarButton = document.getElementById("show-calendar");
+  console.log(showCalendarButton); // nullが表示されるかどうかを確認
+  if (showCalendarButton) {
+    showCalendarButton.addEventListener("click", function () {
+      window.location.href = "/schedules";
+    });
+  }
 
   const createPostModal = document.getElementById("createPostModal");
   const newPostBtn = document.getElementById("new-post-btn");

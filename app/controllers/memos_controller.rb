@@ -1,8 +1,11 @@
 class MemosController < ApplicationController
+  layout 'schedules_layout'
   def index
     @memos =current_user.memos
-    @memos = Memo.all
-    render json: @memos.map { |memo| { id: memo.id, content: memo.content } }
+    respond_to do |format|
+      format.html # ← views/memos/index.html.erb を使う
+      format.json { render json: @memos.map { |memo| { id: memo.id, content: memo.content } } }
+    end
   end
 
   def create

@@ -1,4 +1,5 @@
 class PresetEventsController < ApplicationController
+  layout 'schedules_layout'
   before_action :authenticate_user!
 
   def index

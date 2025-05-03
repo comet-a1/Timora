@@ -1,10 +1,13 @@
 class PresetsController < ApplicationController
+  layout 'schedules_layout'
   before_action :authenticate_user!
 
   def index
     @presets = current_user.presets
-    @presets =Preset.all
-    render json: { presets: @presets }
+    respond_to do |format|
+      format.html # ← index.html.erb が表示される
+      format.json { render json: { presets: @presets } }
+    end
   end
 
   def create

@@ -1,40 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // 切り替えボタンの処理
-  const showCalendarBtn = document.getElementById('show-calendar');
-  const showMemoBtn = document.getElementById('show-memo');
-  const showPresetsBtn = document.getElementById('show-presets');
-  const calendarSection = document.getElementById('calendar-section');
-  const memoSection = document.getElementById('memo-section');
-  const presetsSection = document.getElementById('presets-section');
+  const buttons = document.querySelectorAll('.sidebar-btn');
 
-  showCalendarBtn.addEventListener('click', function() {
-    calendarSection.classList.add('active');
-    memoSection.classList.remove('active');
-    presetsSection.classList.remove('active');
-    showCalendarBtn.classList.add('active');
-    showMemoBtn.classList.remove('active');
-    showPresetsBtn.classList.remove('active');
+  buttons.forEach(button => {
+    button.addEventListener('click', function() {
+      // すべてのボタンから 'active' クラスを削除
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      // クリックされたボタンに 'active' クラスを追加
+      button.classList.add('active');
+    });
   });
 
-  showMemoBtn.addEventListener('click', function() {
-    memoSection.classList.add('active');
-    calendarSection.classList.remove('active');
-    presetsSection.classList.remove('active');
-    showMemoBtn.classList.add('active');
-    showCalendarBtn.classList.remove('active');
-    showPresetsBtn.classList.remove('active');
+  // カレンダーボタン
+  document.getElementById("show-calendar").addEventListener("click", function () {
+    window.location.href = "/schedules"; // 遷移先をカレンダーのURLに変更
   });
 
-  showPresetsBtn.addEventListener('click', function() {
-    presetsSection.classList.add('active');
-    calendarSection.classList.remove('active');
-    memoSection.classList.remove('active');
-    showPresetsBtn.classList.add('active');
-    showCalendarBtn.classList.remove('active');
-    showMemoBtn.classList.remove('active');
+  // プリセットボタン
+  document.getElementById("show-presets").addEventListener("click", function () {
+    window.location.href = "/presets"; // 遷移先をプリセット一覧などに変更
   });
 
-  document.getElementById("toPostsBtn").addEventListener("click", function () {
-    window.location.href = "/posts";
+  // メモボタン
+    document.getElementById("show-memo").addEventListener("click", function () {
+    window.location.href = "/memos"; // 遷移先をメモページに変更
   });
+
+  const showPostsButton = document.getElementById("show-posts");
+  console.log(showPostsButton); // nullが表示されるかどうかを確認
+  if (showPostsButton) {
+    showPostsButton.addEventListener("click", function () {
+      window.location.href = "/posts";
+    });
+  }
 });
