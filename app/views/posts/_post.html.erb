@@ -51,4 +51,10 @@
       </div>
     </div>
   <% end %>
+  <div class="like-section" data-post-id="<%= post.id %>">
+    <button class="like-btn <%= 'liked' if post.likes.exists?(user: current_user) %>">
+      <span class="heart-icon">♡</span>
+    </button>
+    <span class="like-count"><%= post.likes.count %></span>
+  </div>
 </div>

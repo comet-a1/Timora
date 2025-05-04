@@ -38,6 +38,19 @@ class PostsController < ApplicationController
     @posts = @user.posts.order(created_at: :desc)
     @presets  = @user.presets
   end
+
+  def like
+    post = Post.find(params[:id])
+    post.likes.find_or_create_by(user: current_user)
+    render json: { liked: true, count: post.likes.count }
+  end
+  
+  def unlike
+    post = Post.find(params[:id])
+    like = post.likes.find_by(user: current_user)
+    post.likes.find_by(user: current_user)&.destroy
+    render json: { liked: false, count: post.likes.count }
+  end
   
   private
 

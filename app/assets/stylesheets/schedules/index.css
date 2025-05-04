@@ -41,21 +41,6 @@ html, body {
   overflow-x: auto;
 }
 
-button {
-  background-color: white;
-  color: skyblue;
-  border: none;
-  padding: 10px;
-  margin: 10px 0;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #006bb3;
-}
-
 /*ビュー切り替え*/
 .view-toggle {
   display: flex;

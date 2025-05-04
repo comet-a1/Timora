@@ -222,6 +222,23 @@ body {
   font-size: 13px;
 }
 
+/* ハートアイコン */
+.like-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  color: gray; /* 押されてない時の色（枠だけ） */
+}
+
+.like-btn.liked {
+  color: red; /* 押されたとき */
+}
+
+.like-btn:hover {
+  transform: scale(1.1);
+}
+
 /*==================== 投稿内スケジュール ====================*/
 .post-schedule {
   margin-top: 10px;

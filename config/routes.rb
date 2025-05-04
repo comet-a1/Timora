@@ -14,8 +14,12 @@ Rails.application.routes.draw do
   end
 
   root 'posts#index'
-  resources :posts
-
+  resources :posts do
+    member do
+      post 'like'
+      delete 'like', to: 'posts#unlike'
+    end
+  end
   resources :users
 
   resources :schedules
