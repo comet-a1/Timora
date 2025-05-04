@@ -3,8 +3,6 @@
 <%= render 'shared/profile', user: @user %>
 
 <div class="user-posts">
-  <h2><%= @user.nickname %> さんの投稿</h2>
-
   <% if @user.posts.any? %>
     <div class="post-list">
       <% @user.posts.order(created_at: :desc).each do |post| %>
