@@ -321,3 +321,12 @@ body {
   overflow-y: auto;
   padding-top: 10px;
 }
+
+.clickable-profile,
+.clickable-nickname {
+  cursor: pointer;
+}
+
+.clickable-nickname:hover {
+  text-decoration: underline;
+}

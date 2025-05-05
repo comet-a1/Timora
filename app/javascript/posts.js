@@ -197,4 +197,24 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  document.querySelectorAll(".post-user-block").forEach(block => {
+    const userId = block.dataset.userId;
+    if (!userId) return;
+
+    const profileImg = block.querySelector(".clickable-profile");
+    const nickname = block.querySelector(".clickable-nickname");
+
+    if (profileImg) {
+      profileImg.addEventListener("click", function () {
+        window.location.href = `/users/${userId}`;
+      });
+    }
+
+    if (nickname) {
+      nickname.addEventListener("click", function () {
+        window.location.href = `/users/${userId}`;
+      });
+    }
+  });
 });

@@ -29,7 +29,7 @@
 
   <div class="profile-view">
     <div class="profile-info">
-      <%= image_tag current_user.profile_picture.attached? ? url_for(current_user.profile_picture) : asset_path('profile.png'), class: "profile-icon", alt: "プロフィール画像" %>
+      <%= image_tag current_user.profile_picture.attached? ? url_for(current_user.profile_picture) : asset_path('default_profile.png'), class: "profile-icon", alt: "プロフィール画像" %>
       <p class="nickname"><%= current_user.nickname %></p>
     </div>
     <ul class='lists-right'>
