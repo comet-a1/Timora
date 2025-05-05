@@ -20,7 +20,13 @@ Rails.application.routes.draw do
       delete 'like', to: 'posts#unlike'
     end
   end
-  resources :users
+  
+  resources :users do
+    member do
+      post 'follow'
+      delete 'unfollow'
+    end
+  end
 
   resources :schedules
 

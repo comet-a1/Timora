@@ -4,11 +4,17 @@
     <h2 class="username"><%= @user.nickname %></h2>
     <p class="user-handle">@<%= @user.nickname %></p>
     <p class="bio"><%= "自己紹介文はまだありません。" %></p>
+
+    <% unless current_user == @user %>
+      <button class="follow-btn" data-user-id="<%= @user.id %>">
+        <%= current_user.following?(@user) ? "フォロー解除" : "フォロー" %>
+      </button>
+    <% end %>
   </div>
 </div>
 
 <div class="profile-stats">
   <div>投稿数: <%= @user.posts.count %></div>
-  <div>フォロー中: </div>
-  <div>フォロワー: </div>
+  <div>フォロー中: <span id="following-count"><%= @user.following.count %></span></div>
+  <div>フォロワー: <span id="followers-count"><%= @user.followers.count %></span></div>
 </div>
