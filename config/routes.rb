@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     member do
       post 'follow'
       delete 'unfollow'
+
+      patch 'profile_picture_update'
     end
   end
 

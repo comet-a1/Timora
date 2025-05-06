@@ -1,20 +1,39 @@
 <div class="profile-header">
-  <img src="<%= asset_path('default_profile.png') %>" alt="プロフィール画像" class="profile-icon">
+  <%= image_tag(
+    @user.profile_picture.attached? ? @user.profile_picture : 'default_profile.png',
+    alt: "プロフィール画像",
+    class: "profile-icon updatable-picture"
+  ) %>
   <div class="profile-details">
-    <h2 class="username"><%= @user.nickname %></h2>
+    <h2 class="username"><%= @user.nickname %>　<%= @user.posts.count %>件の投稿</h2>
     <p class="user-handle">@<%= @user.nickname %></p>
     <p class="bio"><%= "自己紹介文はまだありません。" %></p>
 
-    <% unless current_user == @user %>
+    <% if current_user == @user %>
+      <!-- 自分のプロフィールならアイコン変更ボタンを表示 -->
+      <button id="open-icon-modal">アイコンを変更</button>
+
+      <div id="icon-modal" style="display: none;" class="modal">
+        <div class="icon-modal-content">
+          <form id="profile-picture-form" enctype="multipart/form-data">
+            <input type="file" id="profile-picture-input" name="user[profile_picture]" />
+            <button type="submit">アイコンを変更</button>
+          </form>
+          <button id="close-icon-modal">閉じる</button>
+        </div>
+      </div>
+    <% else %>
+      <!-- 他人のプロフィールならフォローボタン -->
       <button class="follow-btn" data-user-id="<%= @user.id %>">
         <%= current_user.following?(@user) ? "フォロー解除" : "フォロー" %>
       </button>
     <% end %>
+
+    <input type="hidden" id="current-user-id" value="<%= current_user.id %>" />
   </div>
 </div>
 
 <div class="profile-stats">
-  <div>投稿数: <%= @user.posts.count %></div>
   <div>フォロー中: <span id="following-count"><%= @user.following.count %></span></div>
   <div>フォロワー: <span id="followers-count"><%= @user.followers.count %></span></div>
 </div>

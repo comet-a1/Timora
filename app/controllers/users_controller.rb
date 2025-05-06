@@ -26,4 +26,25 @@ class UsersController < ApplicationController
       followers_count: user.followers.count
     }
   end
+
+  def profile_picture_update
+    @user = User.find(params[:id])
+    @user.profile_picture.purge if @user.profile_picture.attached?
+    @user.profile_picture.attach(params[:user][:profile_picture])
+  
+    if @user.save
+      render json: {
+        message: "アイコンを更新しました",
+        profile_picture_url: url_for(@user.profile_picture)
+      }
+    else
+      render json: { error: "保存に失敗しました" }, status: :unprocessable_entity
+    end
+  end
+  
+  private
+  
+  def profile_picture_params
+    params.require(:user).permit(:profile_picture, :password)
+  end
 end

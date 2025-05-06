@@ -2,11 +2,11 @@
   <!-- ヘッダー -->
   <div class="post-header">
     <div class="post-user-block" data-user-id="<%= post.user.id %>">
-      <img
-        src="<%= post.user.profile_picture.presence || asset_path('default_profile.png') %>"
-        alt="プロフィール画像"
-        class="profile-icon clickable-profile"
-      >
+      <%= image_tag(
+        post.user.profile_picture.attached? ? post.user.profile_picture : 'default_profile.png',
+        alt: "プロフィール画像",
+        class: "profile-icon updatable-picture clickable-profile"
+      ) %>
 
       <div class="post-user-info">
         <span class="post-username clickable-nickname"><%= post.user.nickname %></span>

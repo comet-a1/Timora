@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_one_attached :profile_picture
   has_many :events, dependent: :destroy
   has_many :memos
   has_many :presets, dependent: :destroy
@@ -20,7 +19,7 @@ class User < ApplicationRecord
   validates :nickname, presence: true
   validates :birthdate, presence: true
   validates :email, presence: true
-  validates :password, presence: true
+  validates :password, presence: true, if: :password_required?
 
   # フォロー関連
   has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
@@ -39,5 +38,28 @@ class User < ApplicationRecord
   
   def following?(other_user)
     following.include?(other_user)
+  end
+
+  has_one_attached :profile_picture
+  validate :correct_image_mime_type
+  validate :correct_image_size
+
+  private
+
+  def password_required?
+    # 画像の更新時にはパスワードが必要ない
+    !profile_picture.attached?
+  end
+
+  def correct_image_mime_type
+    if profile_picture.attached? && !profile_picture.content_type.in?(%w(image/png image/jpg image/jpeg))
+      errors.add(:profile_picture, "はPNGまたはJPEG画像でなければなりません")
+    end
+  end
+
+  def correct_image_size
+    if profile_picture.attached? && profile_picture.byte_size > 5.megabytes
+      errors.add(:profile_picture, "のサイズは5MB以下でなければなりません")
+    end
   end
 end
