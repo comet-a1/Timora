@@ -16,10 +16,8 @@
     <%= render 'shared/Psidebar' %>
 
     <!-- 中央エリア（中身をyieldで入れる） -->
-    <div class="center-block">
-      <div class="content-block">
-        <%= yield %> <!-- 投稿一覧とかプロフィールとかここに入る -->
-      </div>
+    <div class="content-block">
+      <%= yield %> <!-- 投稿一覧とかプロフィールとかここに入る -->
     </div>
     
     <!-- 右サイドバー -->
@@ -47,6 +45,9 @@
           <option value="<%= preset.id %>"><%= preset.name %></option>
         <% end %>
       </select>
+
+      <label for="date-select">日付から選択:</label>
+      <input type="date" id="date-select">
 
       <div id="preset-preview">
         <div style="display: flex; gap: 20px;">

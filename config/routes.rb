@@ -20,6 +20,9 @@ Rails.application.routes.draw do
       delete 'like', to: 'posts#unlike'
     end
   end
+
+  get 'schedules/by_date', to: 'schedules#by_date'
+  get 'posts/show', to: 'posts#show'
   
   resources :users do
     member do
@@ -30,6 +33,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'users/show/:id', to: 'users#show', as: 'user_show'
+
   resources :schedules
 
   resources :memos
@@ -39,9 +44,6 @@ Rails.application.routes.draw do
   resources :preset_events
 
   resources :applied_events
-
-  get 'posts/show', to: 'posts#show'
-  get 'users/show/:id', to: 'users#show', as: 'user_show'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

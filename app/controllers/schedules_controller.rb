@@ -45,6 +45,15 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def by_date
+    if params[:date].present?
+      events = Event.where(date: params[:date])
+      render json: events.as_json(only: [:id, :title, :start_time, :end_time])
+    else
+      render json: { error: "日付が指定されていません" }, status: :bad_request
+    end
+  end
+
   private
 
   def event_params

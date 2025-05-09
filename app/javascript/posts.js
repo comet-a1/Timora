@@ -77,6 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const presetId = this.value;
     const amPreview = document.getElementById("am-preview");
     const pmPreview = document.getElementById("pm-preview");
+
+    // 📌 日付をリセット
+    document.getElementById("date-select").value = "";
   
     // リセット
     amPreview.innerHTML = "<strong>AMの予定</strong><br>";
@@ -119,6 +122,54 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  document.getElementById("date-select").addEventListener("change", function () {
+    const selectedDate = this.value;
+    const amPreview = document.getElementById("am-preview");
+    const pmPreview = document.getElementById("pm-preview");
+
+    // 📌 プリセットをリセット
+    document.getElementById("preset-select").value = "";
+  
+    amPreview.innerHTML = "<strong>AMの予定</strong><br>";
+    pmPreview.innerHTML = "<strong>PMの予定</strong><br>";
+  
+    if (selectedDate) {
+      fetch(`/schedules/by_date?date=${selectedDate}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.length > 0) {
+            data.forEach(event => {
+              // 日時をISO形式に変換（スペースをTに置き換える）
+              const start = new Date(event.start_time.replace(" ", "T"));
+              const end = new Date(event.end_time.replace(" ", "T"));
+            
+              const formatTime = time => time.toLocaleTimeString("ja-JP", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true
+              });
+            
+              const timeRange = `🕒 ${formatTime(start)} - ${formatTime(end)}：${event.title}`;
+            
+              if (start.getHours() < 12) {
+                amPreview.innerHTML += `<div>${timeRange}</div>`;
+              } else {
+                pmPreview.innerHTML += `<div>${timeRange}</div>`;
+              }
+            });
+          } else {
+            amPreview.innerHTML += "予定なし";
+            pmPreview.innerHTML += "予定なし";
+          }
+        })
+        .catch(error => {
+          amPreview.innerHTML += "読み込み失敗";
+          pmPreview.innerHTML += "読み込み失敗";
+          console.error("エラー:", error);
+        });
+    }
+  });
+
 
   const form = document.getElementById("post-form");
   form.addEventListener("submit", (event) => {
@@ -129,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function submitPost() {
     const description = document.getElementById("post-description").value;
     const presetId = document.getElementById("preset-select").value;
+    const selectedDate = document.getElementById("date-select").value;
 
     fetch("/posts", {
       method: "POST",
@@ -139,7 +191,8 @@ document.addEventListener("DOMContentLoaded", function () {
       body: JSON.stringify({
         post: {
           description: description,
-          preset_id: presetId
+          preset_id: presetId || null,
+          selected_date: selectedDate || null
         }
       })
     })

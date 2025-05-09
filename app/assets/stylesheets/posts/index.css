@@ -3,6 +3,17 @@ body, html {
   margin: 0;
   overflow: hidden; /* ページ全体スクロール無効化 */
 }
+
+/* 文字の虹色のスタイル */
+.rainbow-text {
+  background: linear-gradient(to right, lightskyblue, lightpink);
+  -webkit-background-clip: text;  /* Safari 対応 */
+  background-clip: text;  /* 一部ブラウザに必要 */
+  color: transparent;  /* 文字自体は透明にして背景を表示 */
+  font-weight: bold;  /* 少し太めにして視覚的に際立たせる */
+  font-size: 36px;  /* 文字サイズを調整 */
+}
+
 .post-container {
   display: flex;
   height: 100%;
@@ -11,7 +22,7 @@ body, html {
 }
 
 .post-sidebar {
-  width: 400px;
+  width: 300px;
   background-color: black;
   padding: 20px;
   color: skyblue;
@@ -58,15 +69,46 @@ body, html {
   outline: none;
 }
 
-/* 文字の虹色のスタイル */
-.rainbow-text {
-  background: linear-gradient(to right, lightskyblue, lightpink);
-  -webkit-background-clip: text;  /* Safari 対応 */
-  background-clip: text;  /* 一部ブラウザに必要 */
-  color: transparent;  /* 文字自体は透明にして背景を表示 */
-  font-weight: bold;  /* 少し太めにして視覚的に際立たせる */
-  font-size: 36px;  /* 文字サイズを調整 */
+/* 中央の投稿エリア全体を囲むブロック */
+.content-block {
+  flex-grow: 1;
+  width: 700px;
+  background-color: #ffffff;
+  position: relative;
+  height: 100%;
 }
+
+.content-block::before,
+.content-block::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px; /* 線の太さ */
+  background-color: #b4b0b0; /* 優しいグレーの線 */
+}
+
+.content-block::before {
+  left: 0; /* 左端の線 */
+}
+
+.content-block::after {
+  right: 0; /* 右端の線 */
+}
+
+.right-block {
+  width: 400px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column; /* 縦に並べる */
+  justify-content: space-between; /* 要素を上下に配置 */
+}
+
 
 .nav-links ul {
   list-style: none;
@@ -146,19 +188,6 @@ body, html {
   gap: 15px;               /* ボタン間の間隔を15pxに設定 */
 }
 
-/*ライトブロック*/
-.right-block {
-  width: 500px;
-  background-color: #f4f4f4;
-  padding: 20px;
-  margin: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column; /* 縦に並べる */
-  justify-content: space-between; /* 要素を上下に配置 */
-}
 
 /* 投稿エリア */
 .post-area {
@@ -186,43 +215,6 @@ body, html {
 
 .post-area .create-post:hover {
   background-color: #e0e0e0;
-}
-
-/*センターブロック */
-.center-block {
-  flex-grow: 1;
-  background-color: #ffffff;
-  max-width: 1000px;
-  overflow: hidden; /* 中央ブロックもスクロール無効化 */
-  position: relative;
-  height: 100%;
-}
-
-/* 中央の投稿エリア全体を囲むブロック */
-.content-block {
-  flex-grow: 1;
-  width: 100%;
-  background-color: #ffffff;
-  position: relative;
-  height: 100%;
-}
-
-.content-block::before,
-.content-block::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px; /* 線の太さ */
-  background-color: #b4b0b0; /* 優しいグレーの線 */
-}
-
-.content-block::before {
-  left: 0; /* 左端の線 */
-}
-
-.content-block::after {
-  right: 0; /* 右端の線 */
 }
 
 #createPostModal {

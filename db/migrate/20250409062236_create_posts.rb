@@ -3,6 +3,7 @@ class CreatePosts < ActiveRecord::Migration[7.1]
     create_table :posts do |t|
       t.text :description
       t.integer :preset_id
+      t.date :selected_date
       t.references :user, null: false, foreign_key: true
 
       t.timestamps
