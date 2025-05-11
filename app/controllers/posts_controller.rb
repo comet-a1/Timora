@@ -5,6 +5,15 @@ class PostsController < ApplicationController
     @user = current_user
     @presets = current_user.presets
     @posts = Post.order(created_at: :desc)
+
+    @all_posts = Post.includes(:user).order(created_at: :desc)
+
+    if user_signed_in?
+      following_ids = current_user.following.pluck(:id)
+      @following_posts = Post.where(user_id: following_ids).includes(:user).order(created_at: :desc)
+    else
+      @following_posts = []
+    end
   end
 
   def new

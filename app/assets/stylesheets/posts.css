@@ -27,6 +27,13 @@ body {
 }
 
 /*==================== タブメニュー ====================*/
+.tab-panel {
+  display: none;
+}
+.tab-panel.active {
+  display: block;
+}
+
 .tab-menu {
   display: flex;
   justify-content: space-between;
@@ -34,7 +41,7 @@ body {
   border-bottom: 2px solid #d3d3d3;
   width: 100%;
 }
-.tab-button {
+.tab-switch {
   flex-grow: 1;
   text-align: center;
   font-size: 16px;
@@ -46,10 +53,10 @@ body {
   transition: background 0.3s ease;
   border-radius: 0;
 }
-.tab-button:not(:last-child) {
+.tab-switch:not(:last-child) {
   border-right: 2px solid #d3d3d3;
 }
-.tab-button.active {
+.tab-switch.active {
   background-color: #ddd;
 }
 

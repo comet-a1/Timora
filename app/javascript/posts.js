@@ -43,6 +43,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  const tabButtons = document.querySelectorAll(".tab-switch");
+  const panels = document.querySelectorAll(".tab-panel");
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const target = btn.dataset.tab;
+      panels.forEach(panel => {
+        panel.classList.toggle("active", panel.id === target);
+      });
+    });
+  });
+
   const createPostModal = document.getElementById("createPostModal");
   const newPostBtn = document.getElementById("new-post-btn");
   const closeCreatePostModalBtn = document.getElementById("close-create-post-modal");

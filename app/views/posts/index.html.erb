@@ -1,11 +1,28 @@
 <div id="home-section" class="page-wrapper active">
   <div class="tab-menu">
     <nav class="tab-menu">
-      <button class="tab-button active" data-tab="all">おすすめ</button>
-      <button class="tab-button" data-tab="following">フォロー中</button>
+      <button class="tab-switch active" data-tab="all">おすすめ</button>
+      <button class="tab-switch" data-tab="following">フォロー中</button>
     </nav>
   </div>
-  <%= render 'shared/timeline' %>
+
+  <div class="tab-content">
+    <div id="all" class="tab-panel active">
+      <div class="post-list">
+        <% @all_posts.each do |post| %>
+          <%= render partial: 'posts/post', locals: { post: post } %>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="following" class="tab-panel">
+      <div class="post-list">
+        <% @following_posts.each do |post| %>
+          <%= render partial: 'posts/post', locals: { post: post } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="profile-section" class="page-wrapper">
