@@ -84,7 +84,7 @@ body, html {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2px; /* 線の太さ */
+  width: 1px; /* 線の太さ */
   background-color: #b4b0b0; /* 優しいグレーの線 */
 }
 

@@ -80,6 +80,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_05_133502) do
 
   create_table "posts", charset: "utf8mb3", force: :cascade do |t|
     t.text "description"
+    t.string "post_type"
     t.integer "preset_id"
     t.date "selected_date"
     t.bigint "user_id", null: false

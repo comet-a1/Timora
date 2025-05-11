@@ -36,7 +36,7 @@
   </div>
 
   <!-- 予定表示（AM/PM） -->
-  <% if post.preset.present? && post.preset.preset_events.present? %>
+  <% if post.post_type == "preset" && post.preset.present? && post.preset.preset_events.present? %>
     <div class="post-schedule">
       <div class="am-schedule">
         <h4>AMの予定</h4>
@@ -55,7 +55,30 @@
         <% end %>
       </div>
     </div>
+  <% elsif post.post_type == "date" %>
+    <% events = Event.where(date: post.selected_date, user: post.user) %>
+    <% if events.present? %>
+      <div class="post-schedule">
+        <div class="am-schedule">
+          <h4>AMの予定</h4>
+          <% events.select { |e| e.start_time.hour < 12 }.each do |e| %>
+            <div class="event">
+              🕒 <%= e.start_time.strftime("%H:%M") %> - <%= e.end_time.strftime("%H:%M") %>：<%= e.title %>
+            </div>
+          <% end %>
+        </div>
+        <div class="pm-schedule">
+          <h4>PMの予定</h4>
+          <% events.select { |e| e.start_time.hour >= 12 }.each do |e| %>
+            <div class="event">
+              🕒 <%= e.start_time.strftime("%H:%M") %> - <%= e.end_time.strftime("%H:%M") %>：<%= e.title %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
+
   <div class="like-section" data-post-id="<%= post.id %>">
     <button class="like-btn <%= 'liked' if post.likes.exists?(user: current_user) %>">
       <span class="heart-icon">♡</span>

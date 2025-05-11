@@ -15,7 +15,13 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-
+  
+    if @post.post_type == "preset"
+      @post.preset = Preset.find_by(id: params[:post][:preset_id])
+    elsif @post.post_type == "date"
+      @post.selected_date = params[:post][:selected_date]
+    end
+  
     if @post.save
       render json: { message: "投稿成功" }, status: :created
     else
@@ -55,6 +61,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:description, :preset_id, :selected_date)
+    params.require(:post).permit(:description, :preset_id, :selected_date, :post_type)
   end
 end

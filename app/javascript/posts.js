@@ -182,6 +182,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const presetId = document.getElementById("preset-select").value;
     const selectedDate = document.getElementById("date-select").value;
 
+    const postType = presetId ? "preset" : selectedDate ? "date" : "none";
+
     fetch("/posts", {
       method: "POST",
       headers: {
@@ -192,7 +194,8 @@ document.addEventListener("DOMContentLoaded", function () {
         post: {
           description: description,
           preset_id: presetId || null,
-          selected_date: selectedDate || null
+          selected_date: selectedDate || null,
+          post_type: postType
         }
       })
     })
