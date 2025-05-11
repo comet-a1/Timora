@@ -1,34 +1,31 @@
 <div class="sidebar post-sidebar">
   <h1 class="logo rainbow-text">Timora</h1>
 
-  <div class="sidebar-item">
-    <button class="sidebar-btn" id="show-calendar" >
-      <i class="fas fa-calendar"></i>
-      <span>カレンダー</span>
-    </button>
-  </div>
+  <div class="sidebar-menu">
+    <div class="sidebar-item">
+      <button class="sidebar-btn" id="show-calendar" >
+        <i class="fas fa-calendar"></i>
+        <span>カレンダー</span>
+      </button>
+    </div>
 
-  <div class="sidebar-item">
-    <button class="sidebar-btn" id="show-posts" >
-      <i class="fas fa-home"></i>
-      <span>ホーム</span>
-    </button>
-  </div>
+    <div class="sidebar-item">
+      <button class="sidebar-btn" id="show-posts" >
+        <i class="fas fa-home"></i>
+        <span>ホーム</span>
+      </button>
+    </div>
 
-  <div class="sidebar-item">
-    <button class="sidebar-btn" data-user-id="<%= current_user.id %>" id="profile-btn">
-      <i class="fas fa-profile"></i>
-      <span>プロフィール</span>
-    </button>
+    <div class="sidebar-item">
+      <button class="sidebar-btn" data-user-id="<%= current_user.id %>" id="profile-btn">
+        <i class="fas fa-profile"></i>
+        <span>プロフィール</span>
+      </button>
+    </div>
   </div>
-
-  <ul class="nav-links text-center">
-    <li><a href="#">設定</a></li>
-    <li><a href="#">ブックマーク</a></li>
-  </ul>
 
   <div class="profile-view">
-    <div class="profile-info">
+    <div class="profile-info" id="profile-trigger">
       <%= image_tag(
         current_user.profile_picture.attached? ? current_user.profile_picture : 'default_profile.png',
         alt: "プロフィール画像",
@@ -36,7 +33,7 @@
       ) %>
       <p class="nickname"><%= current_user.nickname %></p>
     </div>
-    <ul class='lists-right'>
+    <ul class='lists-right' id="profile-menu" style="display: none;">
       <li><%= link_to 'ログアウト', destroy_user_session_path, data: {turbo_method: :delete}, class: "logout" %></li>
     </ul>
   </div>

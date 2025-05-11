@@ -71,18 +71,6 @@
   margin-bottom: 5px;
 }
 
-@media (max-width: 768px) {
-  .presets-container {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .presets-right-block {
-    width: 100%;
-  }
-}
-
-
 #preset-list {
   list-style-type: none;
   padding: 0;
@@ -243,4 +231,15 @@ h3 {
 
 .preset-context-menu li:hover {
   background-color: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+  .presets-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .presets-right-block {
+    width: 100%;
+  }
 }

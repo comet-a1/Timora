@@ -9,7 +9,7 @@
 .page-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* 画面全体 */
+  height: 100vh;
   display: none;
 }
 
@@ -24,21 +24,6 @@
 
 body {
   font-family: Arial, sans-serif;
-}
-
-/*==================== トグルボタン ====================*/
-.toggle-btn {
-  background-color: #f0f0f0;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-}
-.toggle-btn.active {
-  background-color: #007bff;
-  color: white;
 }
 
 /*==================== タブメニュー ====================*/
@@ -72,14 +57,14 @@ body {
 .post-header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* これで右に寄る */
-  position: relative; /* 相対位置でメニュー配置のベースにする */
+  justify-content: space-between;
+  position: relative;
 }
 
 .post-user-block {
   display: flex;
   align-items: center;
-  gap: 10px; /* ← この隙間が大事！ */
+  gap: 10px;
 }
 
 .post-menu {
@@ -87,11 +72,19 @@ body {
 }
 
 .post-menu-toggle {
-  background: none;
+  background-color: transparent;
+  color: #555;
   border: none;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
-  padding: 0 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.post-menu-toggle:hover {
+  background-color: #eee;
+  color: rgb(172, 255, 244);
 }
 
 .post-context-menu {
@@ -139,10 +132,10 @@ body {
   display: none;
 }
 .dummy-post {
-  height: 500px; /* お好みで調整 */
+  height: 500px;
   background: white;
   border: white;
-  pointer-events: none; /* クリックなど無効に */
+  pointer-events: none;
 }
 
 .post {
@@ -228,34 +221,15 @@ body {
   background: transparent;
   cursor: pointer;
   font-size: 18px;
-  color: gray; /* 押されてない時の色（枠だけ） */
+  color: gray;
 }
 
 .like-btn.liked {
-  color: red; /* 押されたとき */
+  color: red;
 }
 
 .like-btn:hover {
   transform: scale(1.1);
-}
-
-/*==================== 投稿内スケジュール ====================*/
-.post-schedule {
-  margin-top: 10px;
-  background-color: #f9f9f9;
-  border-radius: 6px;
-  padding: 10px;
-}
-.am-schedule, .pm-schedule {
-  margin-top: 8px;
-}
-.am-schedule h4, .pm-schedule h4 {
-  margin-bottom: 4px;
-  font-size: 14px;
-}
-.event {
-  margin-left: 10px;
-  font-size: 13px;
 }
 
 /*==================== プロフィール ====================*/

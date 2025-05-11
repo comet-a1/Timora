@@ -33,4 +33,19 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = "/posts";
     });
   }
+
+  const trigger = document.getElementById("profile-trigger");
+  const menu = document.getElementById("profile-menu");
+
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation(); // 他のクリックイベントをキャンセル
+    menu.style.display = menu.style.display === "none" ? "block" : "none";
+  });
+
+  // メニュー外をクリックしたら非表示
+  document.addEventListener("click", (e) => {
+    if (!trigger.contains(e.target)) {
+      menu.style.display = "none";
+    }
+  });
 });

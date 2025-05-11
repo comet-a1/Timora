@@ -11,17 +11,17 @@
 }
 
 .memo-left_header, .memo-right_header {
-  height: 40px; /* ヘッダーの高さを固定 */
-  border-bottom: 2px solid #333; /* 境界線 */
-  display: flex; /* フレックスボックスで要素を中央配置 */
-  justify-content: center; /* 横方向に中央配置 */
-  align-items: center; /* 縦方向に中央配置 */
-  background-color: #f4f4f4; /* 背景色 */
-  padding: 0 10px; /* 横の余白を追加 */
+  height: 40px;
+  border-bottom: 2px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  padding: 0 10px;
 }
 
 .memo-left_block, .memo-right_block {
-  margin-bottom: 20px; /* ヘッダーとコンテンツ間のスペース */
+  margin-bottom: 20px; 
 }
 
 /* Memo Containerセクションのスタイル */
@@ -31,7 +31,6 @@
   height: 100%;
 }
 
-/* Memo Left Block (メモ入力部分) */
 .memo-left_block {
   width: 75%;
   height: 100%;
@@ -48,7 +47,6 @@
   outline: none;
 }
 
-/* Memo Right Block (メモ詳細部分) */
 .memo-right_block {
   width: 25%;
   height: 100%;
@@ -87,7 +85,53 @@
   color: gray;
 }
 
-/* レスポンシブ対応：小さい画面でレイアウトを調整 */
+#new-memo-btn {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#new-memo-btn:hover {
+  background-color: #03A9F4;
+}
+
+#complete-btn {
+  background-color: #f9f9f9;
+  color: #555;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#complete-btn:hover {
+  color: #14ec1e;
+  background-color: #eee;
+}
+
+#delete-btn {
+  background-color: #f9f9f9;
+  color: #555;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#delete-btn:hover {
+  color: #d32f2f;
+  background-color: #eee;
+}
+
 @media (max-width: 768px) {
   .memo-container {
     flex-direction: column;
