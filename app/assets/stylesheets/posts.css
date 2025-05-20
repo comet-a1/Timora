@@ -27,13 +27,6 @@ body {
 }
 
 /*==================== タブメニュー ====================*/
-.tab-panel {
-  display: none;
-}
-.tab-panel.active {
-  display: block;
-}
-
 .tab-menu {
   display: flex;
   justify-content: space-between;
@@ -41,23 +34,28 @@ body {
   border-bottom: 2px solid #d3d3d3;
   width: 100%;
 }
+
 .tab-switch {
-  flex-grow: 1;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 15px 0;
-  border: none;
+  flex: 1;
   background: none;
+  border: none;
+  outline: none;
+  padding: 1rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
   cursor: pointer;
-  transition: background 0.3s ease;
-  border-radius: 0;
+  transition: color 0.3s, border-bottom 0.3s;
+  border-bottom: 3px solid transparent;
 }
-.tab-switch:not(:last-child) {
-  border-right: 2px solid #d3d3d3;
+
+.tab-switch:hover {
+  color: #111;
 }
+
 .tab-switch.active {
-  background-color: #ddd;
+  color: #1da1f2; /* Twitterブルー */
+  border-bottom: 3px solid #1da1f2;
 }
 
 /*==================== 投稿ヘッダー ====================*/
@@ -126,10 +124,18 @@ body {
 }
 
 /*==================== 投稿一覧 ====================*/
+.tab-panel {
+  display: none;
+  height: 100vh;
+}
+.tab-panel.active {
+  display: block;
+}
+
 .post-list {
   flex: 1;
   overflow-y: auto;
-  height: 864px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   scrollbar-width: none;
@@ -137,12 +143,6 @@ body {
 }
 .post-list::-webkit-scrollbar {
   display: none;
-}
-.dummy-post {
-  height: 500px;
-  background: white;
-  border: white;
-  pointer-events: none;
 }
 
 .post {

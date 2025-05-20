@@ -1,7 +1,7 @@
-body, html {
-  height: 100vh;
-  margin: 0;
-  overflow: hidden; /* ページ全体スクロール無効化 */
+body.posts-page {
+  height: auto;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 /* 文字の虹色のスタイル */
@@ -125,35 +125,6 @@ body, html {
   display: flex;
   flex-direction: column; /* 縦に並べる */
   justify-content: space-between; /* 要素を上下に配置 */
-}
-
-
-.nav-links ul {
-  list-style: none;
-  padding: 0;
-}
-
-.nav-links li {
-  margin: 10px 0;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 18px;
-  color: #333;
-}
-
-.trends h3 {
-  margin-bottom: 10px;
-}
-
-.trends ul {
-  list-style: none;
-  padding: 0;
-}
-
-.trends li {
-  margin: 5px 0;
 }
 
 .profile-view {

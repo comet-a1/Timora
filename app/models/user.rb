@@ -15,11 +15,19 @@ class User < ApplicationRecord
   belongs_to :gender
   belongs_to :mbti
 
+  #バリデーション
+  attr_accessor :validation_step
 
-  validates :nickname, presence: true
-  validates :birthdate, presence: true
-  validates :email, presence: true
-  validates :password, presence: true, if: :password_required?
+  with_options if: -> { validation_step == :step1 } do
+    validates :email, presence: true
+    validates :password, presence: true, length: { minimum: 6 }
+    validates :password_confirmation, presence: true
+  end
+
+  with_options if: -> { validation_step == :step2 } do
+    validates :nickname, presence: true
+    validates :birthdate, presence: true
+  end
 
   # フォロー関連
   has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy

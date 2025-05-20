@@ -79,12 +79,13 @@
 
 .input-birth-wrap {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
 }
 
 .input-birth-wrap select {
   width: 75px;
-  margin-top: 5px;
   height: 45px;
   padding-left: 10px;
   border-radius: 4px;
@@ -92,9 +93,14 @@
   background: #fff;
   font-size: 12px;
   cursor: pointer;
+  vertical-align: middle;
 }
 
-.input-birth-wrap p {
-  line-height: 60px;
-  padding: 0 5px;
+.input-birth-wrap .birth-label {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 45px;
+  user-select: none;
 }

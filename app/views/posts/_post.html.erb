@@ -19,11 +19,10 @@
       <div class="post-context-menu hidden">
         <ul>
           <% if post.user_id == current_user.id %>
-            <li>ポストを編集</li>
             <li class="delete-post" data-post-id="<%= post.id %>">ポストの削除</li>
           <% else %>
-            <li>このユーザーをミュート</li>
-            <li>不適切な投稿を報告</li>
+            <li>＃</li>
+            <li>＃</li>
           <%end%>
         </ul>
       </div>
