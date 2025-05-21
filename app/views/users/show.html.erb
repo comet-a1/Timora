@@ -1,15 +1,17 @@
-<% provide :title, @user.nickname %>
+<div id="profile-section" class="page-wrapper">
+  <% provide :title, @user.nickname %>
 
-<%= render 'shared/profile', user: @user %>
+  <%= render 'shared/profile', user: @user %>
 
-<div class="user-posts">
-  <% if @user.posts.any? %>
-    <div class="post-list">
-      <% @user.posts.order(created_at: :desc).each do |post| %>
-        <%= render partial: 'posts/post', locals: { post: post } %>
-      <% end %>
-    </div>
-  <% else %>
-    <p>まだ投稿がありません。</p>
-  <% end %>
+  <div class="tab-content">
+    <% if @user.posts.any? %>
+      <div class="post-list">
+        <% @user.posts.order(created_at: :desc).each do |post| %>
+          <%= render partial: 'posts/post', locals: { post: post } %>
+        <% end %>
+      </div>
+    <% else %>
+      <p>まだ投稿がありません。</p>
+    <% end %>
+  </div>
 </div>

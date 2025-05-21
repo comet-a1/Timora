@@ -1,15 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const buttons = document.querySelectorAll('.sidebar-btn');
+  document.addEventListener('wheel', function (e) {
+    const tabContent = document.querySelector('.tab-content');
+    if (!tabContent) return;
 
-  buttons.forEach(button => {
-    button.addEventListener('click', function() {
-      // すべてのボタンから 'active' クラスを削除
-      buttons.forEach(btn => btn.classList.remove('active'));
-      
-      // クリックされたボタンに 'active' クラスを追加
-      button.classList.add('active');
-    });
-  });
+    e.preventDefault();
+
+    const scrollAmount = e.deltaY * 2.7; // ← スクロール速度調整（1.5倍など）
+    const duration = 180; // アニメーション時間（ミリ秒）
+    const startTime = performance.now();
+    const startScroll = tabContent.scrollTop;
+
+    function smoothScroll(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1); // 0〜1に制限
+      const ease = easeOutCubic(progress); // イージング関数
+      tabContent.scrollTop = startScroll + scrollAmount * ease;
+
+      if (progress < 1) {
+        requestAnimationFrame(smoothScroll);
+      }
+    }
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    requestAnimationFrame(smoothScroll);
+  }, { passive: false });
 
   document.getElementById("profile-btn").addEventListener("click", function () {
     const userId = this.dataset.userId;
