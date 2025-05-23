@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AppliedEvent < ApplicationRecord
   belongs_to :preset
   belongs_to :user
@@ -13,7 +15,7 @@ class AppliedEvent < ApplicationRecord
         title: preset_event.title,
         start_time: generate_datetime(date, preset_event.start_time),
         end_time: generate_datetime(date, preset_event.end_time),
-        date: self.date
+        date: date
       )
     end
   end

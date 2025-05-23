@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class AppliedEventsController < ApplicationController
   before_action :authenticate_user!
 
   # プリセット適用
   def create
     applied_event = current_user.applied_events.new(applied_event_params)
-  
+
     if applied_event.save
       # ✅ `events` に反映
       new_event = applied_event.apply_to_events # 新しいイベントを取得

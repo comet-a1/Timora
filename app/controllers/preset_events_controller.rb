@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PresetEventsController < ApplicationController
   layout 'schedules_layout'
   before_action :authenticate_user!
@@ -15,7 +17,7 @@ class PresetEventsController < ApplicationController
       # JSONで2つのブロックに分けて返す
       render json: {
         morning_events: @morning_events,
-        afternoon_events: @afternoon_events,
+        afternoon_events: @afternoon_events
       }
     else
       render json: { morning_events: [], afternoon_events: [] }
@@ -55,19 +57,19 @@ class PresetEventsController < ApplicationController
     if @preset_event.destroy
       head :no_content
     else
-      render json: { error: "削除に失敗しました" }, status: :unprocessable_entity
+      render json: { error: '削除に失敗しました' }, status: :unprocessable_entity
     end
   end
 
   def show
     @preset_event = PresetEvent.find(params[:id])
-  
+
     # ✅ 期待するデータ形式で返す
     render json: {
       id: @preset_event.id,
       title: @preset_event.title, # ✅ title を含める
-      start_time: @preset_event.start_time.strftime("%H:%M"), # ✅ 時刻のみ
-      end_time: @preset_event.end_time.strftime("%H:%M"),     # ✅ 時刻のみ
+      start_time: @preset_event.start_time.strftime('%H:%M'), # ✅ 時刻のみ
+      end_time: @preset_event.end_time.strftime('%H:%M'),     # ✅ 時刻のみ
       preset_id: @preset_event.preset_id
     }
   end
@@ -75,7 +77,7 @@ class PresetEventsController < ApplicationController
   # ✅ 予定更新処理
   def update
     @preset_event = PresetEvent.find(params[:id])
-  
+
     if @preset_event.update(preset_event_params)
       # ✅ 更新後のデータを返す
       render json: {
@@ -83,8 +85,8 @@ class PresetEventsController < ApplicationController
         preset_event: {
           id: @preset_event.id,
           title: @preset_event.title,
-          start_time: @preset_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-          end_time: @preset_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+          start_time: @preset_event.start_time.strftime('%Y-%m-%dT%H:%M:%S'),
+          end_time: @preset_event.end_time.strftime('%Y-%m-%dT%H:%M:%S'),
           preset_id: @preset_event.preset_id
         }
       }

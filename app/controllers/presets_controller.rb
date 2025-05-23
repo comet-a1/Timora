@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PresetsController < ApplicationController
   layout 'schedules_layout'
   before_action :authenticate_user!
@@ -13,7 +15,7 @@ class PresetsController < ApplicationController
   def create
     @preset = Preset.new(preset_params)
     @preset.user_id = current_user.id
-  
+
     if @preset.save
       render json: { success: true, preset: { id: @preset.id, name: @preset.name } }, status: :created
     else
@@ -23,11 +25,11 @@ class PresetsController < ApplicationController
 
   def destroy
     @preset = Preset.find(params[:id])
-    
+
     if @preset.destroy
-      render json: { message: "Memo deleted successfully" }, status: :ok
+      render json: { message: 'Memo deleted successfully' }, status: :ok
     else
-      render json: { error: "Failed to delete preset" }, status: :unprocessable_entity
+      render json: { error: 'Failed to delete preset' }, status: :unprocessable_entity
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LikesController < ApplicationController
   before_action :authenticate_user!
 
@@ -10,8 +12,7 @@ class LikesController < ApplicationController
   def destroy
     @post = Post.find(params[:post_id])
     like = current_user.likes.find_by(post: @post)
-    like.destroy if like
+    like&.destroy
     render json: { liked: false, count: @post.likes.count }
   end
-end
 end
