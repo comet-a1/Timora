@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const memoList = document.getElementById("memo-list");
   const memoContent = document.getElementById("memo-content");
   const completeBtn = document.getElementById("complete-btn");
-  const deleteBtn = document.getElementById("delete-btn");
+  const deleteMemoBtn = document.getElementById("delete-btn");
   const newMemoBtn = document.getElementById("new-memo-btn");
 
   let selectedMemoId = null; // 選択中のメモID
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     memoContent.value = ""; // テキストエリアを空に
     memoContent.style.display = "block";
     completeBtn.style.display = "inline-block"; // 完了ボタン表示
-    deleteBtn.style.display = "none"; // 削除ボタンは非表示
+    deleteMemoBtn.style.display = "none"; // 削除ボタンは非表示
     selectedMemoId = null;
     isNewMemo = true; // 新規作成モードに設定
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // **UIリセット**
     completeBtn.style.display = "none"; // 完了ボタン非表示（既存メモ選択時）
-    deleteBtn.style.display = "inline-block"; // 削除ボタン表示
+    deleteMemoBtn.style.display = "inline-block"; // 削除ボタン表示
     isNewMemo = false; // 既存メモモードに切り替え
 
     // すべてのメモアイテムから選択状態を解除
@@ -123,11 +123,30 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // **削除ボタンの処理**
-  deleteBtn.addEventListener("click", () => {
-    if (!selectedMemoId) return;
+  // メモ削除処理
+  const modal = document.getElementById("deleteMemoModal");
+  const confirmBtn = document.getElementById("memo-confirm-delete-btn");
+  const cancelBtn = document.getElementById("memo-cancel-delete-btn");
 
-    fetch(`/memos/${selectedMemoId}`, {
+  let targetMemoId = null;
+
+  // メモ削除ボタンが押されたと
+  deleteMemoBtn.addEventListener("click", () => {
+    if (!selectedMemoId) return;  // ※ selectedMemoId は選択中のメモIDとしてグローバルで管理しておく
+    targetMemoId = selectedMemoId;
+    modal.classList.remove("hidden");
+  });
+
+  // キャンセルボタン
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  // 削除ボタン
+  confirmBtn.addEventListener("click", () => {
+    if (!targetMemoId) return;
+
+    fetch(`/memos/${targetMemoId}`, {
       method: "DELETE",
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
@@ -135,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then((response) => {
         if (response.ok) {
-          // メモ一覧から削除
+          // メモをDOMから削除（例: .memo-item クラスがメモ要素の場合）
           const memoItem = document.querySelector(`.memo-item[data-id="${selectedMemoId}"]`);
           if (memoItem) {
             memoItem.remove();
@@ -143,14 +162,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // UIリセット
           memoContent.style.display = "none";
-          deleteBtn.style.display = "none";
+          deleteMemoBtn.style.display = "none";
           selectedMemoId = null;
         } else {
           console.error("メモの削除に失敗しました");
         }
       })
       .catch((error) => {
-        console.error("エラー:", error);
+        console.error("通信エラー:", error);
+      })
+      .finally(() => {
+        modal.classList.add("hidden");
       });
   });
 });

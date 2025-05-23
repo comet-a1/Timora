@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const scheduleModal = document.getElementById("schedule-modal");
   const createScheduleBtn = document.getElementById("create-schedule-btn");
-  const deletePresetBtn = document.getElementById("delete-preset-btn");
   const presetNameHeading = document.getElementById("preset-name");
 
   let selectedPresetId = null; // 右クリックしたプリセットのID
@@ -401,13 +400,31 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error("予定データ取得エラー:", error);
       });
   }
-  
-  // プリセット削除ボタンのクリック処理
-  deletePresetBtn.addEventListener("click", function () {
+
+  const deletePresetBtn = document.getElementById("delete-preset-btn");
+  const modal = document.getElementById("deletePresetModal");
+  const confirmBtn = document.getElementById("preset-confirm-delete-btn");
+  const cancelBtn = document.getElementById("preset-cancel-delete-btn");
+
+  let targetPresetId = null;
+
+  // モーダルを表示する処理
+  deletePresetBtn.addEventListener("click", () => {
     if (!selectedPresetId) return;
-  
-    // サーバーに削除リクエストを送信
-    fetch(`/presets/${selectedPresetId}`, {
+    targetPresetId = selectedPresetId; // 外で定義されてる選択中IDを使用
+    modal.classList.remove("hidden");
+  });
+
+  // モーダルをキャンセル
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  // 「削除」ボタン押下時にfetch送信して削除実行
+  confirmBtn.addEventListener("click", () => {
+    if (!targetPresetId) return;
+
+    fetch(`/presets/${targetPresetId}`, {
       method: "DELETE",
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
@@ -415,26 +432,26 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then((response) => {
         if (response.ok) {
-          // プリセット一覧からプリセットを削除
-          const presetItem = document.querySelector(`.preset-item[data-id="${selectedPresetId}"]`);
-          if (presetItem) {
-            presetItem.remove();
-          }
+          // 該当プリセットをリストから削除
+          const presetItem = document.querySelector(`.preset-item[data-id="${targetPresetId}"]`);
+          if (presetItem) presetItem.remove();
 
-          // ✅ 予定エリアをリセット
+          // 予定リセット・UI更新
           resetPresetEvents();
-
-          // UIリセット
-          presetNameHeading.textContent = "";  // プリセット名をリセット
-          createScheduleBtn.style.display = "none";  // 予定作成ボタンを非表示
-          deletePresetBtn.style.display = "none";  // 削除ボタンを非表示
-          selectedPresetId = null;  // 削除後、選択されたIDをリセット
+          presetNameHeading.textContent = "";
+          createScheduleBtn.style.display = "none";
+          deletePresetBtn.style.display = "none";
+          selectedPresetId = null;
+          targetPresetId = null;
         } else {
           console.error("プリセットの削除に失敗しました");
         }
       })
       .catch((error) => {
         console.error("エラー:", error);
+      })
+      .finally(() => {
+        modal.classList.add("hidden"); // 削除完了後にモーダルを閉じる
       });
   });
 
