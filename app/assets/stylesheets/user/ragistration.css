@@ -79,28 +79,20 @@
 
 .input-birth-wrap {
   display: flex;
-  flex-wrap: nowrap;
+  gap: 10px;
+  flex-wrap: wrap; /* 狭い画面では折り返す */
+}
+
+.birth-part {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
-.input-birth-wrap select {
-  width: 75px;
-  height: 45px;
-  padding-left: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background: #fff;
-  font-size: 12px;
-  cursor: pointer;
-  vertical-align: middle;
+.select-birth {
+  min-width: 80px;
 }
 
-.input-birth-wrap .birth-label {
-  display: inline-block;
-  width: 20px;
-  text-align: center;
-  font-size: 12px;
-  line-height: 45px;
-  user-select: none;
+.field_with_errors {
+  display: contents; /* 中の要素の見た目を壊さずそのまま表示 */
 }

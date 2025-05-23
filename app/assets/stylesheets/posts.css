@@ -446,7 +446,7 @@
 
 /* 削除ボタン（赤） */
 #confirm-delete-btn {
-  background-color: #f4212e;
+  background-color: #e0245e;
   color: #fff;
   padding: 12px;
   border: none;
@@ -454,10 +454,6 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
-}
-
-#confirm-delete-btn:hover {
-  background-color: #cc1b27;
 }
 
 /* キャンセルボタン（グレー） */

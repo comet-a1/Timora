@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   with_options if: -> { validation_step == :step2 } do
     validates :nickname, presence: true
-    validates :birthdate, presence: true
+    #validates :birthdate, presence: true
   end
 
   # フォロー関連

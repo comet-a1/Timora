@@ -12,7 +12,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user.validation_step = :step1
 
     if @user.valid?
-      # パスワードは含める必要あり（最終的に save するので）
       session[:user_params] = user_params_step1.to_h
       redirect_to new_user_step2_path
     else
@@ -22,21 +21,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # ステップ2 (step2.html.erb)
   def new_step2
-    @user = User.new(session[:user_params])  # step1の情報を取得
+    @user = User.new(session[:user_params])
     render 'step2'
   end
 
   def create_step2
-    @user = User.new(session[:user_params])  # step1の情報を取得
-    @user.assign_attributes(user_params_step2)  # step2の情報を追加
+    @user = User.new(session[:user_params])
+    @user.assign_attributes(user_params_step2)
     @user.validation_step = :step2
 
     if @user.save
-      session.delete(:user_params)  # セッションから情報を削除
-      sign_in(@user)  # ユーザーをサインイン
+      session.delete(:user_params)
+      sign_in(@user)
       redirect_to root_path, notice: "登録が完了しました！"
     else
-      render :step2  # バリデーションエラーがあった場合、再度ステップ2を表示
+      render :step2 
     end
   end
 

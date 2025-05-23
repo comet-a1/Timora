@@ -122,7 +122,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_05_133502) do
     t.string "profile_picture"
     t.integer "gender_id", null: false
     t.string "mbti_id", null: false
-    t.date "birthdate", null: false
+    t.date "birthdate"
     t.string "occupation"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

@@ -14,43 +14,55 @@
     <%= form_for(@user, url: create_user_step2_path) do |f| %>
       <!-- 名前 -->
       <div class="form-group">
-        <%= f.label :nickname, "ニックネーム" %>
+        <%= f.label :nickname, "ニックネーム※必須" %>
         <%= f.text_field :nickname, required: true %>
+      </div>
+
+      <!-- 生年月日 -->
+      <div class="form-group">
+        <%= f.label :birthdate, "生年月日（任意）" %>
+        <div class="input-birth-wrap">
+          <% birthdate_select = f.date_select(
+            :birthdate,
+            use_month_numbers: true,
+            prompt: '--',
+            start_year: 1900,
+            end_year: Time.current.year,
+            class: 'select-birth',
+            id: 'birth-date',
+            date_separator: ''
+          ) %>
+
+          <%# 年・月・日のセレクトボックスを span で囲う %>
+          <% birthdate_html = birthdate_select.to_s.gsub(
+            /(<select[^>]*name="user\[birthdate\(1i\)\]"[^>]*>.*?<\/select>)/m,
+            '<span class="birth-part">\1<span class="birth-label">年</span></span>'
+          ).gsub(
+            /(<select[^>]*name="user\[birthdate\(2i\)\]"[^>]*>.*?<\/select>)/m,
+            '<span class="birth-part">\1<span class="birth-label">月</span></span>'
+          ).gsub(
+            /(<select[^>]*name="user\[birthdate\(3i\)\]"[^>]*>.*?<\/select>)/m,
+            '<span class="birth-part">\1<span class="birth-label">日</span></span>'
+          ) %>
+          <%= raw birthdate_html %>
+        </div>
       </div>
 
       <!-- 性別 -->
       <div class="form-group">
-        <%= f.label :gender_id, "性別" %>
+        <%= f.label :gender_id, "性別（任意）" %>
         <%= f.collection_select :gender_id, Gender.all, :id, :name %>
       </div>
 
       <!-- MBTI -->
       <div class="form-group">
-        <%= f.label :mbti_id, "MBTIタイプ" %>
+        <%= f.label :mbti_id, "MBTIタイプ（任意）" %>
         <%= f.collection_select :mbti_id, Mbti.all, :id, :name %>
-      </div>
-
-      <!-- 生年月日 -->
-      <div class="form-group">
-        <%= f.label :birthdate, "生年月日" %>
-        <div class='input-birth-wrap'>
-          <%= raw sprintf(
-                        f.date_select(
-                          :birthdate,
-                          class:'select-birth',
-                          id:"birth-date",
-                          use_month_numbers: true,
-                          prompt:'--',
-                          start_year: 1900,
-                          end_year: (Time.now.year - 0),
-                          date_separator: '%s'),
-                        "<span class='birth-label'>年</span>", "<span class='birth-label'>月</span>") + "<span class='birth-label'>日</span>" %>
-        </div>
       </div>
 
       <!-- 職業（オプション） -->
       <div class="form-group">
-        <%= f.label :occupation, "職業" %>
+        <%= f.label :occupation, "職業（任意）" %>
         <%= f.text_field :occupation %>
       </div>
 

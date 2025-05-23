@@ -164,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
           memoContent.style.display = "none";
           deleteMemoBtn.style.display = "none";
           selectedMemoId = null;
+          window.location.reload();
         } else {
           console.error("メモの削除に失敗しました");
         }

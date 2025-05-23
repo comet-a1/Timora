@@ -443,6 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
           deletePresetBtn.style.display = "none";
           selectedPresetId = null;
           targetPresetId = null;
+          window.location.reload(); 
         } else {
           console.error("プリセットの削除に失敗しました");
         }
