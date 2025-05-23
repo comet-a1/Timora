@@ -367,15 +367,49 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // ✅ 削除ボタンのクリック処理
-  deleteEventBtn.addEventListener("click", function () {
+  //削除処理
+  const modal = document.getElementById("deleteScheduleModal");
+  const confirmBtn = document.getElementById("schedule-confirm-delete-btn");
+  const cancelBtn = document.getElementById("schedule-cancel-delete-btn");
+
+  let targetEvent = null;
+
+  // 🔹 削除ボタンが押されたとき → モーダル表示
+  deleteEventBtn.addEventListener("click", () => {
     if (selectedEvent) {
-      console.log("削除対象イベントのID:", selectedEvent.id);
-      if (confirm("この予定を削除しますか？")) {
-        deleteEvent(selectedEvent);
-      }
+      targetEvent = selectedEvent;
+      modal.classList.remove("hidden");
     }
-    hideContextMenu();
+    hideContextMenu(); // コンテキストメニューを閉じる
+  });
+
+  // 🔹 キャンセルボタンでモーダル非表示
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    targetEvent = null;
+  });
+
+  // 🔹 モーダルで「削除」確定ボタン押下時
+  confirmBtn.addEventListener("click", () => {
+    if (!targetEvent) return;
+
+    fetch(`/schedules/${targetEvent.id}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("削除失敗");
+        targetEvent.remove(); // FullCalendarから削除
+        targetEvent = null;
+        modal.classList.add("hidden");
+      })
+      .catch((error) => {
+        console.error("削除エラー:", error);
+        alert("削除に失敗しました。");
+        modal.classList.add("hidden");
+      });
   });
 
   // ✅ イベント削除処理
