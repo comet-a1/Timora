@@ -274,31 +274,55 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document.querySelectorAll(".delete-post").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const postId = btn.dataset.postId;
-      const confirmed = confirm("本当に削除しますか？");
+  const modal = document.getElementById("deletePostModal");
+  const confirmBtn = document.getElementById("confirm-delete-btn");
+  const cancelBtn = document.getElementById("cancel-delete-btn");
+  const deleteBtns = document.querySelectorAll(".delete-post");
 
-      if (!confirmed) return;
+  let targetPostBtn = null;
+  let targetPostId = null;
 
-      const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+  deleteBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      targetPostBtn = btn;
+      targetPostId = btn.dataset.postId;
+      modal.classList.remove("hidden");
+    });
+  });
 
-      const response = await fetch(`/posts/${postId}`, {
-        method: "DELETE",
-        headers: {
-          "X-CSRF-Token": token,
-          "Content-Type": "application/json"
-        }
-      });
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    targetPostBtn = null;
+    targetPostId = null;
+  });
 
-      if (response.ok) {
-        // DOMから削除する処理（親のpost要素を消す）
-        const postElement = btn.closest(".post");
-        postElement.remove();
-      } else {
-        alert("削除に失敗しました");
+  confirmBtn.addEventListener("click", async () => {
+    if (!targetPostId) return;
+
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+    const response = await fetch(`/posts/${targetPostId}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json"
       }
     });
+
+    if (response.ok) {
+      const postElement = targetPostBtn.closest(".post");
+      if (postElement) {
+        postElement.remove();
+      }
+      modal.classList.add("hidden");
+      window.location.reload(); 
+    } else {
+      alert("削除に失敗しました");
+    }
+
+    // リセット
+    targetPostBtn = null;
+    targetPostId = null;
   });
 
   document.querySelectorAll(".post-user-block").forEach(block => {

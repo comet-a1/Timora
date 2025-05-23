@@ -4,8 +4,15 @@
     <div id="calendar"></div>
     <!-- ✅ タスクバー (ロゴボタン) -->
     <div id="taskbar">
-      <button id="new-event-btn">📝</button>
-      <button id="open-preset-btn" >🎨</button>
+      <div class="tooltip">
+        <button id="new-event-btn">📝</button>
+        <span class="tooltip-text">作成</span>
+      </div>
+
+      <div class="tooltip">
+        <button id="open-preset-btn">🎨</button>
+        <span class="tooltip-text">適用</span>
+      </div>
     </div>
   </div>
 </div>

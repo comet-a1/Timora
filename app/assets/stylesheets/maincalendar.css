@@ -1,6 +1,6 @@
 /* FullCalendarのボタンをカスタムボタンのデザインに統一 */
 .fc .fc-button {
-  background-color: white; /* 背景を白 */
+  background-color: #fff; /* 背景を白 */
   color: skyblue; /* 文字色をskyblue */
   border: 1px solid #ccc; /* 境界線 */
   padding: 10px;
@@ -11,14 +11,14 @@
 
 /* ホバー時 */
 .fc .fc-button:hover {
-  background-color: #006bb3; /* ホバー時の背景 */
-  color: white; /* ホバー時の文字色 */
+  background-color: #dbd9d9; /* ホバー時の背景 */
+  color: skyblue; /* ホバー時の文字色 */
 }
 
 /* アクティブ状態（押されたとき） */
 .fc .fc-button-active {
-  background-color: #006bb3; /* アクティブ時の背景 */
-  color: white; /* アクティブ時の文字色 */
+  background-color: #fff; /* アクティブ時の背景 */
+  color: skyblue; /* アクティブ時の文字色 */
 }
 
 .calendar-block {
@@ -35,7 +35,7 @@
 /* ✅ タスクバーのスタイル */
 #taskbar {
   width: 60px;
-  background-color: #333;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -48,7 +48,7 @@
   width: 50px;
   height: 50px;
   margin: 5px 0;
-  background-color: #555;
+  background-color: #fff;
   color: white;
   border: none;
   border-radius: 10px;
@@ -69,7 +69,38 @@
 
 /* ✅ ボタンホバー時のエフェクト */
 #taskbar button:hover {
-  background-color: #777;
+  background-color: #b9b8b8;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+
+  position: absolute;
+  z-index: 1;
+  bottom: -35px; /* ボタンの下に表示 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 
 .modal-content {
